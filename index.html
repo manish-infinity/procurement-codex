@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Procurement Codex · Ep01 — Intake &amp; Need</title>
+<meta name="description" content="How the front door of procurement works — plain concept, then across every platform, then layered up with process mining, AI, orchestration and people." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  :root{
+    --l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+    --l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+  .layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+  .card{transition:all .25s ease}
+  .rubric td, .rubric th{border:1px solid #e2e8f0}
+  .score{font-variant-numeric:tabular-nums;font-weight:700}
+  .pill{font-size:.7rem;letter-spacing:.02em}
+  [x-cloak]{display:none!important}
+  .glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+  .spine-node{transition:all .2s ease}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ===== Top bar ===== -->
+<header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+      <div>
+        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+      </div>
+    </div>
+    <div class="hidden sm:flex items-center gap-2 text-xs">
+      <span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 01</span>
+      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 1 of 15</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Spine navigator ===== -->
+<section class="bg-white border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+    <div class="flex items-center gap-1 min-w-max text-[11px]">
+      <template x-data x-for="(s,i) in ['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence']" :key="i">
+        <div class="flex items-center">
+          <div class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap"
+               :class="i===0 ? 'bg-indigo-600 text-white font-bold' : 'bg-slate-100 text-slate-500'">
+            <span x-text="(i+1)+'. '" ></span><span x-html="s"></span>
+          </div>
+          <span x-show="i<14" class="text-slate-300 px-0.5">→</span>
+        </div>
+      </template>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Hook ===== -->
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+  <p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 01 · The front door</p>
+  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Intake &amp; Need Identification</h1>
+  <p class="mt-3 text-slate-600 max-w-3xl text-lg">Everything in procurement starts here — the moment a need appears and someone has to buy something. Get intake right and the entire cycle runs clean. Get it wrong and you spend the next fourteen steps firefighting maverick spend, rework, and shadow buying.</p>
+  <p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every platform does it (fair A vs B vs C) → then we stack process mining, AI, orchestration and people on top until you see why <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
+</section>
+
+<!-- ===== L0 Concept ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="layer-dot" style="background:var(--l0)"></span>
+    <h2 class="text-xl font-bold">L0 · The Concept</h2>
+  </div>
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="card bg-white rounded-xl border border-slate-200 p-5">
+      <div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+      <p class="mt-2 text-sm text-slate-600">The path from a raw need ("I need 50 laptops") to a structured, routed, policy-checked request that's ready to become a catalog order or a sourcing event. It is procurement's <span class="font-semibold">demand capture</span> layer.</p>
+    </div>
+    <div class="card bg-white rounded-xl border border-slate-200 p-5">
+      <div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+      <p class="mt-2 text-sm text-slate-600">To capture demand at the source, route it to the right process, and enforce policy and risk checks <span class="font-semibold">early</span> — before money leaks out through off-contract, maverick, or shadow buying.</p>
+    </div>
+    <div class="card bg-white rounded-xl border border-slate-200 p-5">
+      <div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+      <p class="mt-2 text-sm text-slate-600">One front door · no-wrong-door guided intake · auto-routing by category &amp; risk · policy-as-code checks up front · high self-service adoption · short intake cycle time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== L1 Comparison ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+  <div class="flex items-center gap-2 mb-2">
+    <span class="layer-dot" style="background:var(--l1)"></span>
+    <h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+  </div>
+  <p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+  <div class="flex flex-wrap gap-2 mb-4">
+    <template x-for="p in platforms" :key="p.name">
+      <button @click="p.on=!p.on"
+        class="pill px-3 py-1 rounded-full border text-xs font-semibold"
+        :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'"
+        x-text="p.name"></button>
+    </template>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+    <table class="rubric w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-slate-50 text-slate-600">
+          <th class="text-left p-3 font-semibold">Platform</th>
+          <template x-for="c in criteria" :key="c">
+            <th class="p-3 font-semibold text-center" x-text="c"></th>
+          </template>
+          <th class="p-3 font-semibold text-left">Best at</th>
+          <th class="p-3 font-semibold text-left">Watch-out</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+          <tr class="hover:bg-slate-50 align-top">
+            <td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+            <template x-for="(v,idx) in p.scores" :key="idx">
+              <td class="p-3 text-center">
+                <span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs"
+                  :style="'background:'+scoreColor(v)" x-text="v"></span>
+              </td>
+            </template>
+            <td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+            <td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, and integration maturity.</p>
+</section>
+
+<!-- ===== L2 Best practice ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="layer-dot" style="background:var(--l2)"></span>
+    <h2 class="text-xl font-bold">L2 · Best Practice</h2>
+  </div>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="bg-white rounded-xl border border-slate-200 p-5">
+      <div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+      <ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+        <li><span class="font-semibold">One front door</span> — a single "no-wrong-door" intake for every buy, any channel.</li>
+        <li><span class="font-semibold">Policy-as-code</span> — thresholds, preferred suppliers and risk gates checked at request time.</li>
+        <li><span class="font-semibold">Deflect &amp; guide</span> — push routine buys to catalogs; reserve sourcing for what needs it.</li>
+        <li><span class="font-semibold">Demand aggregation</span> — cluster like requests before they fragment into 40 POs.</li>
+        <li><span class="font-semibold">Clear taxonomy</span> — category tags at intake drive everything downstream.</li>
+      </ul>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-200 p-5">
+      <div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">KPIs that matter</div>
+      <ul class="text-sm text-slate-600 space-y-1.5">
+        <li>⏱️ <span class="font-semibold">Intake cycle time</span> — request submitted → routed &amp; approved</li>
+        <li>🚪 <span class="font-semibold">% through the preferred channel</span> (vs. shadow/email/maverick)</li>
+        <li>✅ <span class="font-semibold">First-time-right rate</span> — requests needing no rework</li>
+        <li>🔁 <span class="font-semibold">Reopen / bounce rate</span> — approval ping-pong</li>
+        <li>😊 <span class="font-semibold">Requester satisfaction</span> — adoption is a leading indicator of leakage</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Layer peeler ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+  <div class="flex items-center gap-2 mb-2">
+    <span class="layer-dot" style="background:var(--l7)"></span>
+    <h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+  </div>
+  <p class="text-sm text-slate-500 mb-4">Stack layers onto the plain intake process and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+  <div class="flex flex-wrap gap-2 mb-6">
+    <template x-for="(l,i) in layers" :key="i">
+      <button @click="level=i"
+        class="px-3 py-2 rounded-lg text-xs font-bold border transition"
+        :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'"
+        :style="level>=i ? 'background:'+l.color : ''">
+        <span x-text="l.tag"></span>
+      </button>
+    </template>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-6">
+    <!-- stack visual -->
+    <div class="space-y-2">
+      <template x-for="(l,i) in layers" :key="i">
+        <div class="card rounded-xl border p-4"
+          :class="level>=i ? 'opacity-100' : 'opacity-30'"
+          :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+          <div class="flex items-center gap-2">
+            <span class="layer-dot" :style="'background:'+l.color"></span>
+            <span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+            <span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+          </div>
+          <p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+        </div>
+      </template>
+    </div>
+
+    <!-- outcome panel -->
+    <div class="lg:sticky lg:top-24 self-start">
+      <div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().cycle"></div>
+            <div class="text-xs text-slate-500 mt-1">Intake cycle time</div>
+          </div>
+          <div>
+            <div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().channel"></div>
+            <div class="text-xs text-slate-500 mt-1">Through preferred channel</div>
+          </div>
+          <div>
+            <div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().ftr"></div>
+            <div class="text-xs text-slate-500 mt-1">First-time-right</div>
+          </div>
+          <div>
+            <div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().auto"></div>
+            <div class="text-xs text-slate-500 mt-1">Touchless / automated</div>
+          </div>
+        </div>
+        <div class="mt-5 pt-4 border-t border-slate-100 text-sm text-slate-600" x-text="layers[level].takeaway"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Synergy composite (Mermaid) ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="layer-dot" style="background:var(--l7)"></span>
+    <h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+  </div>
+  <p class="text-sm text-slate-500 mb-4">A real best-of-breed intake architecture — no single vendor owns all of it. The value lives in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+  <div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+    <pre class="mermaid">
+flowchart LR
+  R([Requester: natural language need]) --> AI[L4 GenAI intake copilot<br/>classify + structure]
+  AI --> O{L5 Orchestration<br/>Zip / ORO — no-wrong-door}
+  O --> LEG[Legal review]
+  O --> SEC[IT security]
+  O --> FIN[Finance / budget]
+  O --> RISK[Third-party risk]
+  LEG & SEC & FIN & RISK --> P[L1 P2P suite<br/>Ariba / Coupa / Oracle]
+  P --> ERP[(ERP · S/4HANA)]
+  P --> PM[L3 Process mining<br/>Celonis / PM4Py]
+  PM -.conformance & bottlenecks.-> O
+    </pre>
+  </div>
+  <p class="text-sm text-slate-600 mt-3">Standalone, the P2P suite handles requisitions but bounces approvals serially and can't see its own bottlenecks. Add orchestration and the four reviews run <span class="font-semibold">in parallel</span>. Add a GenAI copilot and the requester never sees a form. Add process mining and the whole loop gets <span class="font-semibold">continuously tuned</span> from its own event log. That is the synergy — and no single vendor sells all four honestly.</p>
+</section>
+
+<!-- ===== Stack builder ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+  <div class="flex items-center gap-2 mb-2">
+    <span class="layer-dot" style="background:var(--l7)"></span>
+    <h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+  </div>
+  <p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown once here for intake; the same engine powers every episode.</p>
+
+  <div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <template x-for="col in columns" :key="col.key">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+        <select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+          <template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+        </select>
+      </div>
+    </template>
+  </div>
+
+  <div class="mt-5 rounded-xl border border-indigo-200 bg-indigo-50 p-5">
+    <div class="text-xs font-bold text-indigo-700 uppercase tracking-wide">Your composite</div>
+    <p class="mt-2 text-sm text-slate-700 font-semibold" x-text="summary()"></p>
+    <div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+  </div>
+</section>
+
+<!-- ===== Cheat sheet ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+  <div class="flex items-center justify-between mb-3">
+    <div class="flex items-center gap-2">
+      <span class="layer-dot" style="background:var(--l0)"></span>
+      <h2 class="text-xl font-bold">Cheat Sheet — Intake &amp; Need</h2>
+    </div>
+    <button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+  </div>
+  <div class="grid md:grid-cols-3 gap-4 text-sm">
+    <div class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+      <p class="text-slate-600">Turn a raw need into a structured, routed, policy-checked request — before money leaks.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="font-bold text-slate-700 mb-1">Do</div>
+      <p class="text-slate-600">One front door · guided routing · policy-as-code · deflect to catalog · aggregate demand.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="font-bold text-slate-700 mb-1">Don't</div>
+      <p class="text-slate-600">Multiple entry points · email/Slack requests · approvals in series · no category tag at source.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+      <p class="text-slate-600">Zip/ORO lead on no-wrong-door intake; Coupa on UX; Ariba on network depth; Oracle on ERP-native; GEP/Ivalua on configurability.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="font-bold text-slate-700 mb-1">The layers</div>
+      <p class="text-slate-600">L3 mining finds the bounce · L4 AI kills the form · L5 orchestration parallelizes reviews · L6 clarifies who owns what.</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-200 p-4">
+      <div class="font-bold text-slate-700 mb-1">The thesis</div>
+      <p class="text-slate-600">No single vendor does intake + orchestration + AI + mining well. Value is in the seams.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Quiz ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="layer-dot" style="background:var(--l4)"></span>
+    <h2 class="text-xl font-bold">Scenario Check</h2>
+  </div>
+  <div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+    <div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span> / <span x-text="questions.length"></span></div>
+    <p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+    <div class="mt-4 space-y-2">
+      <template x-for="(a,i) in questions[idx].a" :key="i">
+        <button @click="answer(i)" :disabled="picked!==null"
+          class="w-full text-left text-sm px-4 py-3 rounded-lg border transition"
+          :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+                  (i===questions[idx].c ? 'bg-green-50 border-green-400' :
+                  (i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))"
+          x-text="a"></button>
+      </template>
+    </div>
+    <div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+    <div x-show="picked!==null" x-cloak class="mt-4">
+      <button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+    </div>
+  </div>
+  <div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+    <div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+    <p class="mt-2 text-slate-600" x-text="verdict()"></p>
+    <button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Retry</button>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="border-t border-slate-200 bg-white mt-8">
+  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+    <div class="font-bold text-slate-700">The Procurement Codex · Episode 01 — Intake &amp; Need</div>
+    <p class="mt-1">Next: <span class="font-semibold text-slate-700">Ep02 — Spend Analysis &amp; Category Strategy.</span> One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+  </div>
+</footer>
+
+<script>
+  mermaid.initialize({startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+  function comparison(){
+    return {
+      criteria:['No-wrong-door','Guided routing','Cat + non-cat','Approval flex','GenAI assist','Orchestration'],
+      platforms:[
+        {name:'SAP Ariba (Guided Buying)', on:true,  scores:[3,4,5,4,3,3], best:'Supplier network depth, catalog scale', watch:'Intake feels bolt-on; heavier to configure'},
+        {name:'Oracle Fusion Procurement', on:true,  scores:[3,3,4,4,3,3], best:'ERP-native, clean req-to-PO', watch:'Intake UX less consumer-grade'},
+        {name:'Coupa', on:true,  scores:[4,4,5,4,4,3], best:'Best-in-class buyer UX &amp; adoption', watch:'Deep orchestration still maturing'},
+        {name:'GEP SMART', on:false, scores:[3,4,4,5,3,3], best:'Highly configurable, unified S2P', watch:'Config effort; smaller ecosystem'},
+        {name:'Ivalua', on:false, scores:[3,4,4,5,3,4], best:'Extreme configurability, data model', watch:'Needs strong internal ownership'},
+        {name:'Zip', on:true,  scores:[5,5,4,4,4,5], best:'Purpose-built no-wrong-door intake &amp; orchestration', watch:'Not a full P2P/ERP — pairs with one'},
+        {name:'ORO Labs', on:false, scores:[5,5,3,4,4,5], best:'Orchestration-first intake layer', watch:'Execution still lives in your suite'}
+      ],
+      scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+    }
+  }
+
+  function peeler(){
+    return {
+      level:0,
+      layers:[
+        {tag:'L0',color:getCSS('--l0'),title:'Concept',body:'A raw need enters somehow. No structure, no routing.',takeaway:'This is the baseline: a request exists, but the process around it is manual and leaky.'},
+        {tag:'L1',color:getCSS('--l1'),title:'Platform-native intake',body:'A P2P suite captures the request in a form and pushes it through serial approvals.',takeaway:'Structured, but approvals run one after another and the tool can’t see its own delays.'},
+        {tag:'L2',color:getCSS('--l2'),title:'Best practice',body:'One front door, category tags at source, policy-as-code, catalog deflection.',takeaway:'Design discipline lifts channel compliance sharply — the cheapest win before any new tool.'},
+        {tag:'L3',color:getCSS('--l3'),title:'Process mining',body:'Celonis / PM4Py read the event log and expose the approval bounce and triage dwell.',takeaway:'You now know exactly which handoff is costing days — you can target it.'},
+        {tag:'L4',color:getCSS('--l4'),title:'Intelligence / AI',body:'A GenAI copilot turns "I need 50 laptops" into a fully structured, classified request.',takeaway:'The form disappears; first-time-right jumps as classification stops being manual.'},
+        {tag:'L5',color:getCSS('--l5'),title:'Orchestration',body:'Zip / ORO fan the request to legal, security, finance and risk in parallel.',takeaway:'Serial becomes parallel — the single biggest cut to intake cycle time.'},
+        {tag:'L6',color:getCSS('--l6'),title:'People &amp; roles',body:'Clear RACI: requester, intake ops, category manager, named approvers with SLAs.',takeaway:'Ownership + SLAs stop the process from silently stalling in someone’s queue.'}
+      ],
+      metrics(){
+        const m=[
+          {cycle:'12 days',channel:'45%',ftr:'55%',auto:'5%'},
+          {cycle:'9 days', channel:'60%',ftr:'62%',auto:'20%'},
+          {cycle:'7 days', channel:'78%',ftr:'70%',auto:'25%'},
+          {cycle:'6 days', channel:'80%',ftr:'74%',auto:'30%'},
+          {cycle:'4 days', channel:'85%',ftr:'86%',auto:'45%'},
+          {cycle:'2 days', channel:'90%',ftr:'88%',auto:'65%'},
+          {cycle:'1.5 days',channel:'93%',ftr:'92%',auto:'70%'}
+        ];
+        return m[this.level];
+      }
+    }
+  }
+
+  function builder(){
+    return {
+      columns:[
+        {key:'erp',label:'ERP',options:['S/4HANA','Oracle','Workday','D365','NetSuite']},
+        {key:'suite',label:'P2P Suite',options:['Ariba','Coupa','Oracle','GEP','Ivalua','Jaggaer']},
+        {key:'intake',label:'Intake / Orchestration',options:['Zip','ORO','Pivot','Native suite']},
+        {key:'mining',label:'Process Mining',options:['Celonis','Signavio','PM4Py (OSS)','Apromore (OSS)']},
+        {key:'ai',label:'Intelligence / AI',options:['Native copilot','Sievo','Custom GenAI','None']},
+        {key:'people',label:'Ownership',options:['Central intake ops','Category-led','Federated','Ad hoc']}
+      ],
+      picks:{erp:'S/4HANA',suite:'Coupa',intake:'Zip',mining:'Celonis',ai:'Native copilot',people:'Central intake ops'},
+      summary(){const p=this.picks;return `${p.intake} intake → ${p.suite} P2P on ${p.erp}, tuned by ${p.mining}, ${p.ai==='None'?'no AI layer':p.ai+' assist'}, owned by ${p.people}.`;},
+      seamNote(){
+        const p=this.picks; let n=[];
+        if(p.intake!=='Native suite' && p.suite) n.push(`Seam to engineer: ${p.intake}→${p.suite} request &amp; approval sync.`);
+        if(p.mining.includes('OSS')) n.push('Open-source mining is free but needs a data pipeline you build yourself.');
+        if(p.ai==='None') n.push('Without an AI layer, classification stays manual — first-time-right will lag.');
+        if(p.people==='Ad hoc') n.push('No clear ownership is the #1 reason good tooling still produces slow intake.');
+        return n.length ? n.join(' ') : 'Clean pairing — few seams to engineer. Focus on adoption and policy-as-code.';
+      }
+    }
+  }
+
+  function quiz(){
+    return {
+      idx:0,picked:null,score:0,done:false,
+      questions:[
+        {q:'Requests bounce between IT-security and finance approvals; intake cycle time is 12 days. Which single layer cuts it fastest?',
+         a:['L4 — add a GenAI copilot','L5 — orchestration to run the reviews in parallel','L2 — write a new policy doc','L1 — buy a different P2P suite'],
+         c:1, e:'Serial approvals are the bottleneck. Orchestration (L5) fans the reviews out in parallel — the biggest single cut to cycle time. AI helps upstream, but it won’t fix the serial handoff.'},
+        {q:'40% of spend still comes in via email and Slack, bypassing the tool. What’s the highest-leverage first move?',
+         a:['Add process mining','Establish one no-wrong-door front door (L2 + L5)','Turn on dynamic discounting','Renew the ERP'],
+         c:1, e:'Leakage is a front-door problem. A single no-wrong-door intake (best practice + orchestration) captures demand before it fragments — mining can measure it, but it can’t capture it.'},
+        {q:'Leadership asks which layer to add to prove where the delay actually is, before spending on new tools.',
+         a:['L3 — process mining on the event log','L6 — reorganize the team','L4 — GenAI copilot','L7 — full composite rebuild'],
+         c:0, e:'Process mining (L3) reads the real event log and shows exactly which handoff costs days — the evidence you need before buying anything.'},
+        {q:'Which statement best captures the Codex thesis for intake?',
+         a:['Pick the single best suite and standardize','No one vendor does intake + orchestration + AI + mining well; value is in the seams','Open source is always superior','ERP-native is always enough'],
+         c:1, e:'That’s the whole point of the series — standalone is never enough; the impact comes from engineering the seams between best-of-breed layers.'}
+      ],
+      answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+      next(){ if(this.idx+1<this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+      verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you’ve got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+      reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+    }
+  }
+
+  function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
+</body>
+</html>
