@@ -48,10 +48,10 @@
 <section class="bg-white border-b border-slate-200">
   <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
     <div class="flex items-center gap-1 min-w-max text-[11px]">
-      <template x-data x-for="(s,i) in ['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence']" :key="i">
+      <template x-data="{urls:['https://manish-infinity.github.io/procurement-codex/','https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html']}" x-for="(s,i) in ['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence']" :key="i">
         <div class="flex items-center">
           <div class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap"
-               :class="i===0 ? 'bg-indigo-600 text-white font-bold' : 'bg-slate-100 text-slate-500'">
+               :class="i===0 ? 'bg-indigo-600 text-white font-bold' : (urls[i] ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 cursor-pointer' : 'bg-slate-100 text-slate-500')" @click="urls[i] && (window.location.href=urls[i])">
             <span x-text="(i+1)+'. '" ></span><span x-html="s"></span>
           </div>
           <span x-show="i<14" class="text-slate-300 px-0.5">→</span>
