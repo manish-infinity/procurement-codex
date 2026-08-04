@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Procurement Codex · Ep03 — Sourcing &amp; RFx</title>
+<meta name="description" content="How procurement goes to market — turn a category strategy into a structured competitive event: define specs, invite qualified suppliers, run RFI/RFP/RFQ and e-auctions, then layer up with optimization, AI, orchestration and people until standalone is never enough." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+.pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ===== Top bar ===== -->
+<header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 03</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 3 of 15</span>
+</div>
+</div>
+</header>
+
+<!-- ===== Spine navigator ===== -->
+<section class="bg-white border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="flex items-center gap-1 min-w-max text-[11px]" x-data="{ steps:['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence'], urls:['https://manish-infinity.github.io/procurement-codex/','https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html','https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html'] }">
+<template x-for="(s,i) in steps" :key="i">
+<div class="flex items-center">
+<a class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap"
+:href="urls[i] || undefined"
+:class="i===2 ? 'bg-indigo-600 text-white font-bold' : (urls[i] ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 cursor-pointer' : 'bg-slate-100 text-slate-500 pointer-events-none')">
+<span x-text="(i+1)+'. '" ></span><span x-html="s"></span>
+</a>
+<span x-show="i<14" class="text-slate-300 px-0.5">→</span>
+</div>
+</template>
+</div>
+</div>
+</section>
+
+<!-- ===== Autonomous disclaimer ribbon ===== -->
+<section class="bg-indigo-50 border-b border-indigo-100">
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
+</section>
+
+<!-- ===== Hook ===== -->
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 03 · Going to market</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Sourcing &amp; RFx</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">A category strategy is only a plan until you take it to the market. Sourcing is the structured, competitive event that turns intent into offers: define the requirement, invite qualified suppliers, run the right RFx — RFI, RFP, RFQ or e-auction — score fairly, and shortlist for award. It is where strategy meets a supplier's actual price and terms.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every platform runs an event (fair A vs B vs C) → then we stack process mining, award optimization, AI, orchestration and people on top until you see why <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
+</section>
+
+<!-- ===== L0 Concept ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">A structured competitive process to go to market: define requirements and a scorecard, identify and qualify suppliers, issue an <span class="font-semibold">RFx</span> (RFI/RFP/RFQ) or run an <span class="font-semibold">e-auction</span>, evaluate responses, and shortlist for award. It is procurement's <span class="font-semibold">market-engagement</span> layer.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because competition and transparency create value. A disciplined event discovers the market, tests price and capability, protects against bias and fraud, and produces a <span class="font-semibold">defensible, auditable</span> selection — before anyone commits to a contract.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Weighted scorecard defined up front · broad but pre-qualified bidder list · the right RFx type for the category · sealed, structured responses · scored on TCO not price alone · cycle time tracked · full audit trail · savings and compliance measured.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== L1 Comparison ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on"
+class="pill px-3 py-1 rounded-full border text-xs font-semibold"
+:class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'"
+x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs"
+:style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, data quality, and integration maturity.</p>
+</section>
+
+<!-- ===== L2 Best practice ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Spec before supplier</span> — write requirements and a weighted scorecard before you go to market, so the event isn't shaped around an incumbent.</li>
+<li><span class="font-semibold">Right RFx for the job</span> — RFI to learn the market, RFP for value &amp; complexity, RFQ / e-auction for well-specified commodities.</li>
+<li><span class="font-semibold">Cast wide, qualify hard</span> — scan the market broadly, then pre-qualify on capability, capacity and risk before inviting.</li>
+<li><span class="font-semibold">Sealed &amp; auditable</span> — structured responses, controlled communications, and a full audit trail from invite to award.</li>
+<li><span class="font-semibold">Total value, not just price</span> — score TCO, quality, risk, ESG and innovation, not the sticker number alone.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — sourcing cycle time, qualified bidders per event, savings identified, % of addressable spend competitively sourced, supplier response rate, first-time-right award.</li>
+<li><span class="font-semibold">Spec bias</span> — requirements written around the incumbent quietly kill competition before it starts.</li>
+<li><span class="font-semibold">Too few bidders</span> — a thin, unqualified list means no real price tension.</li>
+<li><span class="font-semibold">Price-only scoring</span> — awarding on lowest bid ignores risk, quality and TCO, and buys regret.</li>
+<li><span class="font-semibold">Auction misuse</span> — reverse auctions on relationship-critical or non-commoditized categories damage trust and value.</li>
+<li><span class="font-semibold">Maverick sourcing</span> — events run outside the process, unrecorded and ungoverned.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ===== Layer Peeler ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a plain RFx and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i"
+class="px-3 py-2 rounded-lg text-xs font-bold border transition"
+:class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'"
+:style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4"
+:class="level>=i ? 'opacity-100' : 'opacity-30'"
+:style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().cycle"></div>
+<div class="text-xs text-slate-500 mt-1">Sourcing cycle</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().bidders"></div>
+<div class="text-xs text-slate-500 mt-1">Qualified bidders</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().savings"></div>
+<div class="text-xs text-slate-500 mt-1">Savings identified</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().competitive"></div>
+<div class="text-xs text-slate-500 mt-1">Competitively sourced</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===== L7 Synergy Composite ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed sourcing architecture — no single vendor owns all of it. The value lives in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">
+flowchart LR
+CAT[Category strategy<br/>from Ep02] --> INTAKE[L5 Intake / orchestration<br/>Zip / ORO]
+INTAKE --> RFX[L1 Sourcing / RFx suite<br/>Ariba / Coupa / Jaggaer]
+RFX --> DISC[Supplier discovery<br/>Ariba Network / Tealbook]
+GEN[L4 GenAI RFx authoring<br/>+ response scoring] -.drafts &amp; scores.-> RFX
+PM[L3 Process mining<br/>Celonis / PM4Py] -.cycle-time &amp; bypass.-> RFX
+RFX --> OPT[L4 Award optimization<br/>Keelvar / Coupa CSO]
+OPT --> AWARD{Award decision}
+AWARD --> CLM[Ep06 · Contract / CLM]
+</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a sourcing suite runs a clean RFx and a basic auction — but its optimization can't solve complex multi-lot award scenarios, its supplier discovery is limited to its own network, and drafting and scoring stay manual. Best-of-breed optimization (Keelvar, Coupa Sourcing Optimization) solves splits, volume tiers and capacity constraints; discovery tools widen the qualified pool; GenAI drafts and scores responses; process mining exposes the events that never happened. <span class="font-semibold text-indigo-700">No one tool does all five — the leverage is in wiring them together.</span></p>
+</section>
+
+<!-- ===== Stack Builder ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for sourcing; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<!-- ===== Cheat sheet ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Sourcing &amp; RFx</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Go to market competitively — define specs, invite qualified suppliers, run RFI/RFP/RFQ or an e-auction, score on TCO, and shortlist for award.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Cycle time · qualified bidders per event · savings identified · % competitively sourced · response rate · first-time-right award.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">RFx in one line</div>
+<p class="text-slate-600">RFI to learn the market · RFP for value &amp; complexity · RFQ / reverse e-auction for well-specified commodities.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Ariba on network + depth · Coupa &amp; Keelvar on award optimization · Jaggaer/Ivalua on configurable RFx · GEP on guided sourcing · Zycus on AI authoring.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L3 mining finds bypass &amp; bottlenecks · L4 optimization solves complex award + GenAI drafts/scores · L5 intake routes the right path · L6 gives events an owner.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">No single tool discovers, authors, scores and optimizes award. Value is in the seams.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Quiz ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span> / <span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null"
+class="w-full text-left text-sm px-4 py-3 rounded-lg border transition"
+:class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))"
+x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
+</section>
+
+<footer class="border-t border-slate-200 bg-white mt-8">
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 03 — Sourcing &amp; RFx</div>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep02 · Spend &amp; Category</a>
+<a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
+<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-50 text-slate-400 font-semibold">Ep04 · Evaluate &amp; Select (coming next) →</span>
+</div>
+<p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
+</footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:['RFx design flex','e-Auction','Award optimization','Supplier discovery','Bid analysis / scoring','Ease / cycle time'],
+platforms:[
+{name:'SAP Ariba', on:true, scores:[4,4,3,5,4,3], best:'Largest supplier network (Ariba Network) + enterprise RFx depth', watch:'Heavy UI; award optimization weaker than specialists'},
+{name:'Coupa', on:true, scores:[4,4,4,3,4,4], best:'Strong award optimization (ex-Trade Extensions) + clean UX, unified with P2P', watch:'Supplier network smaller than Ariba'},
+{name:'Jaggaer', on:true, scores:[5,5,4,4,4,3], best:'Deep, configurable RFx + e-auctions; strong in direct/manufacturing', watch:'Breadth adds complexity; indirect UX less polished'},
+{name:'Ivalua', on:true, scores:[5,4,4,3,4,3], best:'Highly configurable RFx &amp; data model across direct + indirect', watch:'Config effort; needs strong internal ownership'},
+{name:'GEP SMART', on:true, scores:[4,4,3,3,4,4], best:'Unified S2P with clean guided sourcing + strong services', watch:'Advanced optimization leans on services; smaller network'},
+{name:'Keelvar', on:false, scores:[3,5,5,2,5,4], best:'Autonomous sourcing bots + best-in-class award optimization for complex/logistics', watch:'Optimization/auction specialist, not a full S2P suite'},
+{name:'Zycus iSource', on:false, scores:[4,4,3,3,4,3], best:'AI-assisted RFx authoring (Merlin) at strong value', watch:'Smaller ecosystem; optimization depth varies'}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:'L0',color:getCSS('--l0'),title:'Concept',body:'Requirements live in a buyer’s head; they email two or three known suppliers for a quote and pick one.',takeaway:'No structure, no competition, no audit trail — price and fit are whatever the incumbent offers.'},
+{tag:'L1',color:getCSS('--l1'),title:'Platform-native RFx',body:'A sourcing suite runs structured RFI/RFP/RFQ events with templates, a supplier portal and scoring.',takeaway:'Repeatable and auditable, but authoring and evaluation are manual and award is single-line.'},
+{tag:'L2',color:getCSS('--l2'),title:'Best practice',body:'Weighted scorecards, TCO not price-only, the right RFx type, pre-qualified suppliers and controlled comms.',takeaway:'Discipline widens the qualified pool and scores on total value — competition actually works.'},
+{tag:'L3',color:getCSS('--l3'),title:'Process mining',body:'Celonis / PM4Py read event logs to expose sourcing cycle-time bottlenecks and spend that bypassed sourcing entirely.',takeaway:'You see the slow steps and the events that never happened — often the biggest leakage source.'},
+{tag:'L4',color:getCSS('--l4'),title:'Intelligence / AI',body:'GenAI drafts RFx and scores responses; optimization engines (Keelvar, Coupa CSO) solve complex multi-lot award.',takeaway:'Cycle time drops, scoring gets consistent, and award finds the mathematically best split.'},
+{tag:'L5',color:getCSS('--l5'),title:'Orchestration',body:'Intake (Zip / ORO) routes each request to the right sourcing path; category strategy feeds the event; award flows to CLM.',takeaway:'The right request reaches the right event automatically, and the award doesn’t die at the finish line.'},
+{tag:'L6',color:getCSS('--l6'),title:'People & roles',body:'Category managers run events; a sourcing CoE governs process and thresholds; legal, quality and finance score.',takeaway:'Ownership and governance stop maverick, spec-biased, price-only sourcing.'}
+],
+metrics(){
+const m=[
+{cycle:'Weeks+',bidders:'2–3',savings:'—',competitive:'20%'},
+{cycle:'3–5 wks',bidders:'4–5',savings:'3%',competitive:'45%'},
+{cycle:'2–4 wks',bidders:'6+',savings:'6%',competitive:'65%'},
+{cycle:'2–3 wks',bidders:'6+',savings:'8%',competitive:'75%'},
+{cycle:'1–2 wks',bidders:'8+',savings:'11%',competitive:'85%'},
+{cycle:'Days–1wk',bidders:'8+',savings:'13%',competitive:'90%'},
+{cycle:'Days',bidders:'8+',savings:'15%',competitive:'95%'}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:'intake',label:'Request / Intake',options:['Category strategy (Ep02)','Intake tool (Zip/ORO)','Ad hoc email']},
+{key:'suite',label:'RFx Suite',options:['SAP Ariba','Coupa','Jaggaer','GEP SMART','Ivalua','Zycus']},
+{key:'optim',label:'Award Optimization',options:['Native suite','Keelvar','Coupa CSO','None']},
+{key:'discovery',label:'Supplier Discovery',options:['Ariba Network','Tealbook','Existing AVL','Manual search']},
+{key:'ai',label:'Intelligence / AI',options:['GenAI RFx authoring','Auto-scoring','Price prediction','None']},
+{key:'people',label:'Ownership',options:['Category-led','Sourcing CoE','Federated','Ad hoc']}
+],
+picks:{intake:'Category strategy (Ep02)',suite:'Coupa',optim:'Keelvar',discovery:'Ariba Network',ai:'GenAI RFx authoring',people:'Sourcing CoE'},
+summary(){const p=this.picks;return `${p.suite} running RFx on requests from ${p.intake}, ${p.optim==='None'?'no advanced award optimization':p.optim+' for award'}, suppliers via ${p.discovery}, ${p.ai==='None'?'manual authoring &amp; scoring':p.ai}, owned ${p.people}.`;},
+seamNote(){
+const p=this.picks; let n=[];
+if(p.optim!=='Native suite' && p.optim!=='None') n.push(`Seam to engineer: bid-data export from ${p.suite} into ${p.optim} and award write-back.`);
+if(p.discovery==='Manual search') n.push('Manual discovery caps the qualified pool — expect fewer bidders and weaker price tension.');
+if(p.ai==='None') n.push('Without an AI layer, authoring and scoring stay manual — cycle time and evaluation consistency lag.');
+if(p.people==='Ad hoc') n.push('No sourcing governance means maverick events, spec bias and no cycle-time control.');
+if(!n.length) n.push('Clean pairing — few seams to engineer. Focus on cycle time and getting enough qualified bidders per event.');
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:'A well-specified commodity has many capable suppliers and price is the dominant lever. Which RFx mechanism fits best?',
+a:['A multi-round RFP with heavy qualitative scoring','An RFQ or reverse e-auction','An RFI only','A sole-source renewal'],
+c:1, e:'Commoditized, clearly specified, many suppliers = price competition. An RFQ or reverse auction extracts price efficiently; a full qualitative RFP is overkill and slows the event.'},
+{q:'A logistics tender has volume discounts, lane splits and carrier capacity limits, and you need the mathematically best award across scenarios. What actually solves this?',
+a:['A bigger spreadsheet','L4 award / sourcing optimization (Keelvar / Coupa CSO)','A reverse auction on total price','Just pick the lowest single bidder'],
+c:1, e:'Constrained, multi-lot award is an optimization problem. Sourcing-optimization engines evaluate scenarios a spreadsheet or single-line auction cannot.'},
+{q:'Only two suppliers responded to your RFP and both were incumbents. What most likely went wrong upstream?',
+a:['The auction software','A spec written around the incumbent plus a too-narrow, unqualified supplier list','Too many bidders','The spend taxonomy'],
+c:1, e:'Weak competition usually traces to a biased spec and a thin pool. Cast wider and pre-qualify on capability before the event — don’t write requirements to an incumbent.'},
+{q:'Savings are captured at award but leak away within months. Which seams close the gap?',
+a:['Run more auctions','L5 orchestration to CLM + an L6 owner: award flows into a contract with tracked terms and a named owner','A larger RFx template','More benchmark dashboards'],
+c:1, e:'Value leaks when the awarded deal never becomes an enforced contract. Wiring award → CLM (Ep06) with a named owner keeps negotiated terms from eroding.'},
+{q:'Which statement matches the Codex thesis for sourcing?',
+a:['SAP Ariba alone covers discovery, authoring, scoring and optimization','Value is in the seams — discovery, authoring, scoring and award optimization rarely all live in one suite','Reverse auctions are always the right tool','Manual RFPs are always enough'],
+c:1, e:'Standalone is never enough — impact comes from engineering the seams between the sourcing suite, supplier discovery, GenAI authoring/scoring and award optimization.'}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1<this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you’ve got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
+</body>
+</html>
