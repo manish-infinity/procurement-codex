@@ -384,7 +384,7 @@ platforms:[
 {name:'SAP Ariba', on:true, scores:[4,4,3,5,4,3], best:'Largest supplier network (Ariba Network) + enterprise RFx depth', watch:'Heavy UI; award optimization weaker than specialists'},
 {name:'Coupa', on:true, scores:[4,4,4,3,4,4], best:'Strong award optimization (ex-Trade Extensions) + clean UX, unified with P2P', watch:'Supplier network smaller than Ariba'},
 {name:'Jaggaer', on:true, scores:[5,5,4,4,4,3], best:'Deep, configurable RFx + e-auctions; strong in direct/manufacturing', watch:'Breadth adds complexity; indirect UX less polished'},
-{name:'Ivalua', on:true, scores:[5,4,4,3,4,3], best:'Highly configurable RFx &amp; data model across direct + indirect', watch:'Config effort; needs strong internal ownership'},
+{name:'Ivalua', on:true, scores:[5,4,4,3,4,3], best:'Highly configurable RFx and data model across direct + indirect', watch:'Config effort; needs strong internal ownership'},
 {name:'GEP SMART', on:true, scores:[4,4,3,3,4,4], best:'Unified S2P with clean guided sourcing + strong services', watch:'Advanced optimization leans on services; smaller network'},
 {name:'Keelvar', on:false, scores:[3,5,5,2,5,4], best:'Autonomous sourcing bots + best-in-class award optimization for complex/logistics', watch:'Optimization/auction specialist, not a full S2P suite'},
 {name:'Zycus iSource', on:false, scores:[4,4,3,3,4,3], best:'AI-assisted RFx authoring (Merlin) at strong value', watch:'Smaller ecosystem; optimization depth varies'}
@@ -431,7 +431,7 @@ columns:[
 {key:'people',label:'Ownership',options:['Category-led','Sourcing CoE','Federated','Ad hoc']}
 ],
 picks:{intake:'Category strategy (Ep02)',suite:'Coupa',optim:'Keelvar',discovery:'Ariba Network',ai:'GenAI RFx authoring',people:'Sourcing CoE'},
-summary(){const p=this.picks;return `${p.suite} running RFx on requests from ${p.intake}, ${p.optim==='None'?'no advanced award optimization':p.optim+' for award'}, suppliers via ${p.discovery}, ${p.ai==='None'?'manual authoring &amp; scoring':p.ai}, owned ${p.people}.`;},
+summary(){const p=this.picks;return `${p.suite} running RFx on requests from ${p.intake}, ${p.optim==='None'?'no advanced award optimization':p.optim+' for award'}, suppliers via ${p.discovery}, ${p.ai==='None'?'manual authoring and scoring':p.ai}, owned ${p.people}.`;},
 seamNote(){
 const p=this.picks; let n=[];
 if(p.optim!=='Native suite' && p.optim!=='None') n.push(`Seam to engineer: bid-data export from ${p.suite} into ${p.optim} and award write-back.`);
