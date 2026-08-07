@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Procurement Codex · Ep04 — Supplier Evaluation &amp; Selection</title>
+<meta name="description" content="Sourcing gave you offers; now you have to choose — and defend the choice. Score responses against a scorecard set before you saw them, qualify finalists on risk and viability, model the award, and select on total value — then layer up with mining, AI, orchestration and people until standalone is never enough." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+.pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ===== Top bar ===== -->
+<header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 04</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 4 of 15</span>
+</div>
+</div>
+</header>
+
+<!-- ===== Spine navigator ===== -->
+<section class="bg-white border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="flex items-center gap-1 min-w-max text-[11px]" x-data="{ steps:['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence'], urls:['https://manish-infinity.github.io/procurement-codex/','https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html','https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html','https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html'] }">
+<template x-for="(s,i) in steps" :key="i">
+<div class="flex items-center">
+<a class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap"
+:href="urls[i] || undefined"
+:class="i===3 ? 'bg-indigo-600 text-white font-bold' : (urls[i] ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 cursor-pointer' : 'bg-slate-100 text-slate-500 pointer-events-none')">
+<span x-text="(i+1)+'. '" ></span><span x-html="s"></span>
+</a>
+<span x-show="i<14" class="text-slate-300 px-0.5">→</span>
+</div>
+</template>
+</div>
+</div>
+</section>
+
+<!-- ===== Autonomous disclaimer ribbon ===== -->
+<section class="bg-indigo-50 border-b border-indigo-100">
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
+</section>
+
+<!-- ===== Hook ===== -->
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 04 · Choosing, defensibly</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Supplier Evaluation &amp; Selection</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Sourcing gave you offers. Now you have to choose — and be able to defend the choice. Evaluation &amp; selection is the decision discipline: score responses against a scorecard you set <span class="font-semibold">before</span> you saw them, qualify finalists on risk and viability, model the award, and pick on total value — not the lowest sticker. It is where a fair process either earns a great supplier or quietly buys regret.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every platform scores and selects (fair A vs B vs C) → then we stack process mining, due-diligence intelligence, award optimization, orchestration and people on top until you see why <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
+</section>
+
+<!-- ===== L0 Concept ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">The disciplined decision step: score qualified responses against a pre-defined <span class="font-semibold">weighted scorecard</span>, run <span class="font-semibold">due diligence</span> on finalists, model award scenarios, and select the supplier(s) delivering the best <span class="font-semibold">total value</span> — defensibly and auditably. It is procurement's <span class="font-semibold">decision</span> layer.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because the market gives you options and someone has to choose. A structured evaluation turns subjective preference into a transparent, weighted, <span class="font-semibold">defensible</span> decision — protecting against bias, gaming and post-award regret.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Weights fixed before bids open · sealed independent scoring · TCO not price alone · finalists due-diligenced on financial, ESG &amp; compliance risk · award scenarios modeled · consensus documented · full audit trail · decision defensible to a challenge.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== L1 Comparison ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on"
+class="pill px-3 py-1 rounded-full border text-xs font-semibold"
+:class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'"
+x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs"
+:style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, data quality, and integration maturity.</p>
+</section>
+
+<!-- ===== L2 Best practice ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Weights before bids</span> — lock the weighted scorecard and criteria before any response is opened, so scoring can't be steered to a preferred answer.</li>
+<li><span class="font-semibold">Sealed, independent scoring</span> — evaluators score their own sections without seeing each other, then reconcile in a documented consensus meeting.</li>
+<li><span class="font-semibold">Total value, not sticker price</span> — score TCO / should-cost, quality, delivery, risk, ESG and innovation — not the lowest number alone.</li>
+<li><span class="font-semibold">Qualify the supplier, not just the proposal</span> — due-diligence finalists on financial health, ESG, compliance, capacity and references before award.</li>
+<li><span class="font-semibold">Right-size the committee</span> — cross-functional but lean; the right scorer for each section (finance, quality, legal, security), not a crowd.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — decision cycle time, evaluator consensus, TCO savings vs lowest price, % awards audit-ready, % finalists due-diligenced, dispute / challenge rate.</li>
+<li><span class="font-semibold">Halo / anchoring bias</span> — one strong dimension, or the first bid seen, quietly skews the whole score.</li>
+<li><span class="font-semibold">Price-only selection</span> — awarding on the lowest bid ignores risk, quality and TCO, and buys regret.</li>
+<li><span class="font-semibold">No due diligence</span> — a great proposal from a failing or non-compliant supplier is a selection failure waiting to happen.</li>
+<li><span class="font-semibold">Scorecard gaming</span> — weights revealed or set after bids let evaluators or suppliers steer the outcome.</li>
+<li><span class="font-semibold">Committee drift</span> — too many scorers, unclear ownership, endless re-scoring and decision lag.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ===== Layer Peeler ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a plain evaluation and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i"
+class="px-3 py-2 rounded-lg text-xs font-bold border transition"
+:class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'"
+:style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4"
+:class="level>=i ? 'opacity-100' : 'opacity-30'"
+:style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().cycle"></div>
+<div class="text-xs text-slate-500 mt-1">Decision cycle</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().evaluators"></div>
+<div class="text-xs text-slate-500 mt-1">Scoring evaluators</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().savings"></div>
+<div class="text-xs text-slate-500 mt-1">TCO savings vs lowest-price</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().audit"></div>
+<div class="text-xs text-slate-500 mt-1">Awards audit-ready</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===== L7 Synergy Composite ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed evaluation-and-selection architecture — no single vendor owns all of it. The value lives in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">
+flowchart LR
+RFX[RFx responses<br/>from Ep03] --> SCORE[L1 Evaluation suite<br/>Ariba / Jaggaer / Ivalua]
+DD[L4 Due-diligence intelligence<br/>EcoVadis ESG · D&amp;B financial] -.qualify finalists.-> SCORE
+AI[L4 GenAI proposal scoring<br/>+ bid normalization] -.score &amp; normalize.-> SCORE
+PM[L3 Process mining<br/>Celonis / PM4Py] -.re-scoring loops &amp; lag.-> SCORE
+SCORE --> OPT[L4 Award optimization<br/>Keelvar / Coupa CSO]
+OPT --> GATE{L6 Governance gate}
+GATE --> AWARD[Award decision]
+AWARD --> NEG[Ep05 · Negotiation]
+</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, an evaluation suite captures a weighted scorecard and collects evaluator scores — but it cannot judge whether the winning supplier is financially solvent or ESG-compliant, it drafts and normalizes nothing, and its award logic can't solve a constrained multi-lot split. External risk and ESG intelligence (EcoVadis, D&amp;B) qualifies finalists; GenAI normalizes and scores proposals; process mining exposes the re-scoring loops and decision lag; a dedicated optimizer solves the award. <span class="font-semibold text-indigo-700">No one tool scores, due-diligences and optimizes — the leverage is in wiring them together.</span></p>
+</section>
+
+<!-- ===== Stack Builder ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for evaluation &amp; selection; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<!-- ===== Cheat sheet ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Supplier Evaluation &amp; Selection</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Score responses against a pre-set weighted scorecard, qualify finalists on risk &amp; viability, model award scenarios, and pick on total value — defensibly.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Decision cycle · evaluator consensus · TCO savings vs lowest-price · % awards audit-ready · % finalists due-diligenced · dispute rate.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">Fix weights before bids open · sealed independent scoring · TCO not sticker price · consensus meeting · due-diligence the finalists.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Ariba on lifecycle + risk · Coupa &amp; Keelvar on award scenarios · Jaggaer / Ivalua on configurable scorecards + Supplier 360 · GEP on guided eval · Zycus on AI scoring.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L3 mining finds re-scoring loops &amp; decision lag · L4 AI normalizes bids, scores proposals, ingests risk/ESG &amp; optimizes award · L5 routes the award onward · L6 gives the committee a governance gate.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">No single tool scores proposals, due-diligences suppliers and optimizes award. Value is in the seams.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Quiz ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span> / <span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null"
+class="w-full text-left text-sm px-4 py-3 rounded-lg border transition"
+:class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))"
+x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
+</section>
+
+<footer class="border-t border-slate-200 bg-white mt-8">
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 04 — Supplier Evaluation &amp; Selection</div>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep03 · Sourcing &amp; RFx</a>
+<a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
+<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-50 text-slate-400 font-semibold">Ep05 · Negotiation (coming next) →</span>
+</div>
+<p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
+</footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:['Weighted scorecard flex','Consensus / committee scoring','TCO / should-cost','Award scenario optimization','Due-diligence / risk fit','Auditability / defensibility'],
+platforms:[
+{name:'SAP Ariba', on:true, scores:[4,4,3,3,4,5], best:'Enterprise evaluation tied to supplier lifecycle and risk (Ariba SLP / Risk), with a strong audit trail', watch:'Award-scenario optimization weaker than specialists; heavy configuration'},
+{name:'Coupa', on:true, scores:[4,4,4,4,3,4], best:'Award-scenario optimization (Coupa Sourcing Optimization) plus clean evaluation UX unified with P2P', watch:'Supplier due-diligence depth lighter than Ariba SLP; smaller reference network'},
+{name:'Jaggaer', on:true, scores:[5,4,4,4,3,4], best:'Deeply configurable weighted evaluation; strong supplier qualification in direct / manufacturing', watch:'Configuration complexity; indirect UX less polished'},
+{name:'Ivalua', on:true, scores:[5,4,4,3,4,4], best:'Highly configurable scorecards with a unified Supplier 360 that folds risk and performance into selection', watch:'Configuration effort; needs strong internal ownership'},
+{name:'GEP SMART', on:true, scores:[4,4,3,3,3,4], best:'Guided, unified evaluation with strong services support', watch:'Advanced optimization and due-diligence lean on services; smaller network'},
+{name:'Zycus', on:false, scores:[4,3,3,3,3,4], best:'AI-assisted evaluation (Merlin) plus supplier management at strong value', watch:'Smaller ecosystem; optimization and DD depth vary by module'},
+{name:'Keelvar', on:false, scores:[3,2,4,5,2,4], best:'Best-in-class award-scenario optimization for complex, constrained selection', watch:'Optimization specialist, not a full evaluation / due-diligence suite'}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:'L0',color:getCSS('--l0'),title:'Concept',body:'One buyer eyeballs the quotes and picks the cheapest, or the supplier they already know.',takeaway:'No scorecard, no due diligence, no audit trail — the decision is preference dressed up as a choice.'},
+{tag:'L1',color:getCSS('--l1'),title:'Platform-native evaluation',body:'A sourcing suite captures a weighted scorecard and collects scores from multiple evaluators in a portal.',takeaway:'Repeatable and auditable, but scoring is manual, bids are not normalized, and viability is unchecked.'},
+{tag:'L2',color:getCSS('--l2'),title:'Best practice',body:'Weights fixed before bids open, sealed independent scoring, TCO not sticker price, and due diligence on finalists.',takeaway:'Discipline turns preference into a defensible, total-value decision — and catches unfit suppliers early.'},
+{tag:'L3',color:getCSS('--l3'),title:'Process mining',body:'Celonis / PM4Py read event logs to expose re-scoring loops, evaluator bottlenecks and decision-to-award lag.',takeaway:'You see where the decision stalls and where scores keep getting reopened — the hidden cost of selection.'},
+{tag:'L4',color:getCSS('--l4'),title:'Intelligence / AI',body:'GenAI normalizes and scores proposals; risk / ESG feeds (EcoVadis, D&B) qualify finalists; optimizers solve award splits.',takeaway:'Scoring gets consistent, unfit suppliers are flagged before award, and complex award finds its best combination.'},
+{tag:'L5',color:getCSS('--l5'),title:'Orchestration',body:'Sourcing scores flow in automatically; risk data is pulled from external providers; the award routes to negotiation and CLM.',takeaway:'The decision is fed and forwarded automatically — no re-keying, and the award does not die at the finish line.'},
+{tag:'L6',color:getCSS('--l6'),title:'People & roles',body:'A cross-functional committee scores its sections; a sourcing lead facilitates; a governance gate approves the award.',takeaway:'Ownership and a governance gate stop halo bias, price-only picks and undocumented, indefensible awards.'}
+],
+metrics(){
+const m=[
+{cycle:'Weeks',evaluators:'1',savings:'—',audit:'30%'},
+{cycle:'2–3 wks',evaluators:'3–4',savings:'3%',audit:'60%'},
+{cycle:'1–2 wks',evaluators:'5+',savings:'7%',audit:'80%'},
+{cycle:'1 wk',evaluators:'5+',savings:'9%',audit:'88%'},
+{cycle:'Days',evaluators:'5+',savings:'12%',audit:'93%'},
+{cycle:'Days',evaluators:'5+',savings:'14%',audit:'96%'},
+{cycle:'Days',evaluators:'5+',savings:'15%',audit:'99%'}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:'inputs',label:'Decision Input',options:['RFx responses (Ep03)','Reopened / BAFO bids','Direct award (no event)']},
+{key:'suite',label:'Evaluation Suite',options:['SAP Ariba','Coupa','Jaggaer','GEP SMART','Ivalua','Zycus']},
+{key:'optim',label:'Award Optimization',options:['Native suite','Keelvar','Coupa CSO','None']},
+{key:'dd',label:'Due Diligence / Risk',options:['EcoVadis (ESG)','D&B (financial)','Ariba / Coupa Risk','References only']},
+{key:'ai',label:'Intelligence / AI',options:['AI proposal scoring','Bid normalization','Price benchmarking','None']},
+{key:'people',label:'Ownership',options:['Evaluation committee','Sourcing CoE','Category-led','Ad hoc']}
+],
+picks:{inputs:'RFx responses (Ep03)',suite:'Ivalua',optim:'Keelvar',dd:'EcoVadis (ESG)',ai:'AI proposal scoring',people:'Evaluation committee'},
+summary(){const p=this.picks;return `${p.suite} scoring ${p.inputs}, ${p.optim==='None'?'no advanced award optimization':p.optim+' for award scenarios'}, finalists qualified via ${p.dd}, ${p.ai==='None'?'manual scoring and normalization':p.ai}, owned by ${p.people}.`;},
+seamNote(){
+const p=this.picks; let n=[];
+if(p.optim!=='Native suite' && p.optim!=='None') n.push(`Seam to engineer: bid-and-score export from ${p.suite} into ${p.optim}, and award write-back.`);
+if(p.dd==='References only') n.push('References-only due diligence misses financial and ESG risk — a strong proposal can still hide an unfit supplier.');
+if(p.ai==='None') n.push('Without an AI layer, proposals are scored and normalized by hand — consistency and cycle time lag.');
+if(p.people==='Ad hoc') n.push('No evaluation governance means halo bias, price-only picks and awards that cannot survive a challenge.');
+if(p.inputs==='Direct award (no event)') n.push('A direct award with no competitive event needs an especially strong due-diligence and audit trail to stay defensible.');
+if(!n.length) n.push('Clean pairing — few seams to engineer. Focus on decision cycle time and documenting a consensus that holds up to a challenge.');
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:'You need to compare bids fairly across price, quality, delivery and risk. What must be defined BEFORE any response is opened?',
+a:['The winning supplier','The weighted scorecard and its criteria weights','The final contract terms','The reverse-auction reserve price'],
+c:1, e:'Weights set after seeing bids invite bias and gaming. Fix the scorecard and its weights before opening responses so the decision stays defensible.'},
+{q:'Two proposals are near-tied on total score, but one supplier shows deteriorating financials and a weak ESG rating. Which layer catches this before award?',
+a:['A bigger scorecard','An L4 due-diligence overlay pulling financial (D&B) and ESG (EcoVadis) signals into the decision','A reverse auction','Lowest price wins'],
+c:1, e:'Selection is not only proposal scoring — supplier viability (financial health, ESG, compliance) must qualify finalists. External risk and ESG intelligence feeds that gate.'},
+{q:'A losing bidder challenges your award decision. What makes the decision defensible?',
+a:['A confidently worded email','Sealed independent scoring against pre-agreed weights, with a documented consensus and full audit trail','The CFO’s personal preference','The lowest sticker price'],
+c:1, e:'Defensibility comes from process: pre-agreed weights, sealed independent evaluator scores, a documented consensus and an audit trail — not from who argued hardest.'},
+{q:'A logistics award has lot splits, volume tiers and carrier capacity limits; you must pick the best combination, not the best single bid. What actually solves it?',
+a:['Pick the cheapest lane, lane by lane','L4 award-scenario optimization (Keelvar / Coupa CSO)','A spreadsheet sum of the bids','Issue another RFI'],
+c:1, e:'Constrained, multi-lot selection is an optimization problem. Scenario optimizers evaluate award combinations that line-by-line lowest-price or a spreadsheet cannot.'},
+{q:'Which statement matches the Codex thesis for evaluation and selection?',
+a:['SAP Ariba alone scores proposals, due-diligences suppliers and optimizes the award','Value is in the seams — proposal scoring, risk / ESG due diligence and award optimization rarely all live in one tool','Lowest price is always the right pick','Evaluation committees only slow things down and should be skipped'],
+c:1, e:'Standalone is never enough — a defensible selection wires the evaluation suite to external risk / ESG intelligence and to an award optimizer. The leverage is in the seams.'}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1<this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
+</body>
+</html>
