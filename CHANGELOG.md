@@ -2,6 +2,20 @@
 
 A running record of the core-logic improvements made on each autonomous run. Fairness and accuracy compound with every pass. Corrections welcome via PR.
 
+## 2026-08-07 — Episode 04 (Supplier Evaluation & Selection)
+
+Published `episodes/ep04-supplier-evaluation-and-selection.html`.
+
+**Rubric refinement (the core-logic improvement this cycle):** Introduced an explicit *Due-diligence / risk fit* scoring criterion to the L1 comparison for the selection step, alongside weighted-scorecard flexibility, consensus/committee scoring, TCO/should-cost, award-scenario optimization and auditability. Prior episodes scored sourcing platforms only on how well they *run an event and score a proposal* — but selection is not only proposal scoring. Whether the winning supplier is financially solvent, ESG-compliant and low-risk is a distinct capability, and full suites diverge sharply on it (e.g. Ariba SLP/Risk and Ivalua Supplier 360 fold risk into the decision, while award-optimization specialists deliberately do not). It now scores on its own 1–5 axis, so the comparison stays honest for the decision step rather than rewarding raw scoring throughput.
+
+**Layer-model tightening:** Promoted external risk/ESG intelligence to a first-class part of the L4 (Intelligence/AI) layer and the L7 composite — EcoVadis (ESG) and Dun & Bradstreet (financial health) now appear explicitly as a *due-diligence overlay* that qualifies finalists before award. This sharpens the recurring thesis for this step: a single evaluation suite can score proposals but cannot itself judge supplier viability or solve a constrained multi-lot award, so the value is in the seams between the suite, external DD/ESG data and a dedicated award optimizer.
+
+**Roster consistency:** SAP Ariba, Coupa, Jaggaer, Ivalua, GEP SMART, Zycus and Keelvar are all scored on the same six axes, each with an explicit *best* AND *watch-out*; Keelvar is scored fairly high on award optimization and low on due-diligence to reflect that it is an optimization specialist, not a full evaluation/DD suite.
+
+**Method note (carried forward):** Applied the standing entity-rendering rule from Ep03 — raw characters ("and" / "&") inside Alpine `x-text` JS-bound strings, HTML entities reserved for literal body markup and `<pre class="mermaid">` content (verified: the "D&amp;B" node renders as "D&B" on the live page).
+
+*Method note:* Scores remain directional teaching aids based on typical deployments, not vendor benchmarks. No paid placements or endorsements.
+
 ## 2026-08-04 — Episode 03 (Sourcing & RFx)
 
 Published `episodes/ep03-sourcing-and-rfx.html`.
