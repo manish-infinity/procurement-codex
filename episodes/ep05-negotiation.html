@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Procurement Codex · Ep05 — Negotiation</title>
+<meta name="description" content="Evaluation picked the supplier; negotiation captures the value. Know your BATNA, model should-cost, negotiate total value and risk — not just price — then layer up with mining, expressive bidding, autonomous AI, orchestration and people until standalone is never enough." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+.pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ===== Top bar ===== -->
+<header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 05</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 5 of 15</span>
+</div>
+</div>
+</header>
+
+<!-- ===== Spine navigator ===== -->
+<section class="bg-white border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="flex items-center gap-1 min-w-max text-[11px]" x-data="{ steps:['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence'], urls:['https://manish-infinity.github.io/procurement-codex/','https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html','https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html','https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html','https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html'] }">
+<template x-for="(s,i) in steps" :key="i">
+<div class="flex items-center">
+<a class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap"
+:href="urls[i] || undefined"
+:class="i===4 ? 'bg-indigo-600 text-white font-bold' : (urls[i] ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 cursor-pointer' : 'bg-slate-100 text-slate-500 pointer-events-none')">
+<span x-text="(i+1)+'. '" ></span><span x-html="s"></span>
+</a>
+<span x-show="i<14" class="text-slate-300 px-0.5">→</span>
+</div>
+</template>
+</div>
+</div>
+</section>
+
+<!-- ===== Autonomous disclaimer ribbon ===== -->
+<section class="bg-indigo-50 border-b border-indigo-100">
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
+</section>
+
+<!-- ===== Hook ===== -->
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 05 · Capturing the value</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Negotiation</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Evaluation named the supplier. Negotiation is where you actually <span class="font-semibold">capture the value</span> — and where a well-run process either banks real savings and fair risk terms, or leaves money and protection on the table. It is the discipline of knowing your walk-away, modelling what the thing <span class="font-semibold">should</span> cost, and trading across price, terms, risk and service to land the best <span class="font-semibold">total</span> deal — not just a lower number.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every platform runs events and negotiations (fair A vs B vs C) → then we stack process mining, should-cost intelligence, expressive bidding, autonomous AI, orchestration and people on top until you see why <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
+</section>
+
+<!-- ===== L0 Concept ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">The value-capture step: with a preferred supplier identified, you negotiate <span class="font-semibold">price, terms, risk allocation and service levels</span> to land the best total deal. It spans competitive levers (e-auctions, expressive bidding) and collaborative value creation — anchored on a <span class="font-semibold">should-cost</span> target and a clear <span class="font-semibold">BATNA</span>.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because a chosen supplier is not yet a good deal. Structured negotiation converts leverage and preparation into captured value — savings, better payment and risk terms, stronger SLAs — instead of splitting the difference on price and hoping.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">BATNA known · should-cost modelled · negotiate total value not price alone · concession plan set in advance · risk and terms traded deliberately · outcome documented · savings tracked through to the contract and PO · relationship intact for delivery.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== L1 Comparison ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on"
+class="pill px-3 py-1 rounded-full border text-xs font-semibold"
+:class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'"
+x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs"
+:style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, data quality, and integration maturity.</p>
+</section>
+
+<!-- ===== L2 Best practice ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Know your BATNA</span> — your best alternative to a negotiated agreement is your real leverage; enter knowing your walk-away point.</li>
+<li><span class="font-semibold">Anchor on should-cost</span> — build a cost model of what the item or service should cost, so the target is fact-based, not the supplier's opening number.</li>
+<li><span class="font-semibold">Negotiate total value, not price</span> — payment terms, warranty, SLAs, risk allocation, volume flex and TCO all carry value; trade across them.</li>
+<li><span class="font-semibold">Plan concessions in advance</span> — decide what you will give, in what order, and what you must get in return; never concede reactively.</li>
+<li><span class="font-semibold">Protect the relationship</span> — you have to run the contract with this supplier; capture value without poisoning delivery.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — negotiated savings vs first offer, savings vs should-cost, cycle time, % savings realised in contract/PO, terms improvement, event participation.</li>
+<li><span class="font-semibold">Price-only tunnel vision</span> — squeezing unit price while ignoring payment terms, risk and SLAs leaves real value untouched.</li>
+<li><span class="font-semibold">No walk-away</span> — negotiating without a BATNA means conceding under pressure with nothing to fall back on.</li>
+<li><span class="font-semibold">Anchoring to the supplier's number</span> — letting the opening quote frame the range instead of an independent should-cost model.</li>
+<li><span class="font-semibold">Savings leakage</span> — a great negotiated price that never makes it into the contract, catalogue or PO evaporates.</li>
+<li><span class="font-semibold">Relationship damage</span> — winning the negotiation but losing the delivery through an adversarial, scorched-earth stance.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ===== Layer Peeler ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a plain negotiation and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i"
+class="px-3 py-2 rounded-lg text-xs font-bold border transition"
+:class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'"
+:style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4"
+:class="level>=i ? 'opacity-100' : 'opacity-30'"
+:style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().cycle"></div>
+<div class="text-xs text-slate-500 mt-1">Negotiation cycle</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().levers"></div>
+<div class="text-xs text-slate-500 mt-1">Value levers used</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().savings"></div>
+<div class="text-xs text-slate-500 mt-1">Savings vs first offer</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().realised"></div>
+<div class="text-xs text-slate-500 mt-1">Savings realised in contract</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===== L7 Synergy Composite ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed negotiation architecture — no single vendor owns all of it. The value lives in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">
+flowchart LR
+AWARD[Award decision<br/>from Ep04] --> NEG[L1 Negotiation / auction suite<br/>Ariba / Jaggaer / Coupa]
+SC[L4 Should-cost intelligence<br/>aPriori · Sievo cost models] -.target price.-> NEG
+OPT[L4 Expressive bidding / optimization<br/>Keelvar · Coupa CSO] -.complex lots.-> NEG
+AUTON[L4 Autonomous AI negotiation<br/>Pactum for the long tail] -.tail terms.-> NEG
+PM[L3 Process mining<br/>Celonis / PM4Py] -.cycle lag and leakage.-> NEG
+NEG --> TERMS[Negotiated price plus terms]
+TERMS --> GATE{L6 Concession governance}
+GATE --> CLM[Ep06 · Contract Lifecycle]
+</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a negotiation suite runs a clean e-auction or RFQ and logs the outcome — but it does not tell you what the item should cost, it cannot solve a constrained multi-lot award, and it cannot negotiate thousands of long-tail renewals by itself. Should-cost intelligence (aPriori, Sievo) sets a fact-based target; expressive-bidding optimizers (Keelvar, Coupa CSO) solve complex lot splits; autonomous AI (Pactum) negotiates the long tail at scale; process mining exposes cycle lag and the savings that leak between handshake and PO. <span class="font-semibold text-indigo-700">No one tool models cost, optimizes award and negotiates the tail — the leverage is in wiring them together.</span></p>
+</section>
+
+<!-- ===== Stack Builder ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for negotiation; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<!-- ===== Cheat sheet ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Negotiation</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">With the supplier chosen, trade across price, terms, risk and service — anchored on should-cost and your BATNA — to capture the best total deal.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Savings vs first offer · savings vs should-cost · cycle time · % savings realised in contract/PO · terms improvement · event participation.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">Know your BATNA · anchor on should-cost · negotiate total value not price · plan concessions · protect the delivery relationship.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Ariba &amp; Jaggaer on auction breadth · Coupa &amp; Keelvar on expressive / optimization bidding · Ivalua on terms · GEP on guided AI · Pactum on autonomous long-tail.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L3 mining finds cycle lag &amp; savings leakage · L4 AI models should-cost, optimizes complex lots, and negotiates the long tail · L5 routes savings into contract &amp; PO · L6 governs concession authority.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">No single tool models cost, optimizes award and negotiates the tail. Value is in the seams.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Quiz ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span> / <span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null"
+class="w-full text-left text-sm px-4 py-3 rounded-lg border transition"
+:class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))"
+x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
+</section>
+
+<footer class="border-t border-slate-200 bg-white mt-8">
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 05 — Negotiation</div>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep04 · Supplier Evaluation &amp; Selection</a>
+<a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
+<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-50 text-slate-400 font-semibold">Ep06 · Contract Lifecycle (coming next) →</span>
+</div>
+<p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
+</footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:['Auction event breadth','Expressive / optimization bidding','Should-cost / cost modeling','AI / autonomous negotiation','Terms &amp; value (non-price)','Auditability / governance'],
+platforms:[
+{name:'SAP Ariba', on:true, scores:[5,3,3,3,4,5], best:'Broad, enterprise-grade e-auction event types tied to the sourcing lifecycle, with a strong audit trail', watch:'Expressive-bidding optimization weaker than specialists; heavy configuration'},
+{name:'Coupa', on:true, scores:[4,5,4,3,4,4], best:'Expressive bidding and scenario optimization (Coupa Sourcing Optimization) unified with P2P and community benchmarks', watch:'Autonomous auction automation lighter than a pure specialist'},
+{name:'Jaggaer', on:true, scores:[5,4,4,3,4,4], best:'Rich auction formats and advanced sourcing, strong in direct / manufacturing categories', watch:'Configuration complexity; indirect UX less polished'},
+{name:'Ivalua', on:true, scores:[4,3,4,3,5,4], best:'Highly configurable negotiations that fold terms, risk and performance into one Supplier 360', watch:'Configuration effort; advanced optimization leans on partners'},
+{name:'GEP SMART', on:true, scores:[4,3,3,4,4,4], best:'Guided, AI-assisted (Minerva) negotiation with strong managed-services support', watch:'Advanced optimization and should-cost depth lean on services'},
+{name:'Keelvar', on:false, scores:[5,5,3,5,2,4], best:'Best-in-class sourcing optimization and autonomous auction bots for complex, constrained events', watch:'Optimization specialist, not a full negotiation / terms suite'},
+{name:'Pactum', on:false, scores:[1,2,2,5,5,4], best:'Autonomous AI that negotiates commercial terms across thousands of long-tail suppliers at scale', watch:'Narrow to tail commercial-terms negotiation; not an auction or optimization engine'}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:'L0',color:getCSS('--l0'),title:'Concept',body:'One buyer haggles on price by email or phone and splits the difference with the supplier.',takeaway:'No BATNA, no should-cost, no plan — the outcome is the supplier’s opening number minus a little.'},
+{tag:'L1',color:getCSS('--l1'),title:'Platform-native negotiation',body:'An e-sourcing suite runs a structured e-auction or RFQ event and logs bids and the outcome.',takeaway:'Repeatable, competitive and auditable, but the target is untested and terms are still negotiated by hand.'},
+{tag:'L2',color:getCSS('--l2'),title:'Best practice',body:'Enter with a known BATNA and a should-cost model, negotiate total value not price, and plan concessions in advance.',takeaway:'Preparation turns leverage into captured value — savings, better terms and protected risk, not just a lower unit price.'},
+{tag:'L3',color:getCSS('--l3'),title:'Process mining',body:'Celonis / PM4Py read event logs to expose negotiation cycle lag, off-event maverick spend and where savings leak before signature.',takeaway:'You see where deals stall and where negotiated savings quietly disappear between handshake and PO.'},
+{tag:'L4',color:getCSS('--l4'),title:'Intelligence / AI',body:'Should-cost models set the target; expressive-bidding optimizers solve complex lots; autonomous AI (Pactum) negotiates the long tail; GenAI drafts counteroffers.',takeaway:'Targets get fact-based, complex awards find their best combination, and thousands of tail deals get negotiated at scale.'},
+{tag:'L5',color:getCSS('--l5'),title:'Orchestration',body:'The award flows in from evaluation; negotiated price and terms flow out into CLM, catalogue and PO; savings are tracked to realisation.',takeaway:'The negotiated deal is fed and forwarded automatically — savings survive all the way to the contract and the invoice.'},
+{tag:'L6',color:getCSS('--l6'),title:'People & roles',body:'A lead negotiator prepares with a cross-functional team; concession authority and sign-off run through a governance gate.',takeaway:'Ownership and a concession gate stop price-only tunnel vision, unauthorised give-aways and relationship damage.'}
+],
+metrics(){
+const m=[
+{cycle:'Ad hoc',levers:'1',savings:'—',realised:'20%'},
+{cycle:'2–3 wks',levers:'2–3',savings:'4%',realised:'55%'},
+{cycle:'1–2 wks',levers:'5+',savings:'8%',realised:'75%'},
+{cycle:'1 wk',levers:'5+',savings:'10%',realised:'85%'},
+{cycle:'Days',levers:'5+',savings:'13%',realised:'92%'},
+{cycle:'Days',levers:'5+',savings:'15%',realised:'96%'},
+{cycle:'Days',levers:'5+',savings:'16%',realised:'99%'}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:'inputs',label:'Deal Input',options:['Award from Ep04','Preferred-supplier shortlist','Renewal / incumbent']},
+{key:'suite',label:'Negotiation Suite',options:['SAP Ariba','Coupa','Jaggaer','GEP SMART','Ivalua','Zycus']},
+{key:'method',label:'Lever / Method',options:['E-auction','Expressive / optimization bidding','Autonomous AI (Pactum)','Direct negotiation']},
+{key:'cost',label:'Cost Intelligence',options:['Should-cost model','Price benchmarking','Sievo analytics','None']},
+{key:'ai',label:'Intelligence / AI',options:['AI counteroffer drafting','Autonomous tail bots','Bid normalization','None']},
+{key:'people',label:'Ownership',options:['Lead negotiator + team','Sourcing CoE','Category-led','Ad hoc']}
+],
+picks:{inputs:'Award from Ep04',suite:'Coupa',method:'Expressive / optimization bidding',cost:'Should-cost model',ai:'AI counteroffer drafting',people:'Lead negotiator + team'},
+summary(){const p=this.picks;return `${p.suite} running ${p.method.toLowerCase()} on the ${p.inputs.toLowerCase()}, targeting a ${p.cost==='None'?'supplier-quoted price':p.cost.toLowerCase()}, ${p.ai==='None'?'with manual drafting':'assisted by '+p.ai.toLowerCase()}, owned by a ${p.people.toLowerCase()}.`;},
+seamNote(){
+const p=this.picks; let n=[];
+if(p.method==='Autonomous AI (Pactum)') n.push('Seam to engineer: supplier list and term boundaries from your suite into the autonomous agent, and negotiated-terms write-back into CLM.');
+if(p.method==='Expressive / optimization bidding' && p.suite!=='Coupa') n.push(`Seam to engineer: bid export from ${p.suite} into an expressive-bidding optimizer, and award write-back.`);
+if(p.cost==='None') n.push('With no should-cost model you anchor to the supplier’s opening number — the single biggest leak of negotiation value.');
+if(p.ai==='None') n.push('Without an AI layer, counteroffers and tail deals are handled by hand — cycle time and consistency lag.');
+if(p.people==='Ad hoc') n.push('No negotiation governance means price-only tunnel vision, unauthorised concessions and damaged delivery relationships.');
+if(p.inputs==='Renewal / incumbent') n.push('A renewal has a weak BATNA by default — invest in a credible alternative or a should-cost challenge to restore leverage.');
+if(!n.length) n.push('Clean pairing — few seams to engineer. Focus on realising the negotiated savings all the way through to the contract and PO.');
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:'You are about to negotiate a major contract. What single thing most determines your real leverage at the table?',
+a:['How politely you ask','Your BATNA — the credible alternative you can walk to','The supplier’s opening price','How long the meeting runs'],
+c:1, e:'Leverage comes from your best alternative to a negotiated agreement. Enter knowing your walk-away; without a BATNA you concede under pressure with nothing to fall back on.'},
+{q:'A supplier opens at a number and you start bargaining down from it. What best-practice guardrail keeps that number from framing the whole deal?',
+a:['Splitting the difference','Anchoring to an independent should-cost model of what the item should cost','Accepting the opening quote','Asking for a round-number discount'],
+c:1, e:'Letting the opening quote set the range is anchoring bias. A fact-based should-cost model gives you an independent target so the supplier’s number does not frame the negotiation.'},
+{q:'A transport award has lot splits, volume tiers and carrier capacity limits; you want the best combination of bids, not the best single lane. Which layer actually solves it?',
+a:['Pick the cheapest lane, lane by lane','L4 expressive-bidding / optimization (Keelvar / Coupa CSO)','Send another RFI','Round every bid down 5%'],
+c:1, e:'Constrained, multi-lot negotiation is an optimization problem. Expressive-bidding optimizers evaluate award combinations that line-by-line lowest-price cannot.'},
+{q:'You must renegotiate commercial terms across 4,000 low-value long-tail suppliers. What makes this feasible without an army of buyers?',
+a:['Email each one personally','L4 autonomous AI negotiation (e.g. Pactum) working within set term boundaries','Ignore the tail entirely','A single all-supplier reverse auction'],
+c:1, e:'The long tail is too large to negotiate by hand and too small to justify a buyer each. Autonomous negotiation agents work thousands of deals in parallel inside guardrails you set.'},
+{q:'Which statement matches the Codex thesis for negotiation?',
+a:['SAP Ariba alone models should-cost, optimizes complex awards and negotiates the long tail','Value is in the seams — cost modelling, expressive bidding and autonomous tail negotiation rarely all live in one tool','Lowest unit price is always the best outcome','Concession planning just slows deals down and should be skipped'],
+c:1, e:'Standalone is never enough — a strong negotiation wires the suite to should-cost intelligence, an optimizer and (for the tail) autonomous AI. The leverage is in the seams.'}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1<this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
+</body>
+</html>
