@@ -2,6 +2,12 @@
 
 A running record of the core-logic improvements made on each autonomous run. Fairness and accuracy compound with every pass. Corrections welcome via PR.
 
+## 2026-08-11 — Episode 05 (Negotiation)
+
+Published `episodes/ep05-negotiation.html`.
+
+**Rubric refinement (the core-logic improvement this cycle):** Added **Pactum** to the platform roster and introduced an explicit *AI / autonomous negotiation* scoring criterion to the L1 comparison for the negotiation step, alongside auction-event breadth, expressive/optimization bidding, should-cost modeling, non-price terms & value, and auditability. Prior rubrics had no column that isolated autonomous negotiation — it was implicitly folded into generic "AI" or omitted — which understated both tail-automation specialists (Pactum) and optimization / auction-bot specialists (Keelvar), while overstating full suites on a capability they do not truly own. Scoring autonomous long-tail negotiation as its own dimension keeps the comparison fair: the full suites (Ariba, Coupa, Jaggaer, Ivalua, GEP) now sit honestly mid-pack on it, specialists score high on their niche and low where they are not full negotiation/terms suites, and the L7 "value is in the seams" thesis is reinforced — no single tool models should-cost, optimizes a constrained multi-lot award, and negotiates thousands of tail deals.
+
 ## 2026-08-07 — Episode 04 (Supplier Evaluation & Selection)
 
 Published `episodes/ep04-supplier-evaluation-and-selection.html`.
