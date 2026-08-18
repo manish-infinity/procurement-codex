@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Procurement Codex · Ep06 — Contract Lifecycle Management (CLM)</title>
+<meta name="description" content="Negotiation captured the value; the contract is where value is protected — or quietly leaks. Author from a governed clause library, execute cleanly, then track every obligation, milestone and renewal. Layer up with mining, AI extraction, orchestration and people until standalone is never enough." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+.pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ===== Top bar ===== -->
+<header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 06</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 6 of 15</span>
+</div>
+</div>
+</header>
+
+<!-- ===== Spine navigator ===== -->
+<section class="bg-white border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="flex items-center gap-1 min-w-max text-[11px]" x-data="{ steps:['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence'], urls:['https://manish-infinity.github.io/procurement-codex/','https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html','https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html','https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html','https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html','https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html'] }">
+<template x-for="(s,i) in steps" :key="i">
+<div class="flex items-center">
+<a class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap"
+:href="urls[i] || undefined"
+:class="i===5 ? 'bg-indigo-600 text-white font-bold' : (urls[i] ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 cursor-pointer' : 'bg-slate-100 text-slate-500 pointer-events-none')">
+<span x-text="(i+1)+'. '" ></span><span x-html="s"></span>
+</a>
+<span x-show="i<14" class="text-slate-300 px-0.5">→</span>
+</div>
+</template>
+</div>
+</div>
+</section>
+
+<!-- ===== Autonomous disclaimer ribbon ===== -->
+<section class="bg-indigo-50 border-b border-indigo-100">
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
+</section>
+
+<!-- ===== Hook ===== -->
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 06 · Protecting the value</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Contract Lifecycle Management (CLM)</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Negotiation captured the value. The contract is where you <span class="font-semibold">protect it</span> — or watch it quietly leak. CLM is the discipline of turning an agreed deal into a governed, executed, living document: authored from a controlled clause library, redlined and signed cleanly, then <span class="font-semibold">actively managed</span> for its obligations, milestones, price terms and renewals across the whole lifecycle.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every platform authors, executes and stores contracts (fair A vs B vs C) → then we stack process mining, AI clause extraction, obligation intelligence, orchestration and people on top until you see why <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
+</section>
+
+<!-- ===== L0 Concept ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">The full life of a contract: <span class="font-semibold">request → author → negotiate/redline → approve → execute (sign) → store → manage obligations → renew/expire</span>. CLM governs the paper that binds the deal — its clauses, terms, risk allocation and commitments — from first draft through to renewal or exit.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because a signed contract is a promise, not an outcome. Value leaks after signature — missed obligations, silent auto-renewals, unclaimed rebates, off-contract buying, expired SLAs. CLM keeps the negotiated value alive and the risk contained for the life of the agreement.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Governed clause library · fallback playbook · fast standard-paper authoring · one searchable repository · every obligation and milestone tracked · renewal alerts ahead of time · negotiated terms flow into catalogue &amp; PO · full audit trail · legacy contracts digitised and risk-scored.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== L1 Comparison ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on"
+class="pill px-3 py-1 rounded-full border text-xs font-semibold"
+:class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'"
+x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs"
+:style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, data quality, and integration maturity.</p>
+</section>
+
+<!-- ===== L2 Best practice ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Govern the clause library</span> — pre-approved clauses with defined fallback positions let the business self-serve standard paper without a lawyer on every deal.</li>
+<li><span class="font-semibold">Manage obligations, not just documents</span> — extract and track every commitment, milestone, SLA and price term; a contract you cannot monitor is value you cannot collect.</li>
+<li><span class="font-semibold">Never miss a renewal</span> — proactive alerts before expiry and auto-renewal dates turn passive lapses into deliberate decisions.</li>
+<li><span class="font-semibold">One repository, richly tagged</span> — a single searchable source of truth with metadata beats contracts scattered across inboxes and drives.</li>
+<li><span class="font-semibold">Close the loop to buying</span> — negotiated prices and terms must flow into the catalogue and PO, or off-contract spend erodes the savings you fought for.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — contract cycle time, % authored on standard/pre-approved paper, obligations captured &amp; met, on-time renewal rate, value leakage avoided, % spend under contract.</li>
+<li><span class="font-semibold">Silent auto-renewals</span> — an unwanted contract renews itself because nobody was watching the notice window.</li>
+<li><span class="font-semibold">Obligation blindness</span> — rebates, service credits and milestones go unclaimed because they were never tracked after signature.</li>
+<li><span class="font-semibold">Repository sprawl</span> — contracts live in email and shared drives, so nobody can answer "what did we actually agree?" in an audit or dispute.</li>
+<li><span class="font-semibold">Redline drift</span> — the business signs off-standard paper with no playbook, quietly accepting risk the clause library was designed to prevent.</li>
+<li><span class="font-semibold">Value evaporation</span> — negotiated terms never reach the catalogue or PO, so buyers pay list price against an unused contract.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ===== Layer Peeler ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a plain contract and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i"
+class="px-3 py-2 rounded-lg text-xs font-bold border transition"
+:class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'"
+:style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4"
+:class="level>=i ? 'opacity-100' : 'opacity-30'"
+:style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().cycle"></div>
+<div class="text-xs text-slate-500 mt-1">Contract cycle time</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().standard"></div>
+<div class="text-xs text-slate-500 mt-1">On standard paper</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().obligations"></div>
+<div class="text-xs text-slate-500 mt-1">Obligations captured</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().leakage"></div>
+<div class="text-xs text-slate-500 mt-1">Renewal / value leakage</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===== L7 Synergy Composite ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed contract architecture — no single vendor owns all of it. The value lives in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">
+flowchart LR
+TERMS[Negotiated price plus terms<br/>from Ep05] --> AUTH[L1 CLM authoring<br/>Icertis / Ironclad clause library]
+AUTH --> SIGN[L1 Execution / e-signature<br/>DocuSign]
+AI[L4 AI clause extraction and risk<br/>Sirion · Icertis DiscoverAI] -.legacy and risk.-> AUTH
+PM[L3 Process mining<br/>Celonis / PM4Py] -.cycle lag and lapses.-> AUTH
+SIGN --> REPO[L1 Repository plus obligation engine]
+OBL[L4 Obligation and renewal intelligence] -.milestones and alerts.-> REPO
+REPO --> ORCH{L5 Orchestration to catalogue, PO, ERP}
+ORCH --> ONB[Ep07 · Supplier Onboarding and Master Data]
+GATE[L6 Legal and clause governance] -.approval and fallback.-> AUTH
+</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a CLM tool authors from a clause library, routes redlines and stores the executed document — but on its own it does not read a 50,000-contract legacy pile, it does not chase every obligation and renewal, and it does not push the negotiated price into the catalogue where buyers actually spend. AI extraction (Sirion, Icertis DiscoverAI) digitises and risk-scores legacy paper; an obligation engine tracks milestones, rebates and notice windows; e-signature (DocuSign) executes cleanly; process mining exposes approval bottlenecks and lapsed renewals; orchestration wires terms into P2P and the supplier master. <span class="font-semibold text-indigo-700">No one tool authors, extracts, tracks obligations and closes the loop to buying — the leverage is in wiring them together.</span></p>
+</section>
+
+<!-- ===== Stack Builder ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for CLM; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<!-- ===== Cheat sheet ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Contract Lifecycle Management</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Turn an agreed deal into a governed, executed, living document — authored, signed, stored, and actively managed for obligations, terms and renewals.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Cycle time · % on standard paper · obligations captured &amp; met · on-time renewal rate · value leakage avoided · % spend under contract.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">Govern the clause library · manage obligations not just documents · never miss a renewal · one tagged repository · close the loop to buying.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Icertis on enterprise obligations &amp; AI · Sirion on contract intelligence · Ironclad on authoring UX · DocuSign on e-sign workflow · Ariba/Coupa/Ivalua on S2P-native.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L3 mining finds cycle lag &amp; lapsed renewals · L4 AI extracts clauses, scores risk &amp; tracks obligations · L5 pushes terms into catalogue/PO · L6 governs clause deviation.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">No single tool authors, extracts legacy paper, tracks obligations and closes the loop to buying. Value is in the seams.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Quiz ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span> / <span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null"
+class="w-full text-left text-sm px-4 py-3 rounded-lg border transition"
+:class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))"
+x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
+</section>
+
+<footer class="border-t border-slate-200 bg-white mt-8">
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 06 — Contract Lifecycle Management (CLM)</div>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep05 · Negotiation</a>
+<a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
+<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-50 text-slate-400 font-semibold">Ep07 · Supplier Onboarding &amp; Master Data (coming next) →</span>
+</div>
+<p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
+</footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:['Authoring &amp; clause library','Redlining &amp; collaboration','Repository &amp; AI search','Obligation &amp; milestone mgmt','Risk / compliance analytics','Integration &amp; orchestration'],
+platforms:[
+{name:'Icertis', on:true, scores:[5,4,5,5,5,4], best:'Enterprise-scale obligation management and contract AI (DiscoverAI / Copilot) across buy- and sell-side', watch:'Implementation cost and complexity; heavier lift than mid-market tools'},
+{name:'Sirion', on:true, scores:[4,4,5,5,5,4], best:'AI-first contract intelligence — extraction, risk and obligation/performance tracking at depth', watch:'Authoring UX and high-volume self-service lighter than Ironclad/DocuSign'},
+{name:'DocuSign CLM', on:true, scores:[4,4,3,3,3,4], best:'E-signature-anchored workflow with broad adoption and clean execution', watch:'Advanced obligation management and deep AI analytics trail the specialists'},
+{name:'Ironclad', on:true, scores:[5,5,4,3,4,3], best:'Modern, intuitive authoring and workflow design with fast time-to-value (legal-led)', watch:'Obligation management and procurement/ERP depth lighter than Icertis/Sirion'},
+{name:'SAP Ariba Contracts', on:true, scores:[3,3,3,3,3,5], best:'Native tie into Ariba sourcing and S/4HANA — contracts inside the S2P flow', watch:'Authoring, redlining and AI weaker than dedicated CLM; clause management basic'},
+{name:'Coupa CLM(S)', on:false, scores:[3,3,3,3,3,5], best:'Unified with Coupa sourcing and P2P, with community benchmarking', watch:'Standalone CLM depth — obligations, AI extraction — trails specialists'},
+{name:'Ivalua', on:false, scores:[4,3,4,4,4,4], best:'Highly configurable contracts folded into Supplier 360 and the sourcing suite', watch:'Configuration effort; advanced AI redlining leans on partners'},
+{name:'Conga CLM', on:false, scores:[4,4,3,4,3,4], best:'Deep configurability and CPQ-to-CLM strength on the Salesforce platform', watch:'Complexity; procurement/buy-side lighter than its sell-side heritage'},
+{name:'Agiloft', on:false, scores:[4,3,3,5,4,3], best:'No-code configurability and strong obligation management at attractive TCO', watch:'UX and generative-AI polish behind newer entrants; smaller brand footprint'}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:'L0',color:getCSS('--l0'),title:'Concept',body:'A contract is a Word document emailed back and forth, signed by hand, and saved to a shared drive nobody searches.',takeaway:'No clause governance, no obligation tracking, no renewal alerts — value leaks the moment the ink dries.'},
+{tag:'L1',color:getCSS('--l1'),title:'Platform-native CLM',body:'A CLM tool authors from a clause library, routes redlines, e-signs, and stores the executed contract in a searchable repository.',takeaway:'Repeatable, governed and auditable authoring — but obligations and renewals are still tracked by hand.'},
+{tag:'L2',color:getCSS('--l2'),title:'Best practice',body:'Govern the clause library with fallbacks, track every obligation and milestone, set renewal alerts, and keep one richly tagged repository.',takeaway:'The contract becomes a managed asset — commitments are met, renewals are decisions, and audits are answerable.'},
+{tag:'L3',color:getCSS('--l3'),title:'Process mining',body:'Celonis / PM4Py read event logs to expose approval bottlenecks, contract cycle lag, and renewals that lapse before anyone acts.',takeaway:'You see where contracts stall in approval and where renewals and obligations quietly slip through the cracks.'},
+{tag:'L4',color:getCSS('--l4'),title:'Intelligence / AI',body:'AI extracts clauses and obligations from legacy paper, scores risk against the playbook, drafts redlines, and flags renewal windows automatically.',takeaway:'A 50,000-contract legacy pile becomes searchable and risk-scored; obligations surface without manual reading.'},
+{tag:'L5',color:getCSS('--l5'),title:'Orchestration',body:'Negotiated terms flow in from Ep05; the executed contract feeds the catalogue, PO and supplier master; obligations feed SRM and payment.',takeaway:'The negotiated price is actually used at the point of buying — savings survive from signature all the way to the invoice.'},
+{tag:'L6',color:getCSS('--l6'),title:'People & roles',body:'Legal and procurement share ownership; an approval matrix and clause-deviation governance control who can accept off-standard terms.',takeaway:'Governance stops redline drift, unauthorised risk acceptance and orphaned contracts nobody owns.'}
+],
+metrics(){
+const m=[
+{cycle:'Weeks+',standard:'Ad hoc',obligations:'None',leakage:'High'},
+{cycle:'2–4 wks',standard:'60%',obligations:'Manual',leakage:'Med'},
+{cycle:'1–2 wks',standard:'80%',obligations:'Tracked',leakage:'Low'},
+{cycle:'1 wk',standard:'85%',obligations:'Tracked',leakage:'Low'},
+{cycle:'Days',standard:'90%',obligations:'Auto',leakage:'V. low'},
+{cycle:'Days',standard:'93%',obligations:'Auto',leakage:'V. low'},
+{cycle:'Days',standard:'95%',obligations:'Auto+gov',leakage:'Minimal'}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:'inputs',label:'Contract Input',options:['Negotiated terms from Ep05','Renewal / amendment','Inbound third-party paper']},
+{key:'suite',label:'CLM Platform',options:['Icertis','Sirion','DocuSign CLM','Ironclad','SAP Ariba Contracts','Ivalua']},
+{key:'authoring',label:'Authoring',options:['Clause library + templates','Fallback / playbook','Third-party paper markup','Manual drafting']},
+{key:'ai',label:'Contract AI',options:['AI clause + obligation extraction','Risk scoring','GenAI redline suggestions','None']},
+{key:'exec',label:'Execution',options:['DocuSign eSignature','Adobe Acrobat Sign','Native e-sign','Wet signature']},
+{key:'people',label:'Ownership',options:['Legal + procurement ops','Contract CoE','Category-led','Ad hoc']}
+],
+picks:{inputs:'Negotiated terms from Ep05',suite:'Icertis',authoring:'Clause library + templates',ai:'AI clause + obligation extraction',exec:'DocuSign eSignature',people:'Legal + procurement ops'},
+summary(){const p=this.picks;return `${p.suite} authoring the ${p.inputs.toLowerCase()} via ${p.authoring.toLowerCase()}, ${p.ai==='None'?'with no contract AI':'assisted by '+p.ai.toLowerCase()}, executed with ${p.exec.toLowerCase()}, owned by ${p.people.toLowerCase()}.`;},
+seamNote(){
+const p=this.picks; let n=[];
+if(p.inputs==='Inbound third-party paper') n.push('Seam to engineer: AI extraction and playbook risk-scoring on inbound paper, since you cannot author it from your own clause library.');
+if(p.inputs==='Renewal / amendment') n.push('Seam to engineer: pull the prior contract and its obligation record so the amendment reflects what was actually delivered, not just the original terms.');
+if(p.exec!=='Native e-sign' && p.suite==='DocuSign CLM' && p.exec!=='DocuSign eSignature') n.push('You are running DocuSign CLM but signing elsewhere — reconnect execution to keep the audit trail in one system.');
+if(p.exec==='Wet signature') n.push('Wet signature breaks the digital audit trail and adds days — move execution to e-signature to keep cycle time and traceability.');
+if(p.ai==='None') n.push('With no contract AI, legacy paper stays dark and obligations are tracked by hand — the biggest post-signature leak.');
+if(p.suite==='SAP Ariba Contracts' && p.ai!=='None') n.push('Ariba Contracts is S2P-native but light on AI — the extraction/risk layer likely comes from a specialist, so engineer the write-back seam.');
+if(p.people==='Ad hoc') n.push('No clause-deviation governance means redline drift and unauthorised risk acceptance on off-standard paper.');
+if(!n.length) n.push('Clean pairing — few seams to engineer. Focus on obligation tracking and pushing negotiated terms into the catalogue and PO.');
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:'A contract is signed at a great negotiated price, then value quietly leaks over the next two years. Where does most post-signature leakage come from?',
+a:['The font used in the document','Untracked obligations, milestones and silent auto-renewals','Signing the contract too quickly','Storing it as a PDF instead of Word'],
+c:1, e:'A signed contract is a promise, not an outcome. Value leaks after signature through unclaimed rebates and service credits, missed milestones and auto-renewals nobody was watching — which is exactly what obligation management exists to catch.'},
+{q:'A supplier sends their own contract on their paper. Which layer most speeds a safe review?',
+a:['Sign it as-is to save time','L4 AI clause extraction with risk scoring against your playbook','Retype it into your own template by hand','Forward it to whoever is free'],
+c:1, e:'Third-party paper cannot be authored from your clause library. AI extraction pulls the clauses and scores them against your fallback playbook, so review focuses on the real deviations instead of reading every line.'},
+{q:'You have 50,000 legacy contracts as scanned PDFs and no visibility into their obligations or risk. What makes this tractable?',
+a:['Read them all manually over a year','L4 AI clause/obligation extraction (e.g. Sirion, Icertis DiscoverAI)','Delete the old ones and start fresh','Store them in a new folder structure'],
+c:1, e:'A legacy pile that large cannot be read by hand. AI extraction digitises, tags and risk-scores the back-catalogue so obligations and exposure become searchable — turning dark paper into a managed repository.'},
+{q:'A brilliant negotiated price never shows up in what buyers actually pay. Which layer fixes that?',
+a:['L5 orchestration — pushing negotiated terms into the catalogue and PO','A louder email to the buyers','Renegotiating the same deal again','Nothing — some leakage is unavoidable'],
+c:0, e:'Negotiated value only counts if it reaches the point of buying. Orchestration flows contracted prices and terms into the catalogue and PO so purchases transact on-contract instead of at list price.'},
+{q:'Which statement matches the Codex thesis for CLM?',
+a:['Icertis alone authors, digitises all legacy paper, tracks every obligation and closes the loop to buying','Value is in the seams — authoring, e-sign, AI extraction, obligation tracking and ERP integration rarely all live in one best-of-breed tool','A signed contract needs no further management','Wet signatures are best practice for auditability'],
+c:1, e:'Standalone is never enough. A strong CLM architecture wires authoring to e-signature, AI extraction, an obligation engine and P2P/ERP integration. No single tool is best at all of it — the leverage is in the seams.'}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1<this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
+</body>
+</html>
