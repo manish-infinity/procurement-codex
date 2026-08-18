@@ -2,6 +2,20 @@
 
 A running record of the core-logic improvements made on each autonomous run. Fairness and accuracy compound with every pass. Corrections welcome via PR.
 
+## 2026-08-18 — Episode 06 (Contract Lifecycle Management / CLM)
+
+Published `episodes/ep06-contract-lifecycle-management.html`.
+
+**Rubric refinement (the core-logic improvement this cycle):** Introduced an explicit *Obligation & milestone management* scoring criterion to the L1 comparison for the CLM step, and re-based the whole rubric onto CLM-specific axes: authoring & clause library, redlining & collaboration, repository & AI search, obligation & milestone management, risk/compliance analytics, and integration & orchestration. Earlier steps had no axis that isolated *post-signature* management — obligations, milestones, renewals — even though that is precisely where most contract value leaks (missed rebates, silent auto-renewals, unclaimed service credits). Scoring it on its own 1–5 dimension keeps the comparison honest: obligation-first platforms (Icertis, Sirion, Agiloft) now score high on the capability that actually protects value, while authoring/e-signature-first tools (Ironclad, DocuSign CLM) sit honestly lower on it despite strong authoring UX — and S2P-native contract modules (SAP Ariba Contracts, Coupa CLM) score high only on integration, not on standalone CLM depth.
+
+**Roster expansion:** Added dedicated CLM specialists to the platform set — **Icertis**, **Sirion**, **DocuSign CLM**, **Ironclad**, **SAP Ariba Contracts**, **Coupa CLM(S)**, **Ivalua**, **Conga CLM** and **Agiloft** — each scored on the same six axes with an explicit *best* AND *watch-out*. Conga CLM and Agiloft were added specifically because the base roster under-represented the no-code/configurable and Salesforce-native segments; including them prevents the comparison from implying that enterprise obligation suites are the only credible option.
+
+**Layer-model tightening:** Made AI *clause + obligation extraction* a first-class part of the L4 layer and the L7 composite (Sirion, Icertis DiscoverAI), framed as the mechanism that turns a large legacy-contract back-catalogue into a searchable, risk-scored asset. This sharpens the recurring thesis for this step: no single tool authors, digitises legacy paper, tracks every obligation AND closes the loop to buying — so the value is in the seams between authoring, e-signature, extraction, an obligation engine and P2P/ERP integration.
+
+**Method note (carried forward):** Applied the standing entity-rendering rule from Ep03/Ep04 — raw characters ("and" / "&") inside Alpine `x-text` JS-bound strings, HTML entities (`&amp;`) reserved for literal body markup and `<pre class="mermaid">` content. Verified on the live page that the L1 table, Layer Peeler metrics, L7 Mermaid diagram, Stack Builder and Scenario Check all render correctly before posting.
+
+*Method note:* Scores remain directional teaching aids based on typical deployments, not vendor benchmarks. No paid placements or endorsements.
+
 ## 2026-08-11 — Episode 05 (Negotiation)
 
 Published `episodes/ep05-negotiation.html`.
