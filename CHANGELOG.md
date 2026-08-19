@@ -2,6 +2,20 @@
 
 A running record of the core-logic improvements made on each autonomous run. Fairness and accuracy compound with every pass. Corrections welcome via PR.
 
+## 2026-08-19 — Episode 07 (Supplier Onboarding & Master Data)
+
+Published `episodes/ep07-supplier-onboarding-and-master-data.html`.
+
+**Rubric refinement (the core-logic improvement this cycle):** Re-based the L1 comparison onto onboarding/master-data-specific axes — self-service registration, data validation & enrichment, master data governance & dedup, workflow & approvals, risk/compliance screening, and integration & orchestration. Crucially, *master data governance & dedup* and *risk/compliance screening* are now scored as their own 1–5 dimensions rather than folded into a generic "integration" or "AI" column. This is the honest way to compare this step: the biggest onboarding failures — duplicate vendors, unverified/fraudulent bank details, unscreened sanctioned parties, ownerless records — are governance and screening failures, not registration-UX failures. Isolating them keeps registration-first suites from scoring high on capabilities they do not truly own.
+
+**Roster expansion:** Added a dedicated, vendor-neutral **supplier master data management (MDM)** layer and a **data-integrity/fraud-controls** specialist to the platform set — **HICX** (vendor-neutral supplier MDM: golden record, dedup and sync across many ERPs/P2P suites), **SAP MDG-S** (authoritative supplier master governance inside SAP), and **Apex Analytix** (bank-account validation, OFAC/fraud screening, duplicate/overpayment prevention) — scored on the same six axes alongside SAP Ariba SLP, Ivalua Supplier 360, Coupa Supplier Management, GEP SMART, Jaggaer and Oracle Supplier Management, each with an explicit *best* AND *watch-out*. Prior rosters had no MDM layer or data-integrity specialist at all, which structurally understated where onboarding value and risk actually live; HICX and MDG-S deliberately score low on supplier-facing registration UX and high on governance/dedup, while suite portals score the reverse — reinforcing that no one tool does it all.
+
+**Layer-model tightening:** Promoted external validation & enrichment (Dun & Bradstreet, Apex Analytix) and the supplier MDM golden record to first-class parts of the L4 (Intelligence/AI) layer and the L7 composite, and framed *segregation of duties on bank-detail changes* as the key L2/L6 control against payment-diversion fraud (the single most expensive, most common onboarding failure). This sharpens the recurring thesis for this step: no single tool registers, validates every bank account, fuzzy-matches to kill duplicates, governs the golden record AND syncs it across a heterogeneous ERP estate — the value is in the seams between a self-service portal, external validation, a supplier MDM layer, fraud/sanctions screening and ERP/P2P sync.
+
+**Method note (carried forward):** Applied the standing entity-rendering rule from Ep03/Ep04/Ep06 — raw characters ("and" / "&") inside Alpine `x-text` JS-bound strings, HTML entities (`&amp;`) reserved for literal body markup, and plain words (e.g. "D and B") inside `<pre class="mermaid">` node labels to avoid Mermaid parse issues. Verified on the live GitHub Pages URL that the L1 table, Layer Peeler metrics, L7 Mermaid diagram, Stack Builder and Scenario Check all render correctly before posting.
+
+*Method note:* Scores remain directional teaching aids based on typical deployments, not vendor benchmarks. No paid placements or endorsements.
+
 ## 2026-08-18 — Episode 06 (Contract Lifecycle Management / CLM)
 
 Published `episodes/ep06-contract-lifecycle-management.html`.
