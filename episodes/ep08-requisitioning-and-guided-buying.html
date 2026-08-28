@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Procurement Codex · Ep08 — Requisitioning &amp; Guided Buying</title>
+<meta name="description" content="Every strategy you built upstream is cashed in — or thrown away — at the moment an employee decides how to buy. Requisitioning captures the demand; guided buying steers it to the right channel, contract and supplier. Layer up with mining, AI, orchestration and enablement until standalone is never enough." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
+.pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ===== Top bar ===== -->
+<header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 08</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 8 of 15</span>
+</div>
+</div>
+</header>
+
+<!-- ===== Spine navigator ===== -->
+<section class="bg-white border-b border-slate-200">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="flex items-center gap-1 min-w-max text-[11px]" x-data="{ steps:['Intake &amp; Need','Spend &amp; Category','Sourcing / RFx','Evaluate &amp; Select','Negotiation','Contract (CLM)','Onboarding &amp; Master Data','Requisition / Guided Buy','PO Management','Receipt','Invoice &amp; 3-way Match','Payment','Supplier Performance','Risk / ESG','Spend Intelligence'], urls:['https://manish-infinity.github.io/procurement-codex/','https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html','https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html','https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html','https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html','https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html','https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html','https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html'] }">
+<template x-for="(s,i) in steps" :key="i">
+<div class="flex items-center">
+<a class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap"
+:href="urls[i] || undefined"
+:class="i===7 ? 'bg-indigo-600 text-white font-bold' : (urls[i] ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 cursor-pointer' : 'bg-slate-100 text-slate-500 pointer-events-none')">
+<span x-text="(i+1)+'. '" ></span><span x-html="s"></span>
+</a>
+<span x-show="i<14" class="text-slate-300 px-0.5">→</span>
+</div>
+</template>
+</div>
+</div>
+</section>
+
+<!-- ===== Autonomous disclaimer ribbon ===== -->
+<section class="bg-indigo-50 border-b border-indigo-100">
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
+</section>
+
+<!-- ===== Hook ===== -->
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 08 · Where strategy meets the employee</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Requisitioning &amp; Guided Buying</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Seven episodes of strategy — categories, sourcing events, negotiated rates, signed contracts, clean supplier records — are all <span class="font-semibold">cashed in or thrown away in the thirty seconds</span> an employee spends deciding how to buy something. Requisitioning captures that demand as a structured, approvable request. Guided buying steers it, before the money moves, to the right channel, the right contract and the right supplier.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every platform presents catalogs, steers policy and approves requests (fair A vs B vs C) → then we stack process mining, AI assistance, orchestration and enablement on top until you see why <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
+</section>
+
+<!-- ===== L0 Concept ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">The path from "I need something" to "an approved requisition ready to become a PO": <span class="font-semibold">describe the need → get steered to the right buying channel → pick from catalog, punchout or a non-catalog form → budget and policy checks → approvals → approved requisition</span>. Guided buying is the steering layer that makes the compliant path also the easiest path.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because value negotiated upstream only lands if people actually buy through it. When buying is confusing, employees route around it — a credit card, a supplier they know, a contract nobody reads. That is maverick spend: the negotiated price is real, but nobody used it. Guided buying converts strategy into realised savings at the point of demand.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">One front door for any request · search that spans catalogs, punchout and contracts · policy steering by category and value · smart forms for non-catalog and services · budget and contract checks before approval · risk-tiered approval chains, not blanket ones · mobile and self-service · a clean handoff into PO management.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== L1 Comparison ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on"
+class="pill px-3 py-1 rounded-full border text-xs font-semibold"
+:class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'"
+x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs"
+:style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, catalog enablement, and integration maturity.</p>
+</section>
+
+<!-- ===== L2 Best practice ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Make the compliant path the easiest path</span> — adoption is a UX problem before it is a policy problem. If the fastest route to a laptop is the catalog, nobody needs a policy memo.</li>
+<li><span class="font-semibold">One front door, many back ends</span> — the employee should describe a need in one place; the system decides whether it becomes a catalog line, a punchout basket, a services request or a sourcing event.</li>
+<li><span class="font-semibold">Steer by category and value, not by blanket rules</span> — a box of cables and a two-year consulting engagement should not travel the same path or collect the same approvals.</li>
+<li><span class="font-semibold">Check budget, contract and supplier status before approval</span>, not after — a requisition that clears approvals then dies at PO or invoice has wasted everyone's time and destroyed trust in the process.</li>
+<li><span class="font-semibold">Approvals should be risk-tiered and few</span> — every extra approver adds days and dilutes accountability. Auto-approve the low-risk long tail and reserve human judgement for what matters.</li>
+<li><span class="font-semibold">Design for the tail</span> — most spend value is in a few requisitions, but most requisition volume is low-value tail. Guided buying is judged on how well it handles the tail.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — requisition cycle time, on-catalog / on-contract rate, maverick spend %, first-time-right requisition rate, touchless (auto-approved) rate, average approvers per requisition, requester satisfaction, catalog coverage of addressable spend.</li>
+<li><span class="font-semibold">Maverick spend</span> — the negotiated contract exists and nobody buys through it, so realised savings never match the sourcing business case.</li>
+<li><span class="font-semibold">Approval sprawl</span> — six approvers on a low-value request, each rubber-stamping; cycle time balloons and nobody is really accountable.</li>
+<li><span class="font-semibold">Stale or thin catalogs</span> — prices and items drift out of date, so requesters lose trust in the catalog and go back to free-text and email.</li>
+<li><span class="font-semibold">Free-text everything</span> — requesters bypass catalogs with vague descriptions, which breaks spend classification, kills reporting and pushes rework downstream into PO and invoice.</li>
+<li><span class="font-semibold">Rekeyed services buying</span> — statements of work handled outside the system, so committed spend is invisible until an invoice arrives.</li>
+<li><span class="font-semibold">Shadow intake</span> — real requests arrive by email, chat and hallway conversation, so the system never sees the demand it was meant to steer.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ===== Layer Peeler ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a plain requisition form and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i"
+class="px-3 py-2 rounded-lg text-xs font-bold border transition"
+:class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'"
+:style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4"
+:class="level>=i ? 'opacity-100' : 'opacity-30'"
+:style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().cycle"></div>
+<div class="text-xs text-slate-500 mt-1">Requisition cycle time</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().onc"></div>
+<div class="text-xs text-slate-500 mt-1">On-contract buying</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().mav"></div>
+<div class="text-xs text-slate-500 mt-1">Maverick spend</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().touch"></div>
+<div class="text-xs text-slate-500 mt-1">Touchless approvals</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ===== L7 Synergy Composite ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed requisitioning and guided-buying architecture — no single vendor owns all of it. The value lives in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">
+flowchart LR
+NEED[Employee need<br/>any channel, any words] --> INTAKE[L5 Intake front door<br/>Zip / ORO / Pivot / Levelpath]
+INTAKE --> STEER{L4 Guided steering<br/>category, value, contract}
+STEER --> CAT[L1 Catalog and punchout<br/>Coupa / Ariba Buying / Oracle SSP]
+STEER --> SOW[L1 Non-catalog and services form]
+STEER --> SRC[Back to Ep03 Sourcing<br/>if no contract exists]
+CONTRACT[Ep06 contracted price<br/>and terms] -.price and terms.-> CAT
+SUPP[Ep07 golden supplier record] -.payable supplier.-> CAT
+CAT --> APPR[L2 and L6 Budget, policy<br/>and risk-tiered approvals]
+SOW --> APPR
+PM[L3 Process mining<br/>Celonis / Signavio / PM4Py] -.approval drag and rework.-> APPR
+APPR --> PO[Ep09 · Purchase Order Management]
+</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a P2P buying module shows a catalog and collects approvals — but on its own it does not capture the request that arrived as a Slack message, it does not decide whether this need should even become a requisition or a sourcing event, and it does not tell you where approvals actually stall. An intake and orchestration layer (Zip, ORO, Pivot, Levelpath) becomes the single front door across systems; the P2P suite remains the transaction engine for catalogs, punchout and requisition-to-PO; contract data from Ep06 supplies the price and terms, the golden supplier record from Ep07 makes the supplier payable, and process mining exposes the approval drag nobody can see from inside the workflow. <span class="font-semibold text-indigo-700">No one tool captures every request, steers it intelligently, transacts it and proves where it stalled — the leverage is in wiring them together.</span></p>
+</section>
+
+<!-- ===== Stack Builder ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for requisitioning &amp; guided buying; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<!-- ===== Cheat sheet ===== -->
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Requisitioning &amp; Guided Buying</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Capture the employee's need as a structured request and steer it — before money moves — to the right channel, contract and supplier.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Requisition cycle time · on-contract rate · maverick spend % · touchless approval rate · approvers per requisition · first-time-right requisitions · requester satisfaction.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">Compliant path is the easiest path · one front door · steer by category and value · check budget and contract before approval · risk-tier the approvals · design for the tail.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Coupa on buying UX and adoption · Ariba Buying on catalog and network depth · Oracle SSP inside the Oracle estate · Zip / ORO / Pivot / Levelpath on intake and orchestration across systems.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L3 mining exposes approval drag and rework loops · L4 assists search, classification and policy steering · L5 gives one intake front door across systems · L6 enablement, buying desk and approval design.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">No single tool captures every request, steers it, transacts it and proves where it stalled. Value is in the seams.</p>
+</div>
+</div>
+</section>
+
+<!-- ===== Quiz ===== -->
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span> / <span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null"
+class="w-full text-left text-sm px-4 py-3 rounded-lg border transition"
+:class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))"
+x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1&lt;questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
+</section>
+
+<footer class="border-t border-slate-200 bg-white mt-8">
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 08 — Requisitioning &amp; Guided Buying</div>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+<a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep07 · Supplier Onboarding &amp; Master Data</a>
+<a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
+<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-50 text-slate-400 font-semibold">Ep09 · Purchase Order Management (coming next) →</span>
+</div>
+<p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
+</footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:['Buying UX and search','Guided policy steering','Catalog and punchout coverage','Non-catalog and services intake','Approval workflow and controls','Integration and orchestration'],
+platforms:[
+{name:'Coupa', on:true, scores:[5,4,4,3,4,4], best:'Consumer-grade unified search across catalogs, punchout and contracts, which drives the adoption that guided buying lives or dies on', watch:'Intake for complex non-catalog and services asks is lighter than dedicated intake tools; approval logic can sprawl if it is not designed and pruned deliberately'},
+{name:'SAP Ariba Buying', on:true, scores:[3,4,5,3,4,5], best:'Deepest catalog, punchout and Ariba Network supplier breadth, with tight requisition-to-PO into S/4HANA', watch:'Buying UX is dense by default and adoption suffers without guided buying configured well or an intake layer on top; heavy configuration effort'},
+{name:'Zip', on:true, scores:[5,5,2,5,4,5], best:'Purpose-built intake front door that catches any request in plain language and routes it to the right process, approvers and systems across a fragmented stack', watch:'It is an intake and orchestration layer, not a catalog or transaction engine — you still need a P2P suite or ERP underneath to actually buy'},
+{name:'Oracle Fusion SSP', on:true, scores:[4,4,4,4,4,4], best:'Native self-service procurement inside the Oracle estate, with smart forms and approval rules sharing the same data model as the ERP', watch:'Strongest inside Oracle; steering across a multi-ERP or multi-suite estate needs real integration engineering'},
+{name:'Ivalua', on:true, scores:[4,4,4,4,5,4], best:'Highly configurable buying and approval model on one platform, so guided-buying rules can be tailored precisely to category and value', watch:'That configurability is effort — time-to-value is slower than turnkey tools, and over-configuration can recreate the complexity you were removing'},
+{name:'GEP SMART', on:false, scores:[4,4,4,4,4,4], best:'Unified S2P with guided buying plus managed catalog and content services, which keeps catalogs fresh without a large internal team', watch:'Intake orchestration across non-GEP systems is lighter than dedicated intake specialists'},
+{name:'ORO Labs', on:false, scores:[4,5,2,5,4,5], best:'Orchestration-first intake that composes buying journeys across existing systems without ripping out the P2P suite', watch:'A workflow and orchestration layer only — no catalogs, no PO engine, and value depends on the quality of the systems it orchestrates'},
+{name:'Levelpath', on:false, scores:[5,4,2,5,3,4], best:'Mobile-first, AI-led intake designed so an employee can start a request in natural language from anywhere', watch:'Young category entrant; needs a P2P or ERP transaction engine underneath, and deep catalog and approval depth is still maturing'},
+{name:'Jaggaer', on:false, scores:[3,3,5,3,4,4], best:'Very strong catalog and marketplace buying for direct, scientific and higher-education categories with a large supplier network', watch:'Buying UX and guided-steering depth vary across modules; less polished for indirect tail buying'},
+{name:'Microsoft D365 Procurement', on:false, scores:[3,3,3,3,4,4], best:'Requisitioning native to the D365 finance and operations estate, familiar to Microsoft-centric organisations and cheap to extend with Power Platform', watch:'Guided buying and catalog content management are basic against dedicated S2P suites; most deployments bolt on a buying layer'}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:'L0',color:getCSS('--l0'),title:'Concept',body:'An employee emails procurement asking for something, or just buys it on a card and claims it back later.',takeaway:'No steering, no contract check, no visibility — the negotiated price exists on paper and nobody uses it.'},
+{tag:'L1',color:getCSS('--l1'),title:'Platform-native buying',body:'A P2P buying module offers catalogs, punchout and a requisition form with an approval workflow feeding the ERP.',takeaway:'Structured, auditable requisitions — but only for the requests that find their way into the tool, and only for what the catalog covers.'},
+{tag:'L2',color:getCSS('--l2'),title:'Best practice',body:'Steer by category and value, check budget and contract before approval, risk-tier approvals, and enable the tail with real catalog coverage.',takeaway:'On-contract buying rises and cycle time falls because the compliant path is finally the fastest one.'},
+{tag:'L3',color:getCSS('--l3'),title:'Process mining',body:'Celonis, SAP Signavio or PM4Py read the event log to show where requisitions actually stall, which approvers add days without adding judgement, and where rework loops repeat.',takeaway:'Approval drag becomes visible and specific, so you prune the right steps instead of guessing at the process.'},
+{tag:'L4',color:getCSS('--l4'),title:'Intelligence / AI',body:'Natural-language search understands what the requester means, auto-classifies the category, suggests the contracted supplier and item, and auto-approves the low-risk tail against policy.',takeaway:'Requesters describe a need instead of navigating a taxonomy, and the routine majority clears without a human touching it.'},
+{tag:'L5',color:getCSS('--l5'),title:'Orchestration',body:'An intake layer becomes the single front door across chat, portal and mobile, then routes each request to catalog, services form, sourcing or legal — pulling contract data from Ep06 and the supplier record from Ep07.',takeaway:'Shadow intake collapses: every request enters one place and leaves through the right process with the right data attached.'},
+{tag:'L6',color:getCSS('--l6'),title:'People and roles',body:'A buying desk supports hard requests, category managers own catalog coverage and policy, and approval design is governed rather than accumulated.',takeaway:'Adoption is actively enabled instead of assumed, and approval chains stay short because someone owns pruning them.'}
+],
+metrics(){
+const m=[
+{cycle:'Days–wks',onc:'Low',mav:'High',touch:'0%'},
+{cycle:'4–6 days',onc:'55%',mav:'25%',touch:'10%'},
+{cycle:'2–3 days',onc:'70%',mav:'15%',touch:'25%'},
+{cycle:'2 days',onc:'75%',mav:'12%',touch:'35%'},
+{cycle:'<1 day',onc:'85%',mav:'8%',touch:'60%'},
+{cycle:'Hours',onc:'90%',mav:'5%',touch:'70%'},
+{cycle:'Hours',onc:'93%',mav:'3%',touch:'75%'}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:'trigger',label:'Demand Type',options:['Catalog item / low value tail','Non-catalog goods','Services or SOW','Recurring / renewal']},
+{key:'intake',label:'Intake Front Door',options:['Zip','ORO Labs','Levelpath','Pivot','Suite-native only','Email to procurement']},
+{key:'suite',label:'Buying Platform',options:['Coupa','SAP Ariba Buying','Oracle Fusion SSP','Ivalua','GEP SMART','Jaggaer','Microsoft D365 Procurement']},
+{key:'content',label:'Catalog Content',options:['Hosted catalog','Punchout to supplier','Contract-priced form','No catalog coverage']},
+{key:'mining',label:'Process Insight',options:['Celonis','SAP Signavio','PM4Py (open source)','None']},
+{key:'people',label:'Enablement',options:['Buying desk + category owners','Category-led only','Shared services','Ad hoc']}
+],
+picks:{trigger:'Catalog item / low value tail',intake:'Zip',suite:'Coupa',content:'Hosted catalog',mining:'Celonis',people:'Buying desk + category owners'},
+summary(){const p=this.picks;return `${p.intake==='Email to procurement'?'Email':p.intake} as the front door for ${p.trigger.toLowerCase()}, transacted in ${p.suite} against ${p.content.toLowerCase()}, ${p.mining==='None'?'with no process visibility':'measured by '+p.mining}, enabled by ${p.people.toLowerCase()}.`;},
+seamNote(){
+const p=this.picks; let n=[];
+if(p.intake==='Email to procurement') n.push('Seam to engineer: email intake means demand is invisible until someone re-keys it — you cannot steer a request the system never sees, and shadow intake is the root cause of most maverick spend.');
+if(p.intake==='Suite-native only') n.push('Suite-native intake only catches requests from people who already know to open the suite; requests that start in chat, email or a hallway still leak. Consider a front door that spans channels.');
+if(['Zip','ORO Labs','Levelpath','Pivot'].includes(p.intake)) n.push('An intake layer steers and routes but does not transact — engineer the seam into '+p.suite+' carefully so approved requests carry category, contract and supplier data through to the PO without re-keying.');
+if(p.content==='No catalog coverage') n.push('With no catalog coverage the requester writes free text, which breaks spend classification and guarantees rework at PO and invoice. Catalog or contract-priced forms are what make guided buying actually guide.');
+if(p.trigger==='Services or SOW' && p.content==='Hosted catalog') n.push('Services and SOWs do not fit a hosted catalog — they need a rate-card or contract-priced form, or committed spend stays invisible until the invoice arrives.');
+if(p.trigger==='Recurring / renewal' && p.intake==='Suite-native only') n.push('Renewals rarely start as a requisition; without an intake layer watching contract expiry from Ep06, they arrive as a surprise with no time to negotiate.');
+if(p.mining==='None') n.push('Without process insight, approval drag is invisible — you will add approvers to fix problems that more approvers caused.');
+if(p.mining==='PM4Py (open source)') n.push('PM4Py is free and capable, but you own the data pipeline and the visualisation — budget engineering time rather than licence cost.');
+if(p.people==='Ad hoc') n.push('No buying desk and no owned catalog coverage means adoption is left to chance; guided buying is an enablement programme, not just a configuration.');
+if(!n.length) n.push('Clean pairing — few seams to engineer. Focus on carrying contract price from Ep06 and the golden supplier record from Ep07 into the requisition so the PO in Ep09 inherits clean, matchable data.');
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:'Sourcing negotiated a 12% saving on laptops, but a year later realised savings are near zero and most laptops were bought elsewhere. What failed?',
+a:['The negotiation was bad and the price was never real','Guided buying — the contracted channel was not the easiest path, so demand leaked to maverick spend','Finance measured the savings wrongly','The supplier refused to honour the price'],
+c:1, e:'This is the defining failure of step 8. Upstream value is only realised at the moment of buying. If the contracted route is slower or harder to find than a credit card, employees route around it and the negotiated price stays theoretical. Guided buying exists to convert strategy into realised savings.'},
+{q:'Low-value requisitions take six days and pass through five approvers who almost never reject anything. What is the right first move?',
+a:['Add a sixth approver from finance for tighter control','Use L3 process mining to show which approval steps add days without adding judgement, then risk-tier and prune them','Tell approvers to respond faster','Raise the threshold so procurement approves everything centrally'],
+c:1, e:'Approval sprawl is diagnosed, not guessed at. Process mining reads the event log and shows exactly which steps consume days and never change an outcome. You then risk-tier: auto-approve the low-risk tail against policy and reserve human approval for genuine judgement. More approvers dilute accountability rather than adding control.'},
+{q:'Half of all real requests arrive as Slack messages and emails to a procurement inbox and never enter the buying tool. Which layer addresses the root cause?',
+a:['L5 orchestration — one intake front door that captures requests from any channel and routes them to the right process','Ban Slack requests by policy','Train employees again on the buying portal','Hire more people to re-key the emails'],
+c:0, e:'Shadow intake means the system never sees the demand it was meant to steer, so no amount of in-tool configuration helps. An intake and orchestration layer meets requesters where they already are, captures the need in plain language, and routes it — to a catalog, a services form, sourcing or legal — with the data attached.'},
+{q:'A requisition clears all approvals, then dies at PO because the budget was exhausted and the supplier was not fully onboarded. What principle was violated?',
+a:['Approvals should always be sequential rather than parallel','Check budget, contract and supplier status before approval, not after','Requesters should have checked the budget themselves','Non-catalog requests should never be allowed'],
+c:1, e:'Validating late wastes the requester\'s time, the approvers\' time and the credibility of the whole process. Budget, contract coverage and supplier status — the golden record from Ep07 — should be checked as the requisition is formed so failures surface in seconds, not after a week of approvals.'},
+{q:'An intake tool such as Zip or ORO is added on top of an existing P2P suite. What is the realistic expectation?',
+a:['The P2P suite can now be switched off, since intake replaces it','Intake becomes the steering and routing front door while the suite remains the catalog and transaction engine — the seam between them is the work','Intake removes the need for catalogs and contracts','Nothing changes unless the ERP is also replaced'],
+c:1, e:'Intake layers steer and route; they do not host catalogs, cut POs or run three-way match. The value comes from wiring them to the suite so an approved request carries category, contract and supplier data straight into the requisition and PO without re-keying. That seam is where the benefit is won or lost.'},
+{q:'Which statement matches the Codex thesis for requisitioning and guided buying?',
+a:['Coupa alone captures every request from every channel, steers it, transacts it and proves where it stalled','Value is in the seams — intake, steering, catalog transaction, contract and supplier data, and process visibility rarely all live best-in-class in one tool','Once catalogs exist, guided buying needs no further governance','Email intake is the most flexible way to capture demand'],
+c:1, e:'Standalone is never enough. A strong architecture wires a cross-channel intake front door to a P2P transaction engine, feeds it contract price from Ep06 and the golden supplier record from Ep07, and instruments it with process mining. No single tool is best at all of it — the leverage is in the seams.'}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
+</body>
+</html>
