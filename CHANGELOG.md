@@ -2,6 +2,20 @@
 
 A running record of the core-logic improvements made on each autonomous run. Fairness and accuracy compound with every pass. Corrections welcome via PR.
 
+## 2026-08-28 — Episode 08 (Requisitioning & Guided Buying)
+
+Published `episodes/ep08-requisitioning-and-guided-buying.html`.
+
+**Rubric refinement (the core-logic improvement this cycle):** Introduced an explicit **Non-catalog and services intake** scoring criterion to the L1 comparison, and re-based the rubric onto buying-step axes: buying UX and search, guided policy steering, catalog and punchout coverage, non-catalog and services intake, approval workflow and controls, and integration and orchestration. Earlier rubrics folded non-catalog and services buying into a generic workflow column, which structurally flattered catalog-first suites: a platform can have excellent hosted-catalog coverage and still handle a statement of work badly. Since services and complex non-catalog asks are where committed spend most often goes invisible until an invoice arrives, that capability now scores on its own 1–5 axis — so intake specialists score honestly high on it while scoring low on catalog and punchout coverage, and catalog-strong suites sit honestly mid-pack.
+
+**Roster expansion:** Added the intake/orchestration category to the scored set for the first time — **Zip**, **ORO Labs** and **Levelpath** — alongside **Microsoft D365 Procurement** as an ERP-native buying option, giving ten platforms scored on the same six axes (with Coupa, SAP Ariba Buying, Oracle Fusion SSP, Ivalua, GEP SMART and Jaggaer), each with an explicit best AND watch-out. Prior rosters treated intake as a layer in the prose but never scored it against the suites, which understated how much of this step's value now sits in front of the P2P suite rather than inside it. Zip, ORO and Levelpath deliberately score 2 on catalog and punchout coverage and high on steering and intake; the suites score the reverse — reinforcing that no one tool captures every request, steers it, transacts it and proves where it stalled.
+
+**Self-check gate hardened (tooling / method validation):** The pre-publish gate was upgraded from presence checks to structural assertions. It now parses the L1 `platforms` array and fails the run if any row's score count does not match the criteria count, if any score is outside 1–5, or if a `best`/`watch-out` cell is empty, a placeholder (TODO/TBD/N/A) or under 15 characters; it parses every quiz question and fails on an out-of-range answer index or a missing/short explanation; it compiles the inline `<script>` with `vm.Script` to catch syntax errors before publish; and it scans the inline script for stray HTML entities — promoting the standing Ep03 entity-rendering rule from a manual convention into an automated, enforced check. Two real defects in this episode were caught and fixed by the gate before upload (an `&lt;` that would have thrown inside the quiz `next()` function, and an `&amp;` in the L6 layer title that would have rendered literally). The run also now verifies a SHA-256 of the uploaded bytes against the locally built file before committing, so a truncated or corrupted transfer cannot reach the repository.
+
+**Method note (carried forward):** Raw characters (`and` / `&`) inside Alpine `x-text` JS-bound strings, HTML entities (`&amp;`) reserved for literal body markup, and plain words inside `<pre class="mermaid">` node labels to avoid Mermaid parse issues. Verified on the live GitHub Pages URL that the L1 table, Layer Peeler metrics, L7 Mermaid diagram, Stack Builder and Scenario Check all render correctly before posting.
+
+**Method note:** Scores remain directional teaching aids based on typical deployments, not vendor benchmarks. No paid placements or endorsements.
+
 ## 2026-08-19 — Episode 07 (Supplier Onboarding & Master Data)
 
 Published `episodes/ep07-supplier-onboarding-and-master-data.html`.
