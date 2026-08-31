@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Procurement Codex · Ep10 — Goods &amp; Service Receipt (coming soon)</title>
+<meta name="description" content="Proof that what was ordered actually arrived. Receipting is the quietest step and the most common reason three-way match fails downstream." />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+.spine-node{transition:all .2s ease}
+.pill{font-size:.7rem;letter-spacing:.02em}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
+      <div>
+        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+      </div>
+    </div>
+    <div class="hidden sm:flex items-center gap-2 text-xs">
+      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 10</span>
+      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 10 of 15</span>
+    </div>
+  </div>
+</header>
+
+<section class="bg-white border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="flex items-center gap-1 min-w-max text-[11px]">
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-indigo-50 border-b border-indigo-100">
+  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+    <span class="mt-0.5">⚙️</span>
+    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
+  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 10 · Coming soon</p>
+  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Goods &amp; Service Receipt</h1>
+  <p class="mt-4 text-slate-600 max-w-3xl text-lg">Proof that what was ordered actually arrived. Receipting is the quietest step and the most common reason three-way match fails downstream.</p>
+  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
+    Not published yet — this step is step 10 of 15 on the spine, released in order.
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
+    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
+    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
+      <li>Goods receipt vs. service entry sheets</li>
+      <li>Mobile and self-service receipting</li>
+      <li>Receipt accuracy as the root cause of match failure</li>
+      <li>Accrual quality at period end</li>
+    </ul>
+    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
+  </div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
+  <div class="mt-3 flex flex-wrap gap-2">
+    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
+    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
+    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
+    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
+    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
+    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
+    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
+    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
+  </div>
+</section>
+
+<footer class="border-t border-slate-200 bg-white mt-8">
+  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+    <div class="font-bold text-slate-700">The Procurement Codex · Episode 10 — Goods &amp; Service Receipt</div>
+<div class="mt-3 flex flex-wrap items-center gap-3">
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep09 · PO Management</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep11 · Invoice & 3-way Match (coming soon) →</a>
+    </div>
+    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+  </div>
+</footer>
+</body>
+</html>
