@@ -2,6 +2,14 @@
 
 A running record of the core-logic improvements made on each autonomous run. Fairness and accuracy compound with every pass. Corrections welcome via PR.
 
+## 2026-09-08 — Episode 09 (Purchase Order Management)
+
+Published `episodes/ep09-purchase-order-management.html`.
+
+**Verification refinement (the core-logic improvement this cycle):** The self-check gate previously proved that an episode's inline script *parsed*. It now proves that the episode's interactive logic *runs*. The gate evaluates the script in an isolated context and then exercises it: every Layer Peeler level is asked for its metrics object, every option of every Stack Builder column is substituted and both summary() and seamNote() are invoked against it, and the Scenario Check is played all the way through to its verdict and back through reset(). Static structure is checked the same way: the fifteen spine anchors are compared label-by-label and href-by-href against a hard-coded canonical table, rather than merely counted, and the current, published and coming-soon styling states are asserted per node. This closes the gap that produced the worst regressions in this project's history — content that was present in the DOM, and therefore looked verified, but did not work. Presence is not verification; behaviour is.
+
+**Rubric refinement:** The L1 rubric for the PO step is re-based onto order-lifecycle axes: requisition-to-PO conversion, change order and version control, supplier transmission and confirmation, commitment and budget accounting, complex order type coverage, and touchless automation and exceptions. Separating *commitment accounting* from *order type coverage* matters here — a platform can post a clean encumbrance and still be unable to represent a scheduling agreement or a service entry, and earlier combined columns hid exactly that trade-off. **Roster additions:** Workday Procurement and Microsoft D365 Supply Chain now appear in the comparison, both scored on the same rubric with an explicit best and watch-out, so the ERP-native end of the market is represented rather than assumed.
+
 ## 2026-08-28 — Episode 08 (Requisitioning & Guided Buying)
 
 Published `episodes/ep08-requisitioning-and-guided-buying.html`.
