@@ -3,112 +3,475 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Procurement Codex · Ep09 — Purchase Order Management (coming soon)</title>
-<meta name="description" content="The PO is the control point of the whole cycle: it converts an approved requisition into a commitment, encumbers budget, and becomes the document every receipt and invoice is matched against." />
-<meta name="codex-status" content="stub" />
+<title>The Procurement Codex · Ep09 — Purchase Order Management</title>
+<meta name="description" content="The purchase order is the moment intent becomes commitment — and the last moment it can be corrected cheaply. Ep09 takes the PO from a document someone emails to a confirmed, version-controlled, accounted commitment across ERP, network, mining and orchestration layers, until standalone is never enough." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
 html{scroll-behavior:smooth}
 body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-.spine-node{transition:all .2s ease}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
 .pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
-      <div>
-        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
-        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
-      </div>
-    </div>
-    <div class="hidden sm:flex items-center gap-2 text-xs">
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 09</span>
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 9 of 15</span>
-    </div>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 09</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 9 of 15</span>
+</div>
+</div>
 </header>
 
 <section class="bg-white border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
 <div class="flex items-center gap-1 min-w-max text-[11px]">
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
-    </div>
-  </div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
+</div>
+</div>
 </section>
 
 <section class="bg-indigo-50 border-b border-indigo-100">
-  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
-    <span class="mt-0.5">⚙️</span>
-    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
-  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 09 · Coming soon</p>
-  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Purchase Order Management</h1>
-  <p class="mt-4 text-slate-600 max-w-3xl text-lg">The PO is the control point of the whole cycle: it converts an approved requisition into a commitment, encumbers budget, and becomes the document every receipt and invoice is matched against.</p>
-  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
-    Not published yet — this step is step 9 of 15 on the spine, released in order.
-  </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-6">
-  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
-    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
-    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-      <li>How POs are issued, changed and closed across suites</li>
-      <li>Commitment accounting and budget encumbrance</li>
-      <li>PO exceptions, amendments and rework loops</li>
-      <li>Touchless PO rates and what actually drives them</li>
-    </ul>
-    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 09 · Where intent becomes commitment</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Purchase Order Management</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Eight episodes of demand, strategy and steering converge on a single artefact. The purchase order is the first moment the organisation makes a <span class="font-semibold">legally and financially binding commitment</span> — and the last moment that commitment can be corrected cheaply. Almost everything receipt, matching and payment can do downstream is decided by the quality of the PO.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every major platform handles it → best practice → process mining, AI, orchestration and ownership, stacked until <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-6">
-  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
-  <div class="mt-3 flex flex-wrap gap-2">
-    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
-  </div>
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">The purchase order is two things at once: the instruction the buyer sends the supplier, and the commitment the buyer books against a budget. It converts an approved requisition into a numbered, priced, dated, accounted document that says <span class="font-semibold">buy this, at this price, on these terms, deliver here by then</span>. Everything downstream matches back to it.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because an organisation cannot control what it has not counted. With no PO there is no commitment posted against budget, no agreed price to match an invoice against, no delivery date to chase, and no evidence the spend was ever authorised. The PO is what turns an intention into an accountable obligation with a number on it.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Most approved requisitions become POs with no human touch. Orders reach suppliers machine-readably and come back confirmed on price, quantity and date. Changes are versioned and re-approved rather than quietly edited. Open POs are closed on a schedule, so commitments and accruals mean something at period end.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on" class="pill px-3 py-1 rounded-full border text-xs font-semibold" :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'" x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs" :style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, order-type scope, and integration maturity.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Convert, never re-key</span> — the PO should inherit category, contract price, supplier record and account coding from the requisition. Anything typed twice will eventually differ.</li>
+<li><span class="font-semibold">Transmit machine-readably</span> — cXML, EDI or a supplier portal beats a PDF attached to an email. An order the supplier re-types is a mismatch waiting to happen at invoice.</li>
+<li><span class="font-semibold">Insist on order confirmation</span> — an unconfirmed PO is a hope, not a delivery date. Confirmation is the cheapest early-warning signal in the entire cycle.</li>
+<li><span class="font-semibold">Version every change</span> — price, quantity and date changes belong in a new PO version with its own approval, not an untracked edit to the original.</li>
+<li><span class="font-semibold">Match the PO type to the buy</span> — standard, blanket, scheduling agreement and service-entry constructs exist for a reason. Forcing everything into a standard PO manufactures the change orders you then complain about.</li>
+<li><span class="font-semibold">Close what is finished</span> — open POs with no remaining activity distort commitments, accruals and supplier scorecards. Closure needs a named owner and a cadence.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — touchless PO rate, requisition-to-PO cycle time, change orders per PO, order confirmation rate, first-time three-way match rate, open PO ageing.</li>
+<li><span class="font-semibold">Retro POs</span> — the order is raised after the invoice arrives, purely to give finance something to pay against. Every control the PO exists to provide has already been bypassed.</li>
+<li><span class="font-semibold">Change-order churn</span> — the same PO amended three times because the requisition was vague. Each amendment costs a cycle, a re-approval and a supplier phone call.</li>
+<li><span class="font-semibold">PDF-by-email orders</span> — no structured data, no confirmation event, no proof of receipt, and re-keying errors that only surface at invoice.</li>
+<li><span class="font-semibold">Open PO backlog</span> — thousands of orders left open long after delivery, quietly inflating commitments and hiding accrual risk from finance.</li>
+<li><span class="font-semibold">Wrong PO type</span> — services bought on a goods PO with no service entry, so receipt becomes guesswork and three-way match cannot succeed.</li>
+<li><span class="font-semibold">Silent price drift</span> — the PO carries a price the contract no longer holds, because nothing re-checked the agreement from Ep06 at the moment of conversion.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a plain purchase order and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i" class="px-3 py-2 rounded-lg text-xs font-bold border transition" :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'" :style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4" :class="level>=i ? 'opacity-100' : 'opacity-30'" :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().cycle"></div>
+<div class="text-xs text-slate-500 mt-1">Requisition-to-PO time</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().touch"></div>
+<div class="text-xs text-slate-500 mt-1">Touchless PO rate</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().chg"></div>
+<div class="text-xs text-slate-500 mt-1">Change-order rate</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().conf"></div>
+<div class="text-xs text-slate-500 mt-1">Orders confirmed</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed purchase order architecture is never one product. Here is the composite, and where the value actually lives — in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">flowchart LR
+REQ[Ep08 approved requisition] --> CONV[L1 PO conversion<br/>Ariba and S4HANA / Oracle / Coupa]
+CONTRACT[Ep06 contract price and terms] -.price and terms.-> CONV
+SUPP[Ep07 golden supplier record] -.remit-to and tax data.-> CONV
+CONV --> COMMIT[L1 Commitment posted<br/>ERP budget and encumbrance]
+CONV --> SEND[L5 Transmission<br/>cXML / EDI / portal / email]
+SEND --> CONF[L2 Order confirmation<br/>price, quantity and date agreed]
+CONF --> CHG{L5 Change order<br/>versioned and re-approved}
+PM[L3 Process mining<br/>Celonis / Signavio / Apromore] -.change loops and rework.-> CHG
+AI[L4 Prediction<br/>late delivery and match risk] -.ranked exceptions.-> CONF
+OWN[L6 Named buyer and closure owner] -.challenge and close.-> CHG
+CHG --> GR[Ep10 · Goods and Service Receipt]
+COMMIT -.accrual and matching basis.-> GR</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a PO module produces a document. <span class="font-semibold text-indigo-700">Wired to Ep06 for price and terms, Ep07 for a payable supplier record, a supplier network for transmission and confirmation, process mining for the truth about change orders, and orchestration for exception routing, it produces a commitment the business can actually rely on.</span> No single vendor is strongest at all of those layers — which is exactly why the leverage sits in the seams, and why somebody has to own them.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for purchase order management; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Purchase Order Management</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Turn an approved requisition into a numbered, priced, accounted commitment; send it to the supplier machine-readably; get it confirmed; control every change by version; close it when it is done.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Touchless PO rate · requisition-to-PO cycle time · change orders per PO · order confirmation rate · first-time three-way match rate · open PO ageing.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">If your purchase order cannot be matched automatically to an invoice, it was never really a purchase order — it was a document.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">ERP-native engines win on commitment accounting and complex order types; S2P suites win on usability and touchless conversion; supplier networks win on transmission and confirmation reach.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L0 emailed order → L1 PO engine → L2 discipline → L3 mining → L4 prediction → L5 orchestration → L6 named ownership → L7 composite.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">Standalone is never enough. A PO only becomes a control when contract, supplier record, network, insight and ownership are wired into it.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span>/<span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null" class="w-full text-left text-sm px-4 py-3 rounded-lg border transition" :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))" x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
 </section>
 
 <footer class="border-t border-slate-200 bg-white mt-8">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
-    <div class="font-bold text-slate-700">The Procurement Codex · Episode 09 — Purchase Order Management</div>
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 09 — Purchase Order Management</div>
 <div class="mt-3 flex flex-wrap items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep08 · Requisition / Guided Buy</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep08 · Requisition &amp; Guided Buy</a>
       <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep10 · Receipt (coming soon) →</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep10 · Goods &amp; Service Receipt (coming soon) →</a>
     </div>
-    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
-    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
-    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
-  </div>
+<p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
 </footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:['Requisition-to-PO conversion','Change order and version control','Supplier transmission and confirmation','Commitment and budget accounting','Complex order type coverage','Touchless automation and exceptions'],
+platforms:[
+{name:'SAP Ariba Buying + S/4HANA', on:true, scores:[4,4,5,5,5,4], best:'Requisition-to-PO straight into S/4HANA with real commitment and encumbrance accounting, plus the widest transmission reach through SAP Business Network including structured order confirmation', watch:'The split between the buying front end and the S/4HANA backend means PO versions and change orders must stay in sync across two systems, and integration debt shows up at exactly that seam first'},
+{name:'Oracle Fusion Procurement', on:true, scores:[4,4,4,5,4,4], best:'One data model from requisition through PO to payables, so budgetary control, encumbrance and commitment reporting are native rather than reconciled after the fact', watch:'Strongest when the wider estate is Oracle; heterogeneous landscapes need genuine integration work and the buying experience trails the intake-first challengers'},
+{name:'Coupa', on:true, scores:[5,4,4,4,3,5], best:'Fast, clean requisition-to-PO flow with high touchless conversion rates and a change-order experience business users can actually operate without training', watch:'Complex constructs such as scheduling agreements and multi-year service releases are thinner than ERP-native procurement, and commitment accounting quality depends on how well the ERP interface was built'},
+{name:'Ivalua', on:true, scores:[4,5,4,4,5,4], best:'Highly configurable PO and change-order model that can be shaped to unusual order types and approval rules without leaving the platform or forking the process', watch:'That configurability is also the risk: bespoke PO logic accumulates, and every upgrade or process change costs more than it would on a standardised flow'},
+{name:'GEP SMART', on:true, scores:[4,4,3,4,4,4], best:'Unified source-to-pay data model means the PO carries category, contract and sourcing context forward without anyone re-keying it at conversion', watch:'Supplier-side order transmission and confirmation reach is smaller than SAP Business Network, so a longer tail of suppliers ends up on email or portal fallback'},
+{name:'Jaggaer', on:false, scores:[4,3,4,3,4,3], best:'Strong in complex, science-led and public-sector ordering where multi-line research orders, grants and detailed catalog structures need careful handling', watch:'Change-order handling and commitment integration vary by module and by the ERP connector chosen, so touchless rates depend heavily on implementation quality'},
+{name:'Workday Procurement', on:false, scores:[4,3,3,5,3,3], best:'Procurement, finance and worker data share one system of record, so budget checks and commitment postings on a PO are immediate and trustworthy', watch:'Order-type breadth and supplier network reach are narrower than dedicated S2P suites, and goods-heavy manufacturing ordering is not the design centre'},
+{name:'Microsoft D365 Supply Chain', on:false, scores:[3,4,3,4,5,3], best:'Native purchase order engine with genuinely strong blanket agreements, release schedules and manufacturing order flows inside the D365 estate', watch:'Indirect and services PO experience is basic, and guided change management usually needs a Power Platform or partner layer built on top to be usable'}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:'L0',color:getCSS('--l0'),title:'Concept',body:'Someone emails the supplier or types the order into a supplier portal, and the company discovers what it committed to when the invoice turns up.',takeaway:'No commitment posted, no audit trail, nothing to match against — every control in Ep10, Ep11 and Ep12 is already broken before it starts.'},
+{tag:'L1',color:getCSS('--l1'),title:'Platform-native PO',body:'The approved requisition converts into a numbered purchase order with lines, prices, account coding and delivery dates, and the ERP posts a commitment against budget.',takeaway:'The order is now a financial and legal record — but only as accurate as the requisition behind it, and only as visible as the transmission channel allows.'},
+{tag:'L2',color:getCSS('--l2'),title:'Best practice',body:'Convert automatically where the data is clean, transmit machine-readably, require order confirmation, control changes by version, and close finished POs on a cadence.',takeaway:'Touchless rates rise, confirmation closes the loop before goods move, and the open PO backlog stops hiding accrual risk from finance.'},
+{tag:'L3',color:getCSS('--l3'),title:'Process mining',body:'Event logs from the PO object expose change-order loops, late confirmations, price and quantity rework, and the specific approval steps that generate the rework.',takeaway:'You stop debating whether change orders are a problem and start seeing which category, buyer and supplier combinations create them.'},
+{tag:'L4',color:getCSS('--l4'),title:'Intelligence and AI',body:'Models predict late delivery, flag PO lines likely to fail three-way match, propose account assignment, and classify free-text lines against the category taxonomy.',takeaway:'Exceptions get triaged before they become invoice disputes, and buyers work a ranked queue instead of a flat inbox sorted by age.'},
+{tag:'L5',color:getCSS('--l5'),title:'Orchestration',body:'A workflow layer routes change requests, supplier confirmations and exceptions across the buying platform, the ERP and the supplier channel with one status view.',takeaway:'The PO stops being a document inside one system and becomes a tracked commitment across every system that touches it.'},
+{tag:'L6',color:getCSS('--l6'),title:'People and roles',body:'Ownership is explicit: the buyer owns the order, the requester owns the need, the category owner owns the terms, and PO closure is a named person with a cadence.',takeaway:'Open POs actually get closed, change orders get challenged rather than rubber-stamped, and accrual quality stops being a quarter-end surprise.'}
+],
+metrics(){
+const m=[
+{cycle:'Days-wks',touch:'0%',chg:'Unknown',conf:'0%'},
+{cycle:'2-4 days',touch:'25%',chg:'22%',conf:'20%'},
+{cycle:'1-2 days',touch:'55%',chg:'15%',conf:'55%'},
+{cycle:'1 day',touch:'65%',chg:'11%',conf:'65%'},
+{cycle:'<1 day',touch:'78%',chg:'8%',conf:'78%'},
+{cycle:'Hours',touch:'88%',chg:'6%',conf:'88%'},
+{cycle:'Hours',touch:'92%',chg:'4%',conf:'93%'}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:'ordertype',label:'Order Type',options:['Standard goods PO','Services or SOW release','Blanket or call-off','Scheduling agreement','Emergency or retro order']},
+{key:'engine',label:'PO Engine',options:['SAP Ariba Buying + S/4HANA','Oracle Fusion Procurement','Coupa','Ivalua','GEP SMART','Jaggaer','Workday Procurement','Microsoft D365 Supply Chain']},
+{key:'channel',label:'Supplier Channel',options:['SAP Business Network cXML','EDI','Supplier portal','Email PDF','Phone or ad hoc']},
+{key:'change',label:'Change Control',options:['Versioned change orders','Cancel and reissue','Manual edit, no version','No change process']},
+{key:'mining',label:'Process Insight',options:['Celonis','SAP Signavio','Apromore (open source)','PM4Py (open source)','None']},
+{key:'people',label:'Ownership',options:['Named buyer plus PO closure owner','Buying desk only','Shared services','Ad hoc']}
+],
+picks:{ordertype:'Standard goods PO',engine:'SAP Ariba Buying + S/4HANA',channel:'SAP Business Network cXML',change:'Versioned change orders',mining:'Celonis',people:'Named buyer plus PO closure owner'},
+summary(){const p=this.picks;
+return p.ordertype+' raised in '+p.engine
++', transmitted by '+p.channel.toLowerCase()
++', '+(p.change==='No change process' ? 'with no formal change control' : 'controlled by '+p.change.toLowerCase())
++', '+(p.mining==='None' ? 'with no process visibility' : 'measured by '+p.mining)
++', owned by '+p.people.toLowerCase()+'.';},
+seamNote(){
+const p=this.picks; let n=[];
+if(p.channel==='Email PDF') n.push('A PDF order gives the supplier nothing to import and gives you no confirmation event. Every price, quantity or date disagreement then surfaces at the invoice in Ep11, where it is most expensive to resolve.');
+if(p.channel==='Phone or ad hoc') n.push('Ad hoc ordering means there is no commitment record at the moment of commitment. Expect retro POs, broken accruals and a three-way match that can never be automated.');
+if(p.channel==='Supplier portal') n.push('A portal moves the re-keying burden onto the supplier rather than removing it. Useful for the tail, but structured cXML or EDI is what makes confirmation and matching reliable at volume.');
+if(p.change==='Manual edit, no version') n.push('Editing a PO in place destroys the audit trail. Nobody can prove what was agreed and when, so matching disputes become one persons word against another.');
+if(p.change==='No change process') n.push('With no change process the amendment still happens, informally, and reappears as an invoice exception. Version control is far cheaper than dispute resolution.');
+if(p.change==='Cancel and reissue') n.push('Cancel and reissue works but breaks continuity: commitment history, supplier confirmation and receipt data all restart, which makes cycle time and change-rate metrics unreadable.');
+if(p.ordertype==='Services or SOW release' && p.channel==='EDI') n.push('EDI is built for goods flows. Service releases usually need a service entry or milestone construct instead, or receipt in Ep10 becomes a matter of opinion.');
+if(p.ordertype==='Emergency or retro order') n.push('Retro orders are not an order type, they are a control failure being normalised. Track them as an exception KPI and fix the intake path in Ep08 rather than building a smooth retro process.');
+if(p.ordertype==='Scheduling agreement' && ['Coupa','Workday Procurement','GEP SMART'].includes(p.engine)) n.push('Scheduling agreements and release schedules are ERP-native constructs. On an indirect-first platform expect to hold that logic in the ERP and engineer the seam deliberately.');
+if(p.engine==='SAP Ariba Buying + S/4HANA') n.push('Split-system architectures need the change-order path defined explicitly. Decide which system is master for PO versions before go-live, not after the first dispute.');
+if(p.mining==='None') n.push('Without process insight, change-order churn stays anecdotal. You will keep adding approval steps to fix what is actually an upstream data quality problem.');
+if(p.mining==='PM4Py (open source)' || p.mining==='Apromore (open source)') n.push('Open-source mining removes licence cost but not effort: you own the event log extraction from the PO object and the visualisation layer, so budget engineering time instead.');
+if(p.people==='Ad hoc') n.push('With nobody named for PO closure, open orders accumulate and accruals drift. Closure is a job with a cadence, not a background process that happens by itself.');
+if(!n.length) n.push('Clean pairing — few seams to engineer. Focus on carrying contract price from Ep06 and the golden supplier record from Ep07 into the PO, so receipt in Ep10 and matching in Ep11 inherit data that already agrees.');
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:'An invoice arrives for 48,000 of consultancy. Nobody can find a purchase order, so a buyer raises one dated last week so finance can pay it. What has actually happened?',
+a:['A minor administrative shortcut with no real consequence','A retro PO — the commitment, budget check and price control the PO exists to enforce were all bypassed, and the match is now theatre','The supplier is at fault for invoicing without an order number','Nothing, because three-way match will still catch any error'],
+c:1, e:'Retro POs invert the control. A purchase order is meant to authorise and commit spend before it happens; raised after the invoice it proves only that someone needed a number to pay against. The real fix lives upstream in Ep08 intake and guided buying, not at the PO desk.'},
+{q:'One category has a 34% change-order rate — a third of its POs are amended at least once. Where should you look first?',
+a:['The suppliers, who keep changing their prices','The PO approval workflow, which is too permissive','The requisition and contract data feeding conversion — vague specifications and stale contract prices produce amendments downstream','The ERP, which is creating duplicate PO versions'],
+c:2, e:'Change orders are usually a symptom of upstream data rather than of the PO step itself. If the requisition carries a vague description, or the contract price from Ep06 is not re-checked at the moment of conversion, the amendment is baked in before the PO exists. Process mining at L3 shows which category, buyer and supplier combinations generate the loops.'},
+{q:'Which capability most directly improves the first-time three-way match rate you will measure in Ep11?',
+a:['Adding another approver to the PO workflow','Structured PO transmission with supplier order confirmation, so price, quantity and date are agreed before goods move','Raising the matching tolerance limits in the ERP','Sending the PO as a PDF with clearer formatting'],
+c:1, e:'Match failures are mostly disagreements about price, quantity or date that nobody detected until the invoice arrived. Confirmation forces that disagreement to surface days earlier, while it is still cheap to fix. Raising tolerances hides the problem, and extra approvers add cycle time without adding accuracy.'},
+{q:'You are buying a two-year managed service with monthly deliverables. Which PO construct is appropriate?',
+a:['A standard goods PO for the full contract value','A fresh PO raised by the requester each month','A blanket or service order with service entry against a rate card or milestone schedule','No PO at all — services should be invoiced against the contract directly'],
+c:2, e:'Services need a construct where the commitment is booked once and consumption is recorded progressively. A standard goods PO cannot represent partial service delivery, monthly POs destroy the commitment picture, and no PO at all removes the matching basis entirely. This is precisely where ERP-native order types earn their licence cost.'},
+{q:'Which architecture best reflects the Codex thesis for purchase order management?',
+a:['One S2P suite handling conversion, transmission, change control and analytics, because a single vendor removes integration risk','The ERP alone, since commitment accounting is the only thing that really matters','A buying platform for conversion, an ERP for commitment accounting, a supplier network for transmission and confirmation, mining for change-order truth and orchestration for exceptions — with the seams deliberately engineered','Emailed POs with a strong manual review step before sending'],
+c:2, e:'Standalone is never enough. Each layer here has a different natural owner: usability belongs to the buying platform, commitment accounting to the ERP, reach to the supplier network, truth to process mining, and routing to orchestration. Single-vendor simplicity is real, but it is bought by accepting the weakest layer. The value is in the seams — and in whether anyone is accountable for them.'}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
 </body>
 </html>
