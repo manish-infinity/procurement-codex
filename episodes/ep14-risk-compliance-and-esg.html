@@ -435,7 +435,7 @@ rules:[
 fallback:"Clean pairing — few seams to engineer. Focus on screening against the verified legal entity from Ep07 rather than the supplier name, and on making findings a genuine gate in Ep03 and Ep07 rather than a report.",
 summary(){const p=this.picks;
 const parts=this.columns.map(function(c){
-const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+const v=c.lower ? p[c.key].split(' ').map(function(w){return /[A-Z]{2,}/.test(w) ? w : w.toLowerCase();}).join(' ') : p[c.key];
 return c.phrase.split('%s').join(v);
 });
 return parts.join(', ')+'.';},

@@ -435,7 +435,7 @@ rules:[
 fallback:"Clean pairing — few seams to engineer. Focus on shortening the Ep11 exception cycle so invoices are approved while the discount window is still open, and on keeping bank detail changes verifiable against the Ep07 golden record.",
 summary(){const p=this.picks;
 const parts=this.columns.map(function(c){
-const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+const v=c.lower ? p[c.key].split(' ').map(function(w){return /[A-Z]{2,}/.test(w) ? w : w.toLowerCase();}).join(' ') : p[c.key];
 return c.phrase.split('%s').join(v);
 });
 return parts.join(', ')+'.';},

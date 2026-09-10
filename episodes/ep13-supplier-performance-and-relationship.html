@@ -437,7 +437,7 @@ rules:[
 fallback:"Clean pairing — few seams to engineer. Focus on feeding the scorecard from Ep09 to Ep12 transactional data and mapping criteria to the obligations in Ep06, so the review is about performance rather than about the numbers.",
 summary(){const p=this.picks;
 const parts=this.columns.map(function(c){
-const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+const v=c.lower ? p[c.key].split(' ').map(function(w){return /[A-Z]{2,}/.test(w) ? w : w.toLowerCase();}).join(' ') : p[c.key];
 return c.phrase.split('%s').join(v);
 });
 return parts.join(', ')+'.';},

@@ -437,7 +437,7 @@ rules:[
 fallback:"Clean pairing — few seams to engineer. Focus on raising structured capture share and feeding exception reason codes back into Ep08 and Ep09, because the exception population shrinks upstream, never here.",
 summary(){const p=this.picks;
 const parts=this.columns.map(function(c){
-const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+const v=c.lower ? p[c.key].split(' ').map(function(w){return /[A-Z]{2,}/.test(w) ? w : w.toLowerCase();}).join(' ') : p[c.key];
 return c.phrase.split('%s').join(v);
 });
 return parts.join(', ')+'.';},
