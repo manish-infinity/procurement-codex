@@ -3,112 +3,483 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Procurement Codex · Ep12 — Payment &amp; Working Capital (coming soon)</title>
-<meta name="description" content="Paying the right supplier, on the right terms, at the right moment — without leaking early-payment discounts or starving working capital." />
-<meta name="codex-status" content="stub" />
+<title>The Procurement Codex · Ep12 — Payment &amp; Working Capital</title>
+<meta name="description" content="Payment is the only step in the spine that moves cash, which makes it the only step where process quality converts directly into working capital. Ep12 covers payment execution, fraud controls, dynamic discounting and supply chain finance across ERP, network and orchestration layers, until standalone is never enough." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
 html{scroll-behavior:smooth}
 body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-.spine-node{transition:all .2s ease}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
 .pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
-      <div>
-        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
-        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
-      </div>
-    </div>
-    <div class="hidden sm:flex items-center gap-2 text-xs">
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 12</span>
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 12 of 15</span>
-    </div>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 12</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 12 of 15</span>
+</div>
+</div>
 </header>
 
 <section class="bg-white border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
 <div class="flex items-center gap-1 min-w-max text-[11px]">
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
-    </div>
-  </div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">15. Spend Intelligence</a></div>
+</div>
+</div>
 </section>
 
 <section class="bg-indigo-50 border-b border-indigo-100">
-  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
-    <span class="mt-0.5">⚙️</span>
-    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
-  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 12 · Coming soon</p>
-  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Payment &amp; Working Capital</h1>
-  <p class="mt-4 text-slate-600 max-w-3xl text-lg">Paying the right supplier, on the right terms, at the right moment — without leaking early-payment discounts or starving working capital.</p>
-  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
-    Not published yet — this step is step 12 of 15 on the spine, released in order.
-  </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-6">
-  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
-    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
-    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-      <li>Payment terms, methods and timing</li>
-      <li>Early-payment discounts and dynamic discounting</li>
-      <li>Supply chain finance trade-offs</li>
-      <li>Fraud controls at the payment run</li>
-    </ul>
-    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 12 · Where the process finally costs or earns money</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Payment &amp; Working Capital</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Eleven steps of governance end in one irreversible act. Payment is where terms negotiated in Ep05 either materialise or evaporate, where a fraudulent bank change becomes an unrecoverable loss, and where <span class="font-semibold">the speed of everything upstream turns into the price of money</span>.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every major platform handles it → best practice → process mining, AI, orchestration and ownership, stacked until <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-6">
-  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
-  <div class="mt-3 flex flex-wrap gap-2">
-    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
-  </div>
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">Payment is the execution of the approved liability: selecting invoices due, applying terms, running the payment proposal, releasing funds through a bank or payment provider, and reconciling what settled. Working capital management is the deliberate use of that timing — <span class="font-semibold">terms, early payment discounts and third-party funding</span> — to trade cash against cost for both sides of the relationship.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because the payment run is the last control point before money leaves and the only one that cannot be reversed by a correcting journal. It is also the largest single lever most organisations hold over working capital: days payable outstanding, discount capture and supplier financial health are all decided here rather than in treasury spreadsheets.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Payment runs are scheduled, exception-free and reconciled automatically. Bank detail changes require out-of-band verification and cannot be made by the same person who releases the run. Terms are honoured, so on-time payment is high. Early payment is offered where it is genuinely cheaper than the alternative, and suppliers can see when they will be paid without calling anyone.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on" class="pill px-3 py-1 rounded-full border text-xs font-semibold" :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'" x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs" :style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, scope, and integration maturity.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Pay on the terms you agreed</span> — unilaterally stretching payment is a transfer of financing cost onto the supplier, and it is repriced into the next negotiation in Ep05 with interest.</li>
+<li><span class="font-semibold">Separate the duties that matter</span> — the person who changes a bank detail, the person who approves the run and the person who releases it should never be the same person, in any organisation of any size.</li>
+<li><span class="font-semibold">Verify bank changes out of band</span> — a bank detail change requested by email must be confirmed on a previously known phone number. This one control prevents the most common and most expensive fraud in the cycle.</li>
+<li><span class="font-semibold">Make early payment an economic choice</span> — a discount is only worth taking if the implied return beats the alternative use of that cash. Sliding-scale dynamic discounting makes that calculable per invoice rather than a blanket policy.</li>
+<li><span class="font-semibold">Give suppliers visibility instead of a phone call</span> — a supplier who can see the scheduled payment date does not chase, and chasing is a cost to both sides that produces nothing.</li>
+<li><span class="font-semibold">Design funding to be genuinely optional</span> — supply chain finance should widen supplier choice. If it is introduced alongside an imposed extension of terms, it is a cost transfer wearing a liquidity costume, and it will be seen that way.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — on-time payment rate, days payable outstanding against agreed terms, early payment discount capture rate, payment exception and rejection rate, duplicate payment recovery, supplier enquiries about payment status.</li>
+<li><span class="font-semibold">Payment fraud</span> — a changed bank detail on a real supplier record, approved because it arrived on plausible letterhead during a busy period. The loss is usually unrecoverable.</li>
+<li><span class="font-semibold">Silent terms stretching</span> — a policy of paying late that never appears in any contract, degrades supplier goodwill and reappears as price in the next negotiation.</li>
+<li><span class="font-semibold">Discounts left on the table</span> — early payment terms negotiated in Ep05 that nobody ever captures because the invoice was still an exception on the discount date.</li>
+<li><span class="font-semibold">Duplicate payments</span> — the same liability paid twice through two channels, typically found months later by a recovery audit that charges a share of what it finds.</li>
+<li><span class="font-semibold">Reconciliation drift</span> — payment runs that do not reconcile cleanly to the bank, leaving a suspense account that hides both errors and losses.</li>
+<li><span class="font-semibold">Suppliers financing you unknowingly</span> — extended terms plus late payment on top, which pushes the cost of your working capital onto the smallest firms in your base.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a manual bank transfer and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i" class="px-3 py-2 rounded-lg text-xs font-bold border transition" :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'" :style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4" :class="level>=i ? 'opacity-100' : 'opacity-30'" :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().a"></div>
+<div class="text-xs text-slate-500 mt-1">On-time payment</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().b"></div>
+<div class="text-xs text-slate-500 mt-1">Discount capture</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().c"></div>
+<div class="text-xs text-slate-500 mt-1">Payment exceptions</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().d"></div>
+<div class="text-xs text-slate-500 mt-1">Fraud attempts caught</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed payment architecture is never one product. Here is the composite, and where the value actually lives — in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">flowchart LR
+INV[Ep11 matched and posted invoice] --> DUE[L1 Payment proposal<br/>terms, due date and currency]
+SUPP[Ep07 golden supplier record<br/>verified bank details] -.remit-to.-> DUE
+DUE --> CTRL{L2 and L6 Controls<br/>segregation, dual release, out-of-band bank check}
+FRAUD[L4 Fraud and anomaly detection<br/>new bank, new payee, odd amount] -.risk score.-> CTRL
+CTRL --> RUN[L1 Payment run<br/>S4HANA / Oracle / D365 / Coupa Pay]
+RUN --> BANK[L5 Bank and payment rails<br/>ACH, SEPA, wire, virtual card]
+DISC[L4 Dynamic discounting<br/>sliding-scale early payment] -.cheaper than the alternative.-> DUE
+SCF[L5 Supply chain finance<br/>third-party funded, supplier opt-in] -.supplier liquidity.-> BANK
+PM[L3 Process mining<br/>Celonis / Signavio] -.late payment root cause.-> CTRL
+BANK --> REC[L1 Reconciliation and cash forecast]
+REC --> SPM[Ep13 · Supplier Performance and Relationship]</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a payment module moves money. <span class="font-semibold text-indigo-700">Wired to Ep07 for verified bank details, Ep11 for a clean approved liability, fraud analytics for the anomalies a human would never spot in a run of nine thousand lines, funding programmes for the suppliers who want cash sooner, and mining for why payments are actually late, it becomes a working capital instrument rather than an administrative task.</span> No single vendor leads on ERP payment controls, funding reach and supplier experience at once — and here the seams are measured in basis points.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for payment and working capital; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Payment &amp; Working Capital</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Pay the right supplier, the right amount, on the agreed date, through a controlled and reconciled run — and decide deliberately when paying earlier is worth more than holding the cash.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">On-time payment rate · DPO versus agreed terms · discount capture · payment exceptions · duplicate payments · supplier payment enquiries.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">If a bank detail can be changed and paid in the same week by the same team, no amount of upstream governance matters.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">ERPs win on payment controls, tax and reconciliation; networks and payment layers win on supplier experience and funding reach; analytics wins on fraud and discount decisions.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L0 manual transfer → L1 payment run → L2 controls and terms discipline → L3 mining → L4 fraud and discount intelligence → L5 funding and rails orchestration → L6 segregation of duties → L7 composite.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">Standalone is never enough. Payment becomes working capital only when supplier data, matched liability, controls, funding and analytics are wired together.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span>/<span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null" class="w-full text-left text-sm px-4 py-3 rounded-lg border transition" :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))" x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
 </section>
 
 <footer class="border-t border-slate-200 bg-white mt-8">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
-    <div class="font-bold text-slate-700">The Procurement Codex · Episode 12 — Payment &amp; Working Capital</div>
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 12 — Payment &amp; Working Capital</div>
 <div class="mt-3 flex flex-wrap items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep11 · Invoice & 3-way Match</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep11 · Invoice &amp; 3-way Match</a>
       <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep13 · Supplier Performance (coming soon) →</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep13 · Supplier Performance →</a>
     </div>
-    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
-    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
-    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
-  </div>
+<p class="mt-3">One step of the source-to-pay spine. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
 </footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:["Payment run execution and controls","Fraud and bank detail protection","Early payment and discounting","Third-party funding reach","Cash forecasting visibility","Supplier payment experience"],
+platforms:[
+{name:"SAP S/4HANA + Taulia", on:true, scores:[5,4,5,5,5,4], best:"ERP-native payment controls and reconciliation combined with an owned working capital platform, so dynamic discounting and supply chain finance can be offered against the same invoice data that was matched in the ERP", watch:"Realising the working capital side depends on supplier onboarding to the funding programme, which is a commercial and relationship exercise rather than a technical one and is frequently under-resourced"},
+{name:"Coupa Pay", on:true, scores:[4,4,4,4,4,5], best:"Payment presented as a continuation of the buying experience, with virtual cards, digital cheques and a supplier-facing view of when they will be paid, which measurably reduces payment status enquiries", watch:"Country and rail coverage is narrower than an ERP plus bank estate, and treasury teams often keep the ERP as the payment system of record, leaving two places where payment status is authoritative"},
+{name:"Basware", on:true, scores:[4,4,4,3,4,4], best:"Strong controls at the point where invoice becomes payable, with mature duplicate detection and audit-grade traceability across a wide capture footprint", watch:"Funding programmes are partner-delivered rather than first-party, so discount and finance economics depend on which funder relationship you land, and the ERP still executes the run in most designs"},
+{name:"Oracle Fusion Payments", on:true, scores:[5,4,4,3,5,4], best:"Payment, payables, tax and cash management in one data model, giving genuinely reliable cash forecasting and clean reconciliation without an interface in the middle", watch:"Working capital programmes generally require third-party funders and integration effort, and the supplier-facing payment experience is functional rather than a differentiator"},
+{name:"Tradeshift", on:true, scores:[3,3,4,4,3,5], best:"Supplier-first model with embedded financing options and free onboarding, which is an effective way to extend liquidity choice deep into a long tail of small suppliers", watch:"Payment execution and controls remain with the ERP or bank, and organisations should weigh platform and vendor stability alongside functionality when financing is intermediated"},
+{name:"Microsoft D365 Supply Chain", on:false, scores:[4,3,3,2,4,3], best:"Native payment processing inside the Microsoft finance estate with straightforward extension through Power Platform for organisation-specific approval and control patterns", watch:"Dynamic discounting and supply chain finance are not native and require partner solutions; supplier-facing payment visibility is minimal without an added portal layer"},
+{name:"GEP SMART", on:false, scores:[4,4,4,3,4,4], best:"Payment context carries the full contract and sourcing history, so terms compliance can be measured against what was actually negotiated rather than what was keyed into the supplier master", watch:"Funding reach relies on partners and the payment system of record usually remains the ERP, so this is an orchestration and visibility layer rather than an execution engine"},
+{name:"Ivalua", on:false, scores:[4,4,4,3,4,4], best:"Highly configurable payment and discount workflows that can encode complex, country-specific or category-specific terms policies without bespoke development", watch:"Execution and bank connectivity sit with the ERP and treasury stack, and heavy configuration raises the long-run cost of change on a process where controls must stay demonstrably intact"}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:"L0",color:getCSS("--l0"),title:"Concept",body:"Someone gets an approved invoice, logs into the bank and makes a transfer, then files the confirmation.",takeaway:"No segregation of duties, no reconciliation and no terms discipline. This is the shape of almost every payment fraud loss ever recorded."},
+{tag:"L1",color:getCSS("--l1"),title:"Platform-native payment",body:"The ERP generates a payment proposal from posted invoices, applies terms and currency, and produces a bank file for release.",takeaway:"Execution is controlled and reconcilable — but the timing is whatever the terms field says, and nobody is asking whether that timing is optimal or even honest."},
+{tag:"L2",color:getCSS("--l2"),title:"Best practice",body:"Runs are scheduled and exception-free, duties are segregated, bank changes are verified out of band, terms are honoured, and suppliers can see their payment date.",takeaway:"On-time payment rises, fraud exposure narrows to attempts rather than losses, and payment status enquiries largely disappear."},
+{tag:"L3",color:getCSS("--l3"),title:"Process mining",body:"Event logs show why payments are actually late — usually an exception upstream in Ep11 or a receipt gap in Ep10, not the payment run itself.",takeaway:"Late payment stops being blamed on treasury and gets traced to the specific upstream step that consumed the days."},
+{tag:"L4",color:getCSS("--l4"),title:"Intelligence and AI",body:"Anomaly models flag new payees, changed bank details, unusual amounts and duplicate liabilities; discount engines price early payment per invoice against the cost of cash.",takeaway:"The two things humans cannot do at scale — spotting one wrong line in nine thousand, and pricing thousands of small timing decisions — get done."},
+{tag:"L5",color:getCSS("--l5"),title:"Orchestration",body:"Payment rails, virtual cards, funder platforms and supplier opt-in flows are coordinated so each invoice can settle through whichever route the two parties actually chose.",takeaway:"Suppliers gain real liquidity choice and the buyer holds terms, which is the only version of this that survives contact with a supplier relationship."},
+{tag:"L6",color:getCSS("--l6"),title:"People and roles",body:"Master data change, payment approval and payment release sit with three different people, and out-of-band verification of bank changes is a named responsibility with evidence.",takeaway:"The control that actually stops payment fraud is organisational, not technical, and it is the one most often quietly dropped under time pressure."}
+],
+metrics(){
+const m=[
+{"a":"55%","b":"0%","c":"High","d":"None"},
+{"a":"72%","b":"8%","c":"12%","d":"Few"},
+{"a":"88%","b":"25%","c":"6%","d":"Most"},
+{"a":"91%","b":"32%","c":"4%","d":"Most"},
+{"a":"95%","b":"48%","c":"2%","d":"Nearly all"},
+{"a":"97%","b":"62%","c":"1%","d":"Nearly all"},
+{"a":"98%","b":"70%","c":"0.5%","d":"Nearly all"}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:"method",label:"Payment Method",options:["ACH or SEPA batch","Wire transfer","Virtual card","Cheque","Manual bank portal entry"],phrase:"Paid by %s",lower:true},
+{key:"engine",label:"Payment Engine",options:["SAP S/4HANA + Taulia","Oracle Fusion Payments","Coupa Pay","Basware","Tradeshift","Microsoft D365 Supply Chain","GEP SMART","Ivalua"],phrase:"executed in %s",lower:false},
+{key:"terms",label:"Terms Approach",options:["Pay on agreed terms","Dynamic discounting offered","Supply chain finance, supplier opt-in","Unilaterally extended terms"],phrase:"on a policy of %s",lower:true},
+{key:"ctrl",label:"Control Model",options:["Segregated duties plus out-of-band bank check","Dual approval only","Single approver","Approval by the requester"],phrase:"controlled by %s",lower:true},
+{key:"mining",label:"Process Insight",options:["Celonis","SAP Signavio","Apromore (open source)","PM4Py (open source)","None"],phrase:"measured by %s",lower:false},
+{key:"vis",label:"Supplier Visibility",options:["Self-service payment status","Email remittance advice","On request only","None"],phrase:"with supplier visibility via %s",lower:true}
+],
+picks:{"method":"ACH or SEPA batch","engine":"SAP S/4HANA + Taulia","terms":"Pay on agreed terms","ctrl":"Segregated duties plus out-of-band bank check","mining":"Celonis","vis":"Self-service payment status"},
+rules:[
+{"k":"ctrl","v":"Single approver","text":"A single approver on a payment run is the condition every payment fraud case study has in common. Segregation between master data change, approval and release is the control that matters, and it costs nothing but discipline."},
+{"k":"ctrl","v":"Approval by the requester","text":"Letting the requester approve payment collapses the separation that made three-way match meaningful in the first place. The person who wanted the thing should never be the person who releases the money for it."},
+{"k":"ctrl","v":"Dual approval only","text":"Dual approval catches errors but not a convincing bank detail change, because both approvers see the same falsified record. Out-of-band verification against a previously known contact is what actually breaks that attack."},
+{"k":"terms","v":"Unilaterally extended terms","text":"Extending terms without agreement is a transfer of financing cost onto the supplier. It shows up as price in the next negotiation, as reluctance in Ep13 performance conversations, and as genuine distress for the smallest firms in the base."},
+{"k":"terms","v":"Supply chain finance, supplier opt-in","text":"Supply chain finance widens supplier choice when it is genuinely optional. Introduced alongside an extension of terms it is a cost transfer wearing a liquidity costume, and suppliers read it that way immediately."},
+{"k":"terms","v":"Dynamic discounting offered","text":"Dynamic discounting only pays if invoices are approved early enough to be discountable. If your Ep11 exception ageing is measured in weeks, most of the discount window is gone before the offer can be made."},
+{"k":"method","v":"Cheque","text":"Cheques are the slowest, least traceable and most easily intercepted payment instrument still in use, and they carry the highest per-payment handling cost on both sides."},
+{"k":"method","v":"Manual bank portal entry","text":"Manual portal entry breaks the link between the approved liability and the payment, which makes reconciliation manual and duplicate payments easy. Nothing about it is a control."},
+{"k":"method","v":"Virtual card","text":"Virtual cards give strong control and rebate potential but not every supplier accepts them and merchant fees are a real cost to the supplier. Treat acceptance as a commercial conversation, not a mandate."},
+{"k":"method","v":"Wire transfer","text":"Wires settle fast and reverse almost never, which makes them the preferred instrument for both urgent payments and successful fraud. Apply the strictest verification to exactly this rail."},
+{"k":"vis","vin":["On request only","None"],"text":"With no payment visibility, suppliers chase. That chasing is pure cost to both parties and it lands on the accounts payable team that is already working the exception queue from Ep11."},
+{"k":"engine","vin":["Coupa Pay","Tradeshift","GEP SMART","Ivalua"],"k2":"ctrl","v2":"Segregated duties plus out-of-band bank check","text":"When the payment layer sits outside the ERP, decide explicitly which system is the record of payment status and where segregation is enforced. Two systems each believing they hold the truth is how duplicate payments happen."},
+{"k":"mining","v":"None","text":"Without mining, late payment gets blamed on the payment run when it is nearly always consumed upstream by an exception in Ep11 or a missing receipt in Ep10. You cannot fix a delay you have not located."},
+{"k":"mining","vin":["Apromore (open source)","PM4Py (open source)"],"text":"Open-source mining works here, but you own the extraction across invoice, payment and clearing objects. Budget engineering time rather than licence cost."}
+],
+fallback:"Clean pairing — few seams to engineer. Focus on shortening the Ep11 exception cycle so invoices are approved while the discount window is still open, and on keeping bank detail changes verifiable against the Ep07 golden record.",
+summary(){const p=this.picks;
+const parts=this.columns.map(function(c){
+const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+return c.phrase.split('%s').join(v);
+});
+return parts.join(', ')+'.';},
+seamNote(){
+const p=this.picks; const n=[];
+this.rules.forEach(function(r){
+let hit = r.vin ? r.vin.indexOf(p[r.k])>-1 : p[r.k]===r.v;
+if(hit && r.k2){ hit = r.vin2 ? r.vin2.indexOf(p[r.k2])>-1 : p[r.k2]===r.v2; }
+if(hit) n.push(r.text);
+});
+if(!n.length) n.push(this.fallback);
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:"A finance shared services team receives an emailed request on supplier letterhead to update bank details, and pays the next invoice to the new account. The supplier later says they never sent it. Which control would most reliably have prevented the loss?",
+a:["A second approver on the payment run","Out-of-band verification of the bank change on a previously known contact number, performed by someone other than the payment releaser","A lower payment threshold requiring escalation","Switching the payment method from wire to ACH"],
+c:1, e:"Dual approval does not help when both approvers are looking at the same falsified master data record — the fraud succeeds precisely because the record looks legitimate by the time anyone approves. Verifying the change through an independent channel against previously known contact details is the control that breaks the attack, and separating that verification from payment release is what stops it being skipped under time pressure."},
+{q:"An organisation negotiated 2/10 net 45 terms across a category but captures almost none of the discounts. Where is the problem most likely to be?",
+a:["Treasury is choosing to hold cash instead","Invoices are still sitting as exceptions in Ep11 on day ten, so the discount window closes before approval","The terms were never loaded into the supplier master","Suppliers are refusing to honour the discount"],
+c:1, e:"Discount capture is downstream of exception ageing. A discount that requires payment within ten days is unreachable if the average invoice spends three weeks as a price or quantity exception, regardless of how good the terms are or how much cash is available. This is one of the clearest cases where working capital value is decided by process quality several steps earlier."},
+{q:"A buyer introduces a supply chain finance programme at the same time as extending standard payment terms from 45 to 90 days. How will suppliers most reasonably read this?",
+a:["As a liquidity benefit, since they can now be paid earlier than before if they choose","As a cost transfer, because the buyer has taken 45 days of free financing and offered it back at a discount","As a neutral administrative change","As an improvement in payment reliability"],
+c:1, e:"Supply chain finance genuinely widens supplier choice when terms are unchanged and participation is optional. Paired with a terms extension it means the supplier must now pay a financing cost to reach the position they already had, which is a transfer of working capital cost dressed as a benefit. Suppliers price this into the next negotiation, so the gain is usually temporary and the relationship damage is not."},
+{q:"Which statement about late payment is most accurate for a large buyer with a long tail of small suppliers?",
+a:["Late payment is a low-impact administrative issue that suppliers absorb easily","Paying late transfers working capital cost onto the parties least able to carry it, and reappears as price, priority and reluctance in later negotiations and performance reviews","Late payment is acceptable provided the terms in the contract are long","Late payment only matters where a contractual penalty exists"],
+c:1, e:"The cost does not disappear, it moves. Small suppliers finance the delay at their own cost of capital, which is usually far higher than the buyer, and they recover it through price, through deprioritising the account, or by failing — at which point it becomes a supply risk in Ep14. On-time payment is one of the cheapest levers a large buyer has on both cost and supplier performance."},
+{q:"Which architecture best reflects the Codex thesis for payment and working capital?",
+a:["One suite executing payment, funding, fraud detection and reconciliation, because a single vendor removes integration risk","The ERP alone, since payment execution and reconciliation are the only things that matter","ERP-native execution, controls and reconciliation, a verified supplier record from Ep07, anomaly analytics for fraud, an opt-in funding layer for supplier liquidity, and mining to find where the days actually went","Manual bank transfers with a strong approval hierarchy"],
+c:2, e:"Standalone is never enough. Payment controls and reconciliation belong with the ERP, verified remit-to data with supplier master data, fraud detection with analytics that can see across the whole run, and liquidity choice with a funding layer the supplier opts into. The seams here are unusually expensive: one unverified bank change or one closed discount window is measured directly in cash."}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
 </body>
 </html>

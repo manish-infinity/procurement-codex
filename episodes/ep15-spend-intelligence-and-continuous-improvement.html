@@ -3,111 +3,486 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Procurement Codex · Ep15 — Spend Intelligence &amp; Continuous Improvement (coming soon)</title>
-<meta name="description" content="Closing the loop: turning transaction data from every step above back into category strategy, so the next cycle starts smarter than the last." />
-<meta name="codex-status" content="stub" />
+<title>The Procurement Codex · Ep15 — Spend Intelligence &amp; Continuous Improvement</title>
+<meta name="description" content="Spend intelligence is the step that turns fourteen steps of process exhaust back into strategy. Ep15 covers classification, savings realisation, opportunity identification and the feedback loop into category strategy across analytics platforms, process mining and AI layers, until standalone is never enough." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
 html{scroll-behavior:smooth}
 body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-.spine-node{transition:all .2s ease}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
 .pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
-      <div>
-        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
-        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
-      </div>
-    </div>
-    <div class="hidden sm:flex items-center gap-2 text-xs">
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 15</span>
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 15 of 15</span>
-    </div>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 15</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 15 of 15</span>
+</div>
+</div>
 </header>
 
 <section class="bg-white border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
 <div class="flex items-center gap-1 min-w-max text-[11px]">
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">15. Spend Intelligence</a></div>
-    </div>
-  </div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold">15. Spend Intelligence</a></div>
+</div>
+</div>
 </section>
 
 <section class="bg-indigo-50 border-b border-indigo-100">
-  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
-    <span class="mt-0.5">⚙️</span>
-    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
-  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 15 · Coming soon</p>
-  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Spend Intelligence &amp; Continuous Improvement</h1>
-  <p class="mt-4 text-slate-600 max-w-3xl text-lg">Closing the loop: turning transaction data from every step above back into category strategy, so the next cycle starts smarter than the last.</p>
-  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
-    Not published yet — this step is step 15 of 15 on the spine, released in order.
-  </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-6">
-  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
-    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
-    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-      <li>Closing the loop from transaction data to category strategy</li>
-      <li>Savings realisation vs. savings identified</li>
-      <li>Benchmarking and opportunity sizing</li>
-      <li>Making improvement continuous, not annual</li>
-    </ul>
-    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 15 · Where the spine closes into a loop</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Spend Intelligence &amp; Continuous Improvement</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Fourteen steps have produced an enormous amount of data about how an organisation actually buys. Spend intelligence is what decides whether that becomes a strategy or a filing cabinet — and it is the step that <span class="font-semibold">turns a linear process into a loop that gets better each time round</span>.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every major platform handles it → best practice → process mining, AI, orchestration and ownership, stacked until <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-6">
-  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
-  <div class="mt-3 flex flex-wrap gap-2">
-    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
-  </div>
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">Spend intelligence is the ingestion, cleansing, classification and analysis of all procurement data — spend, contracts, suppliers, process events and savings — to answer what was bought, from whom, at what price, under what agreement, and what should change. Continuous improvement is the discipline of <span class="font-semibold">feeding those answers back into Ep02 category strategy and Ep03 sourcing</span> rather than reporting them.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because every earlier step optimises locally. Only a view across all of them can see that three business units buy the same part at three prices, that half of a category savings never reached the ledger, or that the approval step added last year costs more than the errors it prevents. Without this step, the spine runs forever without learning anything.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Spend is classified consistently and refreshed automatically, not rebuilt in a spreadsheet each quarter. Savings are tracked from negotiated through contracted to realised, with finance agreeing the definitions. Opportunities are surfaced continuously rather than discovered in an annual review. And the output has a named route back into category strategy, with owners and dates.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on" class="pill px-3 py-1 rounded-full border text-xs font-semibold" :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'" x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs" :style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, scope, and integration maturity.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Classify once, centrally, and keep it refreshed</span> — a taxonomy rebuilt manually each quarter is out of date the moment it is published, and two teams with two taxonomies will never agree on a number again.</li>
+<li><span class="font-semibold">Resolve entities before analysing spend</span> — a supplier appearing eleven times under eleven spellings destroys every concentration and leverage conclusion you would draw. Parent-child hierarchy from Ep07 is the prerequisite.</li>
+<li><span class="font-semibold">Agree savings definitions with finance first</span> — negotiated, contracted, realised and avoided are different numbers. Arguing about which one counts after the fact is how procurement loses credibility it took years to build.</li>
+<li><span class="font-semibold">Track leakage, not just savings</span> — the gap between the price negotiated and the price actually paid is usually the largest single opportunity in the data, and it points straight back at Ep08 and Ep09.</li>
+<li><span class="font-semibold">Combine spend data with process data</span> — spend tells you what you bought, mining tells you what it cost you to buy it. Most transformation cases need both halves to be credible.</li>
+<li><span class="font-semibold">Give insight a route back into strategy</span> — an opportunity with no owner, no category plan and no date is a slide. The loop closes in Ep02 and Ep03 or it does not close at all.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — classification accuracy and coverage, data refresh frequency, addressable spend under management, savings realised against negotiated, contract price leakage, tail spend share, opportunity conversion rate.</li>
+<li><span class="font-semibold">The annual spend cube</span> — a heroic quarterly or annual data exercise that is stale on delivery and consumes the analyst capacity that continuous insight would need.</li>
+<li><span class="font-semibold">Unresolved suppliers</span> — concentration analysis across a supplier master where the same group appears under a dozen names, producing leverage conclusions that are simply wrong.</li>
+<li><span class="font-semibold">Savings that never land</span> — negotiated savings reported to the board that never appear in the ledger because buying behaviour never changed in Ep08.</li>
+<li><span class="font-semibold">Dashboards without owners</span> — comprehensive analytics that nobody is accountable for acting on, refreshed faithfully every month.</li>
+<li><span class="font-semibold">Two versions of the number</span> — procurement and finance reporting different savings figures, which reliably ends with the finance number being believed.</li>
+<li><span class="font-semibold">Insight with no route home</span> — opportunities identified in year one, rediscovered in year two, and rediscovered again in year three because nothing fed them into a category plan.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a quarterly spend spreadsheet and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i" class="px-3 py-2 rounded-lg text-xs font-bold border transition" :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'" :style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4" :class="level>=i ? 'opacity-100' : 'opacity-30'" :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().a"></div>
+<div class="text-xs text-slate-500 mt-1">Classification accuracy</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().b"></div>
+<div class="text-xs text-slate-500 mt-1">Data refresh</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().c"></div>
+<div class="text-xs text-slate-500 mt-1">Savings realised</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().d"></div>
+<div class="text-xs text-slate-500 mt-1">Opportunities actioned</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed spend intelligence architecture is never one product — and at the end of the spine, it is the layer that makes every earlier one improvable. Here is the composite, and where the value actually lives — in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">flowchart LR
+ERP[ERP spend and ledger<br/>S4HANA / Oracle / D365] --> ING[L1 Ingestion and harmonisation]
+PO[Ep09 orders] --> ING
+INV[Ep11 invoices] --> ING
+CON[Ep06 contracts and prices] --> ING
+SUPP[Ep07 supplier master<br/>parent-child hierarchy] -.entity resolution.-> ING
+ING --> CLASS[L4 AI classification<br/>Sievo / suite-native / custom taxonomy]
+CLASS --> CUBE[L1 Spend cube<br/>category, supplier, entity, time]
+PMIN[L3 Process mining<br/>Celonis / Signavio] -.how the process behaves.-> INSIGHT
+RISK[Ep14 risk and ESG signals] -.exposure overlay.-> INSIGHT
+PERF[Ep13 supplier performance] -.delivery overlay.-> INSIGHT
+CUBE --> INSIGHT{L4 Opportunity engine<br/>price variance, fragmentation, tail, leakage}
+INSIGHT --> SAV[L2 Savings tracking<br/>negotiated to contracted to realised]
+SAV --> FIN[L6 Finance agreement<br/>shared definitions and sign-off]
+INSIGHT --> LOOP[L5 Back to Ep02 category strategy<br/>and Ep03 sourcing]
+LOOP --> SPINE[The spine runs again, better]</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a spend analytics tool produces a beautiful dashboard that changes nothing. <span class="font-semibold text-indigo-700">Wired to the ledger for completeness, to Ep07 for entity resolution, to Ep06 for contracted price, to Ep13 and Ep14 for performance and exposure overlays, to process mining for how the process actually behaves, and to finance for savings definitions everyone accepts, it becomes the mechanism by which the whole spine improves.</span> This is the closing argument of the Codex: fifteen steps, no single vendor, and all of the compounding value sitting in the seams between them.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for spend intelligence and continuous improvement; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Spend Intelligence &amp; Continuous Improvement</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Pull every source of spend and process data together, classify it consistently, find where money and time are leaking, and route what you find back into category strategy with an owner.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Classification accuracy · refresh frequency · spend under management · savings realised versus negotiated · contract price leakage · opportunity conversion rate.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">If your savings number and finance savings number differ, finance number is the one that exists.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Specialists win on classification accuracy and savings tracking; suites win on native data and closing the loop; process mining wins on the half of the story spend data cannot see.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L0 spend spreadsheet → L1 spend cube → L2 definitions and leakage discipline → L3 process mining → L4 AI classification and opportunity detection → L5 loop into sourcing → L6 shared accountability with finance → L7 composite.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">Standalone is never enough. Intelligence becomes improvement only when data, definitions, process truth and a route back into strategy are wired together.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span>/<span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null" class="w-full text-left text-sm px-4 py-3 rounded-lg border transition" :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))" x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
 </section>
 
 <footer class="border-t border-slate-200 bg-white mt-8">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
-    <div class="font-bold text-slate-700">The Procurement Codex · Episode 15 — Spend Intelligence &amp; Continuous Improvement</div>
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 15 — Spend Intelligence &amp; Continuous Improvement</div>
 <div class="mt-3 flex flex-wrap items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep14 · Risk / ESG</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep14 · Risk, Compliance &amp; ESG</a>
       <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
     </div>
-    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
-    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
-    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
-  </div>
+<p class="mt-3">One step of the source-to-pay spine. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
 </footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:["Classification accuracy","Data ingestion and harmonisation","Savings tracking and realisation","Opportunity identification","Self-service analytics and adoption","Loop back into sourcing"],
+platforms:[
+{name:"Sievo", on:true, scores:[5,5,5,4,4,3], best:"The specialist benchmark for classification and savings tracking: a managed service model that takes responsibility for data quality rather than handing you a tool, with savings lifecycle tracking finance teams generally accept", watch:"It is an analytics layer, not an execution platform, so the loop back into sourcing and buying depends entirely on integration and on organisational discipline you have to supply yourself"},
+{name:"SAP Spend Control Tower", on:true, scores:[4,5,4,4,4,5], best:"Native access to the transactional estate means spend, contract, supplier and process data arrive without an extraction project, and insights can be actioned inside the same environment that executes sourcing", watch:"Strongest when the landscape really is predominantly SAP; classification depth for messy non-SAP or acquired-entity data is generally weaker than a dedicated specialist"},
+{name:"Coupa", on:true, scores:[4,4,4,5,5,5], best:"Community-derived benchmarks give genuinely useful outside context on price and terms, and because analysis and buying live in the same platform an insight can change a guided buying rule immediately", watch:"Only sees spend that flows through Coupa unless external data is loaded, so an organisation with significant ERP-direct or acquired spend gets a partial picture that looks complete"},
+{name:"GEP SMART", on:true, scores:[4,4,4,4,4,5], best:"One data model across source-to-pay means analysis, category strategy and sourcing events are the same objects, which makes closing the loop a workflow rather than an integration project", watch:"Classification for external and legacy data sets requires more configuration than a specialist, and analytics adoption depends on how much of the suite is actually deployed"},
+{name:"Celonis", on:true, scores:[2,4,3,5,4,4], best:"Sees what spend data structurally cannot: cycle times, rework loops, maverick paths, approval drag and the real cost of process friction, with execution apps that can act on what it finds", watch:"It is process intelligence, not spend classification; category taxonomies and savings lifecycle tracking are not its purpose and it works best alongside a spend analytics layer rather than instead of one"},
+{name:"Ivalua", on:false, scores:[4,4,4,4,4,5], best:"Analytics over a fully configurable single data model, so an organisation with unusual category or entity structures can analyse the way it actually operates rather than the way the tool assumes", watch:"Insight quality follows configuration quality, and organisations that customised heavily upstream often find their analytics inherits exactly the same complexity"},
+{name:"Jaggaer", on:false, scores:[4,4,3,4,4,4], best:"Solid analytics with good sourcing linkage, well proven in public sector and research-intensive organisations where grant, fund and compliance dimensions matter alongside category", watch:"Savings lifecycle tracking is less developed than the specialists, and cross-suite data harmonisation depends on which modules are deployed versus integrated"},
+{name:"Zycus", on:false, scores:[4,4,4,4,3,4], best:"AI-led classification and opportunity identification at a lower entry cost, which makes a credible spend cube reachable for mid-market organisations without a managed-service budget", watch:"Benchmark depth and savings governance are lighter than the leaders, and self-service adoption depends more on internal analyst capability than on the tool itself"}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:"L0",color:getCSS("--l0"),title:"Concept",body:"An analyst exports the ledger to a spreadsheet once a quarter, groups suppliers by hand and builds a pie chart for the leadership pack.",takeaway:"The number is stale, unrepeatable and unauditable, and it changes nothing because by the time it is presented the quarter is over."},
+{tag:"L1",color:getCSS("--l1"),title:"Platform-native analytics",body:"A spend analytics tool ingests ledger and PO data, applies a taxonomy and produces a refreshable spend cube by category, supplier and business unit.",takeaway:"You now know what you bought — but not whether the price was contracted, what the process cost, or whether anything changed as a result."},
+{tag:"L2",color:getCSS("--l2"),title:"Best practice",body:"Entities are resolved, classification is maintained centrally, savings definitions are agreed with finance, leakage is measured, and every opportunity has an owner and a route into a category plan.",takeaway:"Analysis becomes decision support that finance accepts, and reported savings start appearing in the actual ledger."},
+{tag:"L3",color:getCSS("--l3"),title:"Process mining",body:"Event data adds the half spend cannot see: cycle times, rework loops, approval drag, maverick buying paths and the real cost per transaction by category.",takeaway:"You can finally compare the price of a thing with the cost of buying it, which is where most genuine transformation cases are actually found."},
+{tag:"L4",color:getCSS("--l4"),title:"Intelligence and AI",body:"Machine classification maintains the taxonomy continuously, and opportunity engines surface price variance, fragmentation, tail concentration and contract leakage without being asked.",takeaway:"Opportunity identification becomes continuous instead of an annual project, and the analyst time goes into acting rather than assembling."},
+{tag:"L5",color:getCSS("--l5"),title:"Orchestration",body:"Insight is pushed into category strategy in Ep02, sourcing pipelines in Ep03, guided buying rules in Ep08 and supplier reviews in Ep13 as tracked work items.",takeaway:"The spine becomes a loop. Each pass through it starts from what the last pass learned rather than from a blank page."},
+{tag:"L6",color:getCSS("--l6"),title:"People and roles",body:"Procurement and finance share savings definitions and sign-off, category owners own their opportunity pipeline, and someone is accountable for classification quality as a standing job.",takeaway:"The number stops being contested, which is the precondition for procurement being trusted with a bigger mandate."}
+],
+metrics(){
+const m=[
+{"a":"55%","b":"Quarterly","c":"30%","d":"10%"},
+{"a":"75%","b":"Monthly","c":"45%","d":"25%"},
+{"a":"88%","b":"Weekly","c":"70%","d":"50%"},
+{"a":"90%","b":"Weekly","c":"76%","d":"62%"},
+{"a":"95%","b":"Daily","c":"82%","d":"74%"},
+{"a":"97%","b":"Daily","c":"88%","d":"86%"},
+{"a":"98%","b":"Continuous","c":"92%","d":"92%"}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:"scope",label:"Data Scope",options:["All spend including ERP-direct","Suite-transacted spend only","Top categories only","Single region or entity"],phrase:"Analysing %s",lower:true},
+{key:"engine",label:"Analytics Platform",options:["Sievo","SAP Spend Control Tower","Coupa","GEP SMART","Ivalua","Jaggaer","Zycus"],phrase:"in %s",lower:false},
+{key:"classify",label:"Classification",options:["AI classification, centrally maintained","Managed service classification","Rules and mapping tables","Manual spreadsheet mapping"],phrase:"classified by %s",lower:true},
+{key:"entity",label:"Supplier Resolution",options:["Parent-child hierarchy from master data","Third-party entity enrichment","Name matching only","None"],phrase:"with suppliers resolved by %s",lower:true},
+{key:"process",label:"Process Data",options:["Celonis","SAP Signavio","Apromore (open source)","PM4Py (open source)","None"],phrase:"process data from %s",lower:false},
+{key:"loop",label:"Closing the Loop",options:["Owned pipeline into category strategy","Annual opportunity review","Dashboard published to stakeholders","No defined route"],phrase:"and insight routed through %s",lower:true}
+],
+picks:{"scope":"All spend including ERP-direct","engine":"Sievo","classify":"AI classification, centrally maintained","entity":"Parent-child hierarchy from master data","process":"Celonis","loop":"Owned pipeline into category strategy"},
+rules:[
+{"k":"loop","v":"No defined route","text":"Insight without a route into category strategy is a slide deck. The same opportunities will be rediscovered next year and the year after, which is the most common reason spend analytics investments are judged to have failed."},
+{"k":"loop","v":"Dashboard published to stakeholders","text":"Publishing a dashboard transfers information but not accountability. Opportunities need an owner, a category plan and a date in Ep02 and Ep03, or the refresh rate becomes the only thing that improves."},
+{"k":"loop","v":"Annual opportunity review","text":"An annual review means the pipeline is refreshed once a year while the data refreshes continuously. The gap between what the system knows and what the organisation acts on becomes the real constraint."},
+{"k":"entity","v":"Name matching only","text":"Name matching leaves the same corporate group scattered across a dozen spellings, which understates concentration and destroys every leverage conclusion drawn from the data. Parent-child resolution from Ep07 is the prerequisite, not a refinement."},
+{"k":"entity","v":"None","text":"With no supplier resolution the spend cube is arithmetically correct and commercially meaningless. You cannot negotiate on volume you cannot see, and you will discover the real concentration only when a supplier fails."},
+{"k":"classify","v":"Manual spreadsheet mapping","text":"Manual mapping is stale on the day it is published and unrepeatable by anyone other than its author. It also consumes precisely the analyst capacity that acting on the insight would require."},
+{"k":"classify","v":"Rules and mapping tables","text":"Rule-based classification is stable and explainable but degrades as new suppliers and descriptions arrive. Budget for continuous maintenance, or accuracy will drift quietly until someone challenges a number in a board meeting."},
+{"k":"scope","v":"Suite-transacted spend only","text":"Analysing only what flows through the suite produces a picture that looks complete and is not. ERP-direct, acquired-entity and card spend are exactly where fragmentation and leakage concentrate."},
+{"k":"scope","v":"Top categories only","text":"Restricting analysis to top categories guarantees the tail stays invisible, which is where maverick buying, price variance and supplier proliferation live. The tail is usually the easier saving."},
+{"k":"scope","v":"Single region or entity","text":"Single-region analysis cannot see the cross-entity duplication that is usually the largest structural opportunity: the same part or service bought at three prices by three business units."},
+{"k":"process","v":"None","text":"Spend data tells you what you bought but never what it cost you to buy it. Without process data, approval drag, rework loops and cost per transaction stay invisible, and half the transformation case is missing."},
+{"k":"process","vin":["Apromore (open source)","PM4Py (open source)"],"text":"Open-source mining is genuinely capable at this layer, but you own the end-to-end event log construction across requisition, order, receipt, invoice and payment. Budget engineering time rather than licence cost."},
+{"k":"engine","v":"Coupa","k2":"scope","v2":"All spend including ERP-direct","text":"Analysing all spend in a suite-native tool means loading external data into it. That is achievable, but check who owns the ongoing feed and the classification of that external data before assuming coverage."},
+{"k":"engine","v":"Sievo","k2":"loop","v2":"Owned pipeline into category strategy","text":"A specialist analytics layer plus an owned pipeline is a strong pairing, but the handover is manual by design. Define explicitly how an identified opportunity becomes a sourcing event, or the seam becomes the bottleneck."}
+],
+fallback:"Clean pairing — few seams to engineer. Focus on agreeing savings definitions with finance before the first report, and on making sure every opportunity leaves this step with a named owner and a place in a category plan.",
+summary(){const p=this.picks;
+const parts=this.columns.map(function(c){
+const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+return c.phrase.split('%s').join(v);
+});
+return parts.join(', ')+'.';},
+seamNote(){
+const p=this.picks; const n=[];
+this.rules.forEach(function(r){
+let hit = r.vin ? r.vin.indexOf(p[r.k])>-1 : p[r.k]===r.v;
+if(hit && r.k2){ hit = r.vin2 ? r.vin2.indexOf(p[r.k2])>-1 : p[r.k2]===r.v2; }
+if(hit) n.push(r.text);
+});
+if(!n.length) n.push(this.fallback);
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:"Procurement reports 14 million in savings for the year. Finance can find 4 million in the ledger. What is the most likely explanation?",
+a:["Finance is measuring the wrong cost centres","The savings were negotiated but never realised, because buying behaviour in Ep08 and pricing at PO conversion in Ep09 never changed","The savings will appear in the following financial year","Procurement is overstating its performance deliberately"],
+c:1, e:"This gap is the most common credibility failure in procurement, and it is almost never dishonesty. A negotiated rate only becomes a realised saving if the contracted price reaches the buying channel, the requester uses that channel, and the PO carries the right price. Agreeing negotiated, contracted, realised and avoided as distinct definitions with finance before reporting anything is what prevents the argument entirely."},
+{q:"A concentration analysis shows no supplier above 3% of spend, suggesting low dependency risk. The supplier master has never been entity-resolved. How much confidence should you place in that conclusion?",
+a:["High — the analysis is arithmetically sound","Very little, because one corporate group appearing under many names and entities will be systematically understated","Moderate, provided the top categories were reviewed manually","High, provided the data refresh is recent"],
+c:1, e:"Entity resolution is a precondition, not a refinement. A group operating through a dozen subsidiaries and spelling variants can easily hold 15% of spend while appearing nowhere near the top of an unresolved list. Every leverage, concentration and risk conclusion drawn from that data is wrong in the same direction, and the error is usually discovered when the supplier fails or refuses to move on price."},
+{q:"Why is process mining data considered complementary rather than duplicative to spend analytics?",
+a:["It provides a second opinion on the same spend figures","Spend data shows what was bought and at what price; process data shows what it cost to buy it — cycle time, rework, approval drag and maverick paths","It replaces the need for a spend taxonomy","It is primarily used for compliance reporting"],
+c:1, e:"The two answer different questions and most credible transformation cases need both. Spend analytics can tell you a category costs 40 million; only process data can tell you that a third of its purchase orders are amended twice and that the approval chain added last year costs more than the errors it prevents. Price and process cost are separate levers and they are frequently in tension."},
+{q:"An organisation analyses only the spend that flows through its S2P suite, which covers roughly 60% of addressable spend. What is the main risk?",
+a:["Analysis will be slower than a full data set","The picture looks complete but excludes exactly the ERP-direct, acquired-entity and card spend where fragmentation and leakage concentrate","Classification accuracy will be lower","Benchmarks will not be available"],
+c:1, e:"Partial coverage is more dangerous than no coverage because it produces confident conclusions. The spend that never entered the suite is, by definition, the spend that escaped guided buying in Ep08 — which makes it the most likely home of price variance, supplier proliferation and off-contract buying. A view that structurally excludes it will report a healthier picture than reality every time."},
+{q:"The Codex spine ends here. Which statement best captures its central argument across all fifteen steps?",
+a:["A single integrated suite is the safest architecture because it removes integration risk","Best-of-breed always outperforms suites on every layer of every step","No single vendor is strongest at every layer of every step, so the durable value sits in the seams between layers — and in whether anyone is accountable for those seams","Process design matters more than platform choice in every case"],
+c:2, e:"The argument was never that suites are bad or that best-of-breed always wins — it is that every step in this spine has layers with different natural owners, and every vendor is strong at some and weaker at others. Single-vendor simplicity is real and sometimes the right trade, but it is bought by accepting the weakest layer. The organisations that get the most out of source-to-pay are the ones that choose their seams deliberately, engineer them, and give them an owner — then close the loop from Ep15 back to Ep02 so the whole thing improves each time round."}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
 </body>
 </html>

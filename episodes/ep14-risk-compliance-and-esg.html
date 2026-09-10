@@ -3,112 +3,483 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Procurement Codex · Ep14 — Risk, Compliance &amp; ESG (coming soon)</title>
-<meta name="description" content="Continuous supplier risk, regulatory compliance and ESG obligations across the whole base — not a one-off questionnaire at onboarding." />
-<meta name="codex-status" content="stub" />
+<title>The Procurement Codex · Ep14 — Risk, Compliance &amp; ESG</title>
+<meta name="description" content="Risk, compliance and ESG turned from a screening checkbox into a continuous, legally mandated obligation. Ep14 covers third-party risk, sanctions screening, ESG data collection and sub-tier due diligence across risk platforms, ratings providers, mining and orchestration layers, until standalone is never enough." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
 html{scroll-behavior:smooth}
 body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-.spine-node{transition:all .2s ease}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
 .pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
-      <div>
-        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
-        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
-      </div>
-    </div>
-    <div class="hidden sm:flex items-center gap-2 text-xs">
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 14</span>
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 14 of 15</span>
-    </div>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 14</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 14 of 15</span>
+</div>
+</div>
 </header>
 
 <section class="bg-white border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
 <div class="flex items-center gap-1 min-w-max text-[11px]">
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
-    </div>
-  </div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">15. Spend Intelligence</a></div>
+</div>
+</div>
 </section>
 
 <section class="bg-indigo-50 border-b border-indigo-100">
-  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
-    <span class="mt-0.5">⚙️</span>
-    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
-  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 14 · Coming soon</p>
-  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Risk, Compliance &amp; ESG</h1>
-  <p class="mt-4 text-slate-600 max-w-3xl text-lg">Continuous supplier risk, regulatory compliance and ESG obligations across the whole base — not a one-off questionnaire at onboarding.</p>
-  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
-    Not published yet — this step is step 14 of 15 on the spine, released in order.
-  </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-6">
-  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
-    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
-    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-      <li>Continuous risk monitoring vs. point-in-time checks</li>
-      <li>Regulatory and sanctions compliance</li>
-      <li>ESG and scope 3 data collection</li>
-      <li>Risk-tiered due diligence</li>
-    </ul>
-    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 14 · Where the supply chain becomes a liability</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Risk, Compliance &amp; ESG</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">For most of this spine, a supplier is a source of goods. Here they become a source of exposure — financial, operational, regulatory and reputational. And since roughly 2023, in a growing number of jurisdictions, <span class="font-semibold">what your suppliers and their suppliers do has become something you are legally required to know</span>.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every major platform handles it → best practice → process mining, AI, orchestration and ownership, stacked until <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-6">
-  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
-  <div class="mt-3 flex flex-wrap gap-2">
-    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
-  </div>
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">Third-party risk and ESG management is the identification, assessment, mitigation and continuous monitoring of what could go wrong through a supplier: financial failure, operational disruption, sanctions and corruption exposure, cyber and data risk, labour and human rights conditions, and environmental impact — <span class="font-semibold">including at tiers you do not contract with</span>.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because the consequences do not stay with the supplier. A tier-two failure stops your line, a sanctioned counterparty is your regulatory breach, and a labour violation deep in your chain is your headline. Regulation has followed: due diligence obligations now attach the buyer to conduct several tiers away, which converts risk management from prudence into compliance.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Risk is assessed proportionately at onboarding and then monitored continuously, not re-surveyed annually. Screening runs automatically against the supplier master and re-runs when anything changes. ESG data is collected once, in a shared standard, rather than through bespoke questionnaires from every customer. Critical categories have mapped sub-tiers. Findings trigger workflow, not a filing.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on" class="pill px-3 py-1 rounded-full border text-xs font-semibold" :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'" x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs" :style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, scope, and integration maturity.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Segment risk before assessing it</span> — a stationery supplier and a sole-source component maker in a sanctioned region do not warrant the same diligence. Proportionality is what makes the programme survivable.</li>
+<li><span class="font-semibold">Monitor continuously, do not re-survey</span> — risk changes between annual questionnaires. Automated monitoring of financial, sanctions, enforcement and news signals detects change in days rather than at the next renewal.</li>
+<li><span class="font-semibold">Screen against the entity, not the name</span> — sanctions and ownership screening only works against verified legal entities and beneficial ownership from Ep07. Name matching alone produces false positives and misses real ones.</li>
+<li><span class="font-semibold">Collect ESG data once, in a shared standard</span> — bespoke questionnaires from every customer create enormous supplier burden and poor data. Shared assessment platforms and recognised standards are the difference between response rates of 20% and 80%.</li>
+<li><span class="font-semibold">Go beyond tier one where the law and the risk require it</span> — modern due diligence obligations and most real disruptions live below your direct contract. Map sub-tiers for critical categories rather than all of them.</li>
+<li><span class="font-semibold">Make findings trigger workflow, not filing</span> — a risk finding with no owner, no date and no gate into sourcing or onboarding is documentation of a problem you decided not to fix.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — percentage of spend under continuous monitoring, time to detect a material change, screening coverage of the active supplier base, ESG assessment coverage by spend, sub-tier mapping depth for critical categories, finding remediation rate and ageing.</li>
+<li><span class="font-semibold">Point-in-time diligence</span> — screened once at onboarding, never again, so a supplier sanctioned two years later remains an approved vendor in the master data.</li>
+<li><span class="font-semibold">Questionnaire fatigue</span> — hundreds of bespoke ESG questionnaires with low response rates and unverified self-reported answers that nobody has the capacity to challenge.</li>
+<li><span class="font-semibold">Tier-one blindness</span> — a well-managed direct supplier concealing a single sub-tier dependency that stops your line or carries the labour risk.</li>
+<li><span class="font-semibold">Findings without gates</span> — risk is assessed and reported but never blocks an award or an onboarding, so the assessment has no consequence and eventually no credibility.</li>
+<li><span class="font-semibold">Screening false-positive overload</span> — untuned name matching generating thousands of alerts, which trains the team to clear alerts rather than investigate them.</li>
+<li><span class="font-semibold">ESG as a reporting exercise</span> — data collected purely to populate a disclosure, disconnected from sourcing decisions in Ep03 and performance reviews in Ep13.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a one-off onboarding questionnaire and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i" class="px-3 py-2 rounded-lg text-xs font-bold border transition" :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'" :style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4" :class="level>=i ? 'opacity-100' : 'opacity-30'" :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().a"></div>
+<div class="text-xs text-slate-500 mt-1">Spend monitored</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().b"></div>
+<div class="text-xs text-slate-500 mt-1">Time to detect</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().c"></div>
+<div class="text-xs text-slate-500 mt-1">Sub-tier mapped</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().d"></div>
+<div class="text-xs text-slate-500 mt-1">Findings remediated</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed risk and ESG architecture is never one product. Here is the composite, and where the value actually lives — in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">flowchart LR
+SUPP[Ep07 golden supplier record<br/>legal entity and ownership] --> SCREEN[L1 Automated screening<br/>sanctions, PEP, adverse media]
+SEG[L2 Risk segmentation<br/>by category, geography and criticality] --> DEPTH{How deep to look}
+SCREEN --> MON[L5 Continuous monitoring<br/>financial, cyber, news, enforcement]
+RATE[L1 ESG assessment<br/>EcoVadis / IntegrityNext / self-assessment] --> MON
+DB[Dun and Bradstreet<br/>financial and ownership data] -.entity truth.-> MON
+SUB[L4 Sub-tier discovery<br/>n-tier mapping and trade data] -.tier two and beyond.-> MON
+MON --> FIND{L5 Finding<br/>severity and jurisdiction}
+LAW[L2 Due diligence obligations<br/>CSDDD, LkSG, UFLPA, Modern Slavery] -.what must be evidenced.-> FIND
+FIND --> ACT[L6 Owned remediation<br/>plan, dates and escalation]
+PM[L3 Process mining and analytics] -.exposure concentration.-> DEPTH
+ACT --> GATE[Back to Ep03 sourcing and Ep07 onboarding<br/>as an approval gate]
+ACT --> SI[Ep15 · Spend Intelligence]</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a risk module produces a questionnaire archive. <span class="font-semibold text-indigo-700">Wired to Ep07 for verified legal entities, to ratings and monitoring providers for evidence you did not generate yourself, to sub-tier discovery for the exposure you did not contract for, and to Ep03 and Ep07 as an actual approval gate, it becomes a defensible due diligence system rather than a filing cabinet.</span> No single vendor supplies entity truth, sanctions data, ESG assessment and n-tier visibility at once — the seams are the compliance evidence.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for third-party risk, compliance and ESG; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Risk, Compliance &amp; ESG</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Work out what could go wrong through your suppliers and their suppliers, in proportion to how much it would hurt, keep watching, and make what you find actually block something.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Spend under continuous monitoring · time to detect · screening coverage · ESG coverage by spend · sub-tier mapping depth · finding remediation ageing.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">If a risk finding has never stopped an award, you have a reporting function, not a control.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Suites win on workflow and integration into sourcing and onboarding; ratings and data providers win on evidence and coverage; nobody has a complete n-tier picture.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L0 onboarding questionnaire → L1 screening and assessment → L2 proportionate segmentation → L3 exposure analytics → L4 sub-tier discovery → L5 continuous monitoring orchestration → L6 owned remediation → L7 composite.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">Standalone is never enough. Diligence becomes defensible only when entity data, external evidence, sub-tier visibility and enforcement gates are wired together.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span>/<span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null" class="w-full text-left text-sm px-4 py-3 rounded-lg border transition" :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))" x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
 </section>
 
 <footer class="border-t border-slate-200 bg-white mt-8">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
-    <div class="font-bold text-slate-700">The Procurement Codex · Episode 14 — Risk, Compliance &amp; ESG</div>
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 14 — Risk, Compliance &amp; ESG</div>
 <div class="mt-3 flex flex-wrap items-center gap-3">
       <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep13 · Supplier Performance</a>
       <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep15 · Spend Intelligence (coming soon) →</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep15 · Spend Intelligence →</a>
     </div>
-    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
-    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
-    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
-  </div>
+<p class="mt-3">One step of the source-to-pay spine. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
 </footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:["Risk screening and monitoring","ESG assessment depth","Sub-tier and n-tier visibility","Regulatory due diligence support","Integration into sourcing and onboarding","Supplier burden and response rate"],
+platforms:[
+{name:"SAP Ariba SLP + Risk", on:true, scores:[4,3,3,4,5,4], best:"Risk assessment sits inside the same lifecycle that onboards suppliers and awards business, so a finding can genuinely gate a supplier record or an award rather than living in a parallel system", watch:"Underlying risk and ESG content is largely licensed from third parties, so depth depends on which data subscriptions are bought; n-tier visibility is limited compared with dedicated mapping tools"},
+{name:"EcoVadis", on:true, scores:[2,5,3,4,3,5], best:"The most widely recognised ESG assessment in supply chains, with evidence-backed scoring across environment, labour, ethics and sustainable procurement, and a shared model where one assessment serves many customers", watch:"It is a sustainability assessment, not a broad risk platform: financial distress, sanctions and cyber exposure need other sources, and coverage of very small suppliers remains patchy"},
+{name:"IntegrityNext", on:true, scores:[3,4,3,5,4,5], best:"Built around European due diligence obligations with very low supplier friction and strong self-assessment coverage, which makes it effective at getting broad response across a long tail", watch:"Assessment relies more heavily on supplier self-declaration with monitoring overlays than on document-verified auditing, so evidence depth is lower than a full audited assessment"},
+{name:"Coupa Risk Assess", on:true, scores:[4,3,2,3,5,4], best:"Risk questionnaires and third-party data surfaced at the moment of buying, so risk context appears where a decision is actually being made rather than in a separate governance cycle", watch:"Sub-tier visibility is minimal and regulatory due diligence support is lighter than the specialists, so heavily regulated supply chains typically add a dedicated platform alongside"},
+{name:"Dun and Bradstreet", on:true, scores:[5,2,4,3,4,5], best:"Authoritative entity resolution, corporate ownership hierarchies and financial distress signals, which is the foundation everything else screens against and the only reliable way to know who you are actually dealing with", watch:"Not an ESG assessment or a workflow platform; it supplies data that other systems must act on, and data coverage quality varies considerably by country and company size"},
+{name:"Ivalua", on:false, scores:[4,3,3,4,5,3], best:"Configurable risk models and scoring that can encode a specific regulatory interpretation, fully integrated with sourcing, contracting and supplier records in one platform", watch:"Risk and ESG content is third-party sourced, and heavy configuration of a compliance process raises the cost of adapting when the regulation itself changes, which it does frequently"},
+{name:"Jaggaer", on:false, scores:[4,3,2,4,4,3], best:"Solid risk and compliance management with strong audit trails, well suited to public sector and regulated industries where demonstrating process is as important as the outcome", watch:"Sub-tier mapping is limited and ESG depth depends on partner content, so multinational chains with deep supply networks generally need additional specialist tooling"},
+{name:"HICX", on:false, scores:[3,3,3,4,5,5], best:"Makes supplier data trustworthy across a fragmented estate and dramatically reduces supplier burden, which is what actually raises response rates on any diligence exercise", watch:"A data and experience layer rather than a risk assessment engine, so screening content, ESG scoring and monitoring must come from specialist providers alongside it"}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:"L0",color:getCSS("--l0"),title:"Concept",body:"A supplier completes a questionnaire at onboarding, someone reviews it, and it is filed with the contract.",takeaway:"Diligence is a point in time. A supplier who becomes sanctioned, insolvent or exposed the following year remains fully approved in the master data."},
+{tag:"L1",color:getCSS("--l1"),title:"Platform-native risk",body:"A risk module holds assessments, screens names against sanctions and adverse media lists, and stores ESG questionnaire responses against the supplier record.",takeaway:"The evidence is now structured and searchable — but it is still mostly self-reported, still tier one, and still only refreshed when someone remembers."},
+{tag:"L2",color:getCSS("--l2"),title:"Best practice",body:"Diligence is proportionate to risk segment, screening runs against verified legal entities, ESG data is collected once in a shared standard, and findings gate sourcing and onboarding.",takeaway:"Coverage rises and supplier burden falls at the same time, and a finding starts having consequences instead of just being recorded."},
+{tag:"L3",color:getCSS("--l3"),title:"Exposure analytics",body:"Spend, category, geography and criticality are combined to show where exposure actually concentrates, rather than treating every supplier as an equal unit of risk.",takeaway:"Effort moves to where a failure would hurt, which is usually a much smaller set of suppliers than the risk register suggests."},
+{tag:"L4",color:getCSS("--l4"),title:"Sub-tier discovery",body:"Trade data, supplier disclosure and network analysis map tier two and beyond for critical categories, surfacing shared dependencies nobody contracted for.",takeaway:"The single component plant that three of your tier-one suppliers all depend on becomes visible before it stops, not after."},
+{tag:"L5",color:getCSS("--l5"),title:"Continuous monitoring",body:"Financial distress, sanctions changes, enforcement actions, cyber incidents and adverse media are monitored continuously and pushed into workflow as they occur.",takeaway:"Time to detect a material change falls from months to days, which is the entire difference between managing a risk and reacting to an event."},
+{tag:"L6",color:getCSS("--l6"),title:"People and roles",body:"Findings have named owners with remediation dates, escalation paths are defined by severity, and risk sign-off is a required gate in sourcing and onboarding.",takeaway:"The programme becomes defensible, because you can evidence not just what you knew but what you did about it and by when."}
+],
+metrics(){
+const m=[
+{"a":"0%","b":"Never","c":"0%","d":"None"},
+{"a":"25%","b":"Months","c":"0%","d":"30%"},
+{"a":"60%","b":"4 weeks","c":"10%","d":"60%"},
+{"a":"72%","b":"2 weeks","c":"20%","d":"70%"},
+{"a":"80%","b":"1 week","c":"45%","d":"78%"},
+{"a":"92%","b":"2 days","c":"60%","d":"88%"},
+{"a":"95%","b":"1 day","c":"70%","d":"94%"}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:"cat",label:"Category Risk",options:["Sole-source critical component","High-labour-risk geography","Regulated or safety critical","IT and data processing","Low-risk indirect tail"],phrase:"%s",lower:false},
+{key:"engine",label:"Risk Platform",options:["SAP Ariba SLP + Risk","Coupa Risk Assess","Ivalua","Jaggaer","IntegrityNext","HICX"],phrase:"managed in %s",lower:false},
+{key:"esg",label:"ESG Evidence",options:["EcoVadis assessment","IntegrityNext self-assessment plus monitoring","Own questionnaire","On-site audit","None collected"],phrase:"with ESG evidence from %s",lower:true},
+{key:"mon",label:"Monitoring Model",options:["Continuous automated monitoring","Annual reassessment","At onboarding only","On incident only"],phrase:"under %s",lower:true},
+{key:"tier",label:"Depth of View",options:["Tier one only","Tier two for critical spend","N-tier mapping with trade data","Supplier-disclosed sub-tiers"],phrase:"looking to %s",lower:true},
+{key:"gate",label:"Enforcement",options:["Blocks award and onboarding","Advisory flag only","Reported quarterly","No consequence"],phrase:"where a finding %s",lower:true}
+],
+picks:{"cat":"Sole-source critical component","engine":"SAP Ariba SLP + Risk","esg":"EcoVadis assessment","mon":"Continuous automated monitoring","tier":"Tier two for critical spend","gate":"Blocks award and onboarding"},
+rules:[
+{"k":"gate","vin":["Advisory flag only","Reported quarterly","No consequence"],"text":"A finding that cannot stop an award or an onboarding is documentation, not control. The credibility of the entire programme rests on whether risk has ever actually blocked something, and everyone in the business knows the answer."},
+{"k":"mon","v":"At onboarding only","text":"Point-in-time diligence ages immediately. A supplier screened clean at onboarding can be sanctioned, insolvent or subject to enforcement action a year later and will still be an approved vendor with an open PO."},
+{"k":"mon","v":"On incident only","text":"Incident-driven risk management is not risk management; it is incident response with a risk register attached. The value of the whole function is in time to detect before the event, not documentation after it."},
+{"k":"mon","v":"Annual reassessment","k2":"cat","vin2":["Sole-source critical component","Regulated or safety critical","High-labour-risk geography"],"text":"An annual cycle on your highest-consequence category leaves up to twelve months of undetected exposure. This is exactly the segment where continuous monitoring justifies its cost."},
+{"k":"esg","v":"None collected","k2":"cat","v2":"High-labour-risk geography","text":"Sourcing from a high-labour-risk geography with no ESG evidence is precisely the position modern due diligence legislation was written to make untenable. Absence of evidence is not a defence under most of these regimes."},
+{"k":"esg","v":"Own questionnaire","text":"Bespoke questionnaires create real supplier burden for weak, unverified, self-reported data. Shared assessment standards get materially better response rates because the supplier answers once for many customers rather than once per customer."},
+{"k":"esg","v":"On-site audit","k2":"cat","v2":"Low-risk indirect tail","text":"On-site auditing the indirect tail spends your scarcest diligence resource where the consequence is smallest. Reserve audit for high-consequence categories and use shared assessments for breadth."},
+{"k":"tier","v":"Tier one only","k2":"cat","vin2":["Sole-source critical component","High-labour-risk geography"],"text":"Both the disruption and the labour risk you most need to see usually sit below tier one. Tier-one-only visibility on a critical or high-labour-risk category is the specific blind spot that produces the headline."},
+{"k":"tier","v":"Supplier-disclosed sub-tiers","text":"Supplier disclosure is a reasonable starting point and a poor finishing point: it is voluntary, incomplete and rarely updated. Corroborate with trade or network data wherever the consequence is material."},
+{"k":"cat","v":"IT and data processing","k2":"esg","vin2":["EcoVadis assessment","IntegrityNext self-assessment plus monitoring"],"text":"ESG assessment does not cover cyber and data protection risk. IT suppliers need security certification review, penetration evidence and data processing terms alongside any sustainability assessment."},
+{"k":"cat","v":"Low-risk indirect tail","k2":"mon","v2":"Continuous automated monitoring","text":"Continuous monitoring across the entire tail is affordable in some models and wasteful in others. Screen the tail automatically for sanctions and insolvency, but reserve deeper monitoring for where a failure would actually hurt."},
+{"k":"engine","v":"HICX","text":"HICX raises response rates and keeps entity data trustworthy, which is the foundation screening depends on, but it is not a risk content provider. Pair it with screening and ESG assessment sources explicitly."},
+{"k":"engine","vin":["Coupa Risk Assess","Jaggaer"],"k2":"tier","v2":"N-tier mapping with trade data","text":"N-tier mapping is not a core strength of these platforms. Expect to bring a specialist mapping or trade-data provider alongside and to design how its findings flow back into the supplier record."}
+],
+fallback:"Clean pairing — few seams to engineer. Focus on screening against the verified legal entity from Ep07 rather than the supplier name, and on making findings a genuine gate in Ep03 and Ep07 rather than a report.",
+summary(){const p=this.picks;
+const parts=this.columns.map(function(c){
+const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+return c.phrase.split('%s').join(v);
+});
+return parts.join(', ')+'.';},
+seamNote(){
+const p=this.picks; const n=[];
+this.rules.forEach(function(r){
+let hit = r.vin ? r.vin.indexOf(p[r.k])>-1 : p[r.k]===r.v;
+if(hit && r.k2){ hit = r.vin2 ? r.vin2.indexOf(p[r.k2])>-1 : p[r.k2]===r.v2; }
+if(hit) n.push(r.text);
+});
+if(!n.length) n.push(this.fallback);
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:"A supplier was screened clean at onboarding in 2024 and appears on a sanctions list in 2026. Your process reassesses suppliers annually on their onboarding anniversary. What is the exposure?",
+a:["Minimal, since the annual reassessment will catch it within twelve months","Up to a year of transacting with a sanctioned counterparty, during which every order and payment is potentially a regulatory breach","None, provided the contract contains a compliance warranty","Limited to reputational risk rather than regulatory risk"],
+c:1, e:"Sanctions exposure is not mitigated by a contractual warranty or by a scheduled review that has not happened yet. Screening is one of the clearest cases for continuous automated monitoring, because the list changes without warning and the consequence attaches from the moment of the transaction rather than from the moment you notice."},
+{q:"Why do shared ESG assessment standards typically achieve far higher supplier response rates than bespoke customer questionnaires?",
+a:["Because they are legally mandatory in most jurisdictions","Because the supplier completes one evidence-backed assessment that can be shared with many customers, instead of a different questionnaire for each one","Because they ask fewer questions","Because they are free for suppliers to complete"],
+c:1, e:"The binding constraint on ESG data is supplier capacity, not supplier willingness. A mid-sized manufacturer receiving forty different customer questionnaires a year will answer them badly or not at all. Shared assessment converts that to a single exercise, which is why coverage and quality both rise — and it is also why the assessment is a data source rather than a workflow platform."},
+{q:"Three of your tier-one suppliers are independently reliable, yet a single plant failure stops all three. What was missing?",
+a:["Better tier-one performance management under Ep13","Sub-tier visibility — the shared dependency existed below the level anyone was looking at","Stronger contractual continuity clauses","Dual sourcing at tier one"],
+c:1, e:"Concentration risk frequently hides one level below the contract. Dual sourcing at tier one gives no protection at all if both sources depend on the same sub-tier plant, and no amount of tier-one performance management would have revealed it. Mapping sub-tiers for critical categories is what turns this from a post-mortem into a known and managed dependency."},
+{q:"A risk team produces a thorough quarterly report of findings, but no award has ever been blocked. What is the most accurate assessment?",
+a:["The programme is working, since no supplier has warranted blocking","It is a reporting function rather than a control, and the business has already learned that risk findings carry no consequence","The reporting cadence should be increased to monthly","The risk platform needs better data sources"],
+c:1, e:"Enforcement is what separates a control from documentation. If risk assessment has never changed an outcome, then category teams reasonably treat it as an administrative step, findings get worked around rather than remediated, and the evidence trail shows you knew about a problem and proceeded anyway — which is a materially worse position than not having looked."},
+{q:"Which architecture best reflects the Codex thesis for risk, compliance and ESG?",
+a:["One suite covering screening, ESG assessment, sub-tier mapping and monitoring, because a single vendor removes integration risk","A specialist ESG ratings provider used across the whole supplier base","Verified legal entities from Ep07, screening and financial data from specialist providers, shared-standard ESG assessment, sub-tier mapping for critical categories, continuous monitoring, and findings that gate Ep03 and Ep07","An annual onboarding questionnaire with contractual compliance warranties"],
+c:2, e:"Standalone is never enough, and this step is the clearest example in the whole spine: no vendor holds authoritative entity ownership data, sanctions content, audited ESG evidence and n-tier trade visibility simultaneously. The suite contributes workflow and enforcement, the specialists contribute evidence, and the seams between them are literally the due diligence record you would have to defend."}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
 </body>
 </html>

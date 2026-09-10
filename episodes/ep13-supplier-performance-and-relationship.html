@@ -3,112 +3,485 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Procurement Codex · Ep13 — Supplier Performance &amp; Relationship (SPM/SRM) (coming soon)</title>
-<meta name="description" content="Measuring what the supplier actually delivered against what was promised, and running the relationship that decides whether the next cycle is easier or harder." />
-<meta name="codex-status" content="stub" />
+<title>The Procurement Codex · Ep13 — Supplier Performance &amp; Relationship</title>
+<meta name="description" content="Supplier performance management is the first step in the spine that is not a transaction. Ep13 covers scorecards, segmentation, improvement plans and joint value creation across SRM platforms, transactional data, mining and orchestration layers, until standalone is never enough." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
 html{scroll-behavior:smooth}
 body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-.spine-node{transition:all .2s ease}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
 .pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
-      <div>
-        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
-        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
-      </div>
-    </div>
-    <div class="hidden sm:flex items-center gap-2 text-xs">
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 13</span>
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 13 of 15</span>
-    </div>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 13</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 13 of 15</span>
+</div>
+</div>
 </header>
 
 <section class="bg-white border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
 <div class="flex items-center gap-1 min-w-max text-[11px]">
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
-    </div>
-  </div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">15. Spend Intelligence</a></div>
+</div>
+</div>
 </section>
 
 <section class="bg-indigo-50 border-b border-indigo-100">
-  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
-    <span class="mt-0.5">⚙️</span>
-    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
-  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 13 · Coming soon</p>
-  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Supplier Performance &amp; Relationship (SPM/SRM)</h1>
-  <p class="mt-4 text-slate-600 max-w-3xl text-lg">Measuring what the supplier actually delivered against what was promised, and running the relationship that decides whether the next cycle is easier or harder.</p>
-  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
-    Not published yet — this step is step 13 of 15 on the spine, released in order.
-  </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-6">
-  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
-    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
-    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-      <li>Scorecards, QBRs and performance data</li>
-      <li>Segmentation and supplier tiering</li>
-      <li>SRM maturity models</li>
-      <li>Turning performance data into negotiation leverage</li>
-    </ul>
-    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 13 · Where the transaction becomes a relationship</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Supplier Performance &amp; Relationship</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Twelve steps have produced a complete transactional record of how a supplier actually behaved. Supplier performance management is what turns that exhaust into a conversation — and it is the first step where <span class="font-semibold">the objective is not to process something faster but to make a relationship worth more</span>.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every major platform handles it → best practice → process mining, AI, orchestration and ownership, stacked until <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-6">
-  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
-  <div class="mt-3 flex flex-wrap gap-2">
-    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
-  </div>
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">Supplier performance management measures how suppliers actually deliver against what was agreed. Supplier relationship management decides which suppliers deserve investment beyond measurement. Together they cover segmentation, scorecards, business reviews, corrective action and joint improvement — <span class="font-semibold">a governance rhythm rather than a document</span>.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because the value negotiated in Ep05 and contracted in Ep06 is realised or lost over years of delivery that nobody was watching. Without measurement, poor performance is discovered as a crisis, good performance is never rewarded with more business, and the small number of suppliers who could genuinely change your cost base are treated exactly like everyone else.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Segmentation is honest and small — most suppliers are managed by exception, a handful get real attention. Scorecards are mostly built from transactional data the process already produced rather than from surveys. Reviews happen on a schedule with an agenda and actions that get tracked. Poor performers see a corrective plan with dates, and strategic suppliers see a joint agenda with shared value.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on" class="pill px-3 py-1 rounded-full border text-xs font-semibold" :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'" x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs" :style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, scope, and integration maturity.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Segment before you measure</span> — managing every supplier equally means managing none of them well. Most of the base should be exception-managed, with real governance reserved for the few who carry strategic or risk weight.</li>
+<li><span class="font-semibold">Score from data you already have</span> — on-time delivery, reject rates, change orders and invoice exceptions are already in the system. A scorecard built mostly from surveys measures how recently someone was annoyed.</li>
+<li><span class="font-semibold">Measure your own behaviour too</span> — on-time payment, forecast accuracy and specification churn belong on the scorecard. Suppliers perform worse for difficult customers, and refusing to see that makes the whole exercise adversarial.</li>
+<li><span class="font-semibold">Tie the scorecard to the contract</span> — performance criteria should map to the service levels and obligations agreed in Ep06, or the review becomes an argument about whether the measure was ever agreed.</li>
+<li><span class="font-semibold">Close the loop or do not open it</span> — a review that produces actions nobody tracks teaches suppliers that the process is ceremonial, and they will resource it accordingly.</li>
+<li><span class="font-semibold">Reserve relationship investment for where it pays</span> — joint innovation, shared roadmaps and executive sponsorship are expensive. They belong with the small set of suppliers who can move your cost base or your capability, not with whoever shouts loudest.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — on-time in-full delivery, quality reject rate, responsiveness on change orders, invoice exception rate by supplier, scorecard coverage of spend, action closure rate, savings and value delivered from strategic supplier programmes.</li>
+<li><span class="font-semibold">Survey theatre</span> — an annual questionnaire circulated to stakeholders, scored subjectively, filed, and never acted on. It consumes goodwill and produces nothing.</li>
+<li><span class="font-semibold">Everyone is strategic</span> — a segmentation exercise that classifies two hundred suppliers as strategic, guaranteeing that none of them receive strategic attention.</li>
+<li><span class="font-semibold">Scorecards nobody believes</span> — metrics the supplier disputes because the underlying data is dirty, so every review is spent arguing about the numbers instead of the performance.</li>
+<li><span class="font-semibold">One-way accountability</span> — measuring the supplier while ignoring late payment, late forecasts and constant specification changes from your own side.</li>
+<li><span class="font-semibold">Actions without owners</span> — improvement plans with no named owner or date on either side, which close by being forgotten rather than resolved.</li>
+<li><span class="font-semibold">Performance data that never reaches sourcing</span> — three years of delivery failures that nobody consults when the category is re-tendered in Ep03.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto an annual supplier survey and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i" class="px-3 py-2 rounded-lg text-xs font-bold border transition" :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'" :style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4" :class="level>=i ? 'opacity-100' : 'opacity-30'" :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().a"></div>
+<div class="text-xs text-slate-500 mt-1">Suppliers scored</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().b"></div>
+<div class="text-xs text-slate-500 mt-1">Score from live data</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().c"></div>
+<div class="text-xs text-slate-500 mt-1">Actions closed on time</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().d"></div>
+<div class="text-xs text-slate-500 mt-1">Value from top tier</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed supplier performance architecture is never one product. Here is the composite, and where the value actually lives — in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">flowchart LR
+SEG[L2 Segmentation<br/>Kraljic and spend criticality] --> SCOPE{Who gets managed<br/>and how hard}
+PO[Ep09 orders and change orders] -.responsiveness.-> DATA
+GR[Ep10 receipts, rejects and lateness] -.delivery and quality.-> DATA
+INV[Ep11 invoice exceptions] -.administrative accuracy.-> DATA
+PAY[Ep12 on-time payment] -.our own behaviour.-> DATA
+DATA[L1 Objective performance data<br/>from the transaction record] --> SCORE[L1 Scorecard<br/>Ariba SLP / Ivalua / Jaggaer]
+SURVEY[L6 Stakeholder input<br/>structured, weighted, infrequent] -.qualitative.-> SCORE
+CONTRACT[Ep06 obligations and SLAs] -.what was promised.-> SCORE
+SCORE --> REVIEW[L6 Business review<br/>agenda, owners and dates]
+REVIEW --> CAPA{L5 Improvement plan<br/>tracked to closure}
+PM[L3 Process mining<br/>Celonis / Signavio] -.where the friction really is.-> CAPA
+CAPA --> BACK[Back to Ep02 category strategy<br/>and Ep03 sourcing]
+REVIEW --> RISK[Ep14 · Risk, Compliance and ESG]</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, an SRM module stores a scorecard nobody believes. <span class="font-semibold text-indigo-700">Wired to Ep09 through Ep12 for objective delivery data, to Ep06 for the obligations actually promised, to mining for where friction really sits, and to a governance rhythm with named owners, it produces the only supplier assessment a commercial conversation can survive.</span> No single vendor supplies the transactional truth, the contract obligations and the relationship cadence at once — and the seams here are where credibility is either earned or lost.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for supplier performance and relationship management; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Supplier Performance &amp; Relationship</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Decide which suppliers matter, measure how they actually deliver using the data the process already produced, meet on a rhythm, and track what you both agreed to change.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">On-time in-full · quality reject rate · invoice exception rate by supplier · scorecard coverage of spend · action closure rate · value delivered by strategic suppliers.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">If your supplier scorecard is mostly opinion, you are measuring your stakeholders mood, not your supplier performance.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">S2P suites win when performance data comes free from their own transactions; specialists win on supplier data integrity and collaboration depth; nobody wins without governance discipline.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L0 annual survey → L1 SRM scorecard → L2 segmentation and cadence → L3 mining → L4 predictive performance → L5 collaboration orchestration → L6 named relationship owners → L7 composite.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">Standalone is never enough. A scorecard becomes influence only when transactional truth, contract obligations, governance cadence and ownership are wired together.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span>/<span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null" class="w-full text-left text-sm px-4 py-3 rounded-lg border transition" :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))" x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
 </section>
 
 <footer class="border-t border-slate-200 bg-white mt-8">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
-    <div class="font-bold text-slate-700">The Procurement Codex · Episode 13 — Supplier Performance &amp; Relationship (SPM/SRM)</div>
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 13 — Supplier Performance &amp; Relationship</div>
 <div class="mt-3 flex flex-wrap items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep12 · Payment</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep12 · Payment &amp; Working Capital</a>
       <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep14 · Risk / ESG (coming soon) →</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep14 · Risk, Compliance &amp; ESG →</a>
     </div>
-    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
-    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
-    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
-  </div>
+<p class="mt-3">One step of the source-to-pay spine. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
 </footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:["Scorecard design flexibility","Automatic data from transactions","Segmentation and tiering","Improvement plan and action tracking","Supplier collaboration and portal","Innovation and joint value tracking"],
+platforms:[
+{name:"SAP Ariba SLP", on:true, scores:[4,5,4,4,5,3], best:"Performance data flows in from the same estate that raised the orders, receipted the goods and matched the invoices, and the Business Network gives suppliers a genuine two-way channel to respond to their own scores", watch:"Scorecard modelling is less freely configurable than the specialists, and much of the value assumes the transactional estate really is SAP end to end rather than a mixed landscape"},
+{name:"Ivalua", on:true, scores:[5,4,5,5,4,4], best:"The most configurable scorecard and segmentation model of the majors: weightings, tiers, review cadences and corrective action workflows can be shaped to an existing governance model rather than replacing it", watch:"That flexibility invites over-engineering, and elaborate scorecards with forty weighted criteria are consistently harder to sustain than simple ones that people actually populate"},
+{name:"Jaggaer", on:true, scores:[4,4,4,4,4,4], best:"Well-balanced supplier management with solid performance and risk linkage, particularly established in public sector, higher education and life sciences where audit trails on supplier decisions matter", watch:"Depth varies noticeably by module and release, and the transactional data feed depends on which parts of the suite are deployed versus integrated from elsewhere"},
+{name:"GEP SMART", on:true, scores:[4,5,4,4,4,4], best:"Unified source-to-pay model means scorecards inherit category, contract and sourcing context automatically, so performance can be assessed against what was actually promised", watch:"Supplier-side adoption of the collaboration portal is the constraint, and the network reach is smaller than SAP, so the qualitative half of the picture takes more effort to gather"},
+{name:"HICX", on:true, scores:[4,4,4,3,4,3], best:"Supplier data integrity as the foundation: a genuinely reliable single supplier record across a fragmented ERP estate, which is the precondition for any scorecard the supplier will accept as accurate", watch:"It is a supplier data and experience platform rather than a full performance suite, so scorecard analytics and improvement workflows are usually lighter than a dedicated SRM module"},
+{name:"Coupa", on:false, scores:[3,5,3,3,3,3], best:"Performance signals fall out of the transactional record almost for free, and community benchmarking gives useful outside context on how a supplier performs elsewhere", watch:"Formal SRM governance, tiering and structured improvement plans are thinner than the dedicated suites, so mature programmes often outgrow it"},
+{name:"Sirion", on:false, scores:[4,4,3,4,4,3], best:"Performance measured directly against extracted contract obligations and service levels, which makes the review a conversation about what was promised rather than what someone remembers", watch:"Strongest for services and outsourcing relationships with dense obligation sets; less suited to goods-heavy manufacturing performance where delivery and quality data dominate"},
+{name:"Zycus", on:false, scores:[4,3,4,4,3,3], best:"Structured performance management with reasonable configurability at a lower entry price, which suits mid-market programmes building their first formal scorecard", watch:"Automatic transactional data capture depends on integration effort, and supplier-side collaboration is more limited than the network-backed platforms"}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:"L0",color:getCSS("--l0"),title:"Concept",body:"A questionnaire goes round once a year, stakeholders score suppliers out of five from memory, and the results are filed.",takeaway:"The output measures how recently a supplier annoyed someone. No supplier changes behaviour because of it, and everyone knows that."},
+{tag:"L1",color:getCSS("--l1"),title:"Platform-native SRM",body:"An SRM module holds supplier records, scorecard templates, review schedules and a place to log actions, with a portal for supplier responses.",takeaway:"There is now a structure — but if the numbers are still typed in by hand, the review is still an argument about the data rather than the performance."},
+{tag:"L2",color:getCSS("--l2"),title:"Best practice",body:"Segmentation is honest, scorecards draw mostly on transactional data, criteria map to contracted service levels, your own behaviour is measured, and actions have owners and dates.",takeaway:"Reviews become short and factual, poor performers get a plan rather than a complaint, and strategic suppliers finally get attention proportionate to their value."},
+{tag:"L3",color:getCSS("--l3"),title:"Process mining",body:"Event logs reveal where friction actually occurs between the two organisations: change order loops, receipt disputes, invoice exceptions and approval delays, by supplier.",takeaway:"The review agenda writes itself from evidence, and a surprising share of the friction turns out to originate on the buyer side."},
+{tag:"L4",color:getCSS("--l4"),title:"Intelligence and prediction",body:"Models flag deteriorating trends before they become failures, cluster suppliers by behaviour rather than spend, and surface which relationships are drifting.",takeaway:"Performance management becomes anticipatory, which is the only version of it that prevents a crisis rather than documenting one."},
+{tag:"L5",color:getCSS("--l5"),title:"Orchestration",body:"Scorecards, reviews, corrective actions, contract obligations and risk signals are coordinated across systems and shared with the supplier in one view.",takeaway:"Both sides work from the same record, so the meeting is about what to do next rather than whose spreadsheet is right."},
+{tag:"L6",color:getCSS("--l6"),title:"People and roles",body:"Each managed supplier has a named relationship owner, an executive sponsor where the tier justifies it, and a cadence that happens whether or not there is a problem.",takeaway:"Relationships stop being escalation-driven, which is the difference between a supplier who takes your call and one who takes someone elses."}
+],
+metrics(){
+const m=[
+{"a":"5%","b":"0%","c":"Untracked","d":"None"},
+{"a":"20%","b":"25%","c":"35%","d":"Ad hoc"},
+{"a":"55%","b":"60%","c":"65%","d":"Emerging"},
+{"a":"65%","b":"72%","c":"75%","d":"Measured"},
+{"a":"75%","b":"82%","c":"82%","d":"Growing"},
+{"a":"85%","b":"90%","c":"90%","d":"Material"},
+{"a":"90%","b":"92%","c":"94%","d":"Compounding"}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:"tier",label:"Supplier Tier",options:["Strategic partner","Preferred and managed","Transactional tail","Single-source critical","New and unproven"],phrase:"%s suppliers",lower:false},
+{key:"engine",label:"SRM Platform",options:["SAP Ariba SLP","Ivalua","Jaggaer","GEP SMART","HICX","Coupa","Sirion","Zycus"],phrase:"managed in %s",lower:false},
+{key:"data",label:"Scorecard Data",options:["Mostly transactional data","Balanced data and survey","Mostly stakeholder survey","Supplier self-reported"],phrase:"scored from %s",lower:true},
+{key:"cadence",label:"Review Cadence",options:["Monthly operational review","Quarterly business review","Annual review","Only when something breaks"],phrase:"reviewed at a %s",lower:true},
+{key:"mining",label:"Process Insight",options:["Celonis","SAP Signavio","Apromore (open source)","PM4Py (open source)","None"],phrase:"measured by %s",lower:false},
+{key:"own",label:"Relationship Owner",options:["Named owner plus exec sponsor","Named category manager","Whoever raised the last order","Nobody assigned"],phrase:"owned by %s",lower:true}
+],
+picks:{"tier":"Strategic partner","engine":"SAP Ariba SLP","data":"Mostly transactional data","cadence":"Quarterly business review","mining":"Celonis","own":"Named owner plus exec sponsor"},
+rules:[
+{"k":"data","v":"Mostly stakeholder survey","text":"Survey-led scorecards measure stakeholder mood and recency, not delivery. Suppliers dispute them because they are disputable, and the review becomes an argument about the method. Anchor the score in delivery, quality and exception data the process already produced."},
+{"k":"data","v":"Supplier self-reported","text":"Self-reported performance data is useful for context and useless as an assessment. If the supplier is the only source, you are auditing their reporting quality rather than their delivery."},
+{"k":"cadence","v":"Only when something breaks","text":"Escalation-driven relationships train suppliers to manage you rather than serve you, because attention is only ever available in a crisis. A cadence that happens when nothing is wrong is what makes the crisis conversation possible."},
+{"k":"cadence","v":"Annual review","k2":"tier","vin2":["Strategic partner","Single-source critical"],"text":"An annual cadence for a strategic or single-source supplier means eleven months of unmanaged exposure. These are precisely the relationships where a quarterly rhythm with tracked actions pays for itself."},
+{"k":"tier","v":"Transactional tail","k2":"cadence","vin2":["Monthly operational review","Quarterly business review"],"text":"Formal reviews for tail suppliers consume the capacity that strategic relationships need. Manage the tail by exception and automated thresholds, and spend the governance budget where it can change something."},
+{"k":"tier","v":"Single-source critical","text":"Single-source criticality is a risk position as much as a performance one. This tier needs a live link into Ep14 for financial and continuity monitoring, because the performance conversation cannot fix a supplier that fails."},
+{"k":"tier","v":"New and unproven","text":"New suppliers need a shorter probation cadence and a narrower scorecard focused on delivery reliability. Judging them on a full strategic scorecard before they have volume produces noise, not insight."},
+{"k":"own","v":"Nobody assigned","text":"Without a named relationship owner, scorecards are produced and nothing happens. Ownership is the mechanism by which a measurement becomes a decision."},
+{"k":"own","v":"Whoever raised the last order","text":"Rotating ownership by transaction means no continuity, no history and no accountability for an improvement plan that spans quarters. The supplier learns to reset the conversation each time."},
+{"k":"own","v":"Named category manager","k2":"tier","v2":"Strategic partner","text":"For genuinely strategic relationships, category ownership alone rarely opens the doors that matter. An executive sponsor on both sides is what converts a supplier review into a business conversation."},
+{"k":"engine","v":"HICX","text":"HICX earns its place by making the supplier record trustworthy across a fragmented estate, which is the precondition for a scorecard the supplier accepts. Expect to pair it with a suite module or analytics layer for the performance workflow itself."},
+{"k":"engine","v":"Sirion","k2":"tier","vin2":["Transactional tail","New and unproven"],"text":"Obligation-led performance management is powerful for dense services contracts and heavy for simple ones. For the tail, the obligation extraction effort will exceed the value it returns."},
+{"k":"mining","v":"None","text":"Without mining, the review agenda is built from whoever complained most recently. Event data across order, receipt and invoice shows where friction actually sits — and often shows that a good share of it starts on the buyer side."},
+{"k":"mining","vin":["Apromore (open source)","PM4Py (open source)"],"text":"Open-source mining can absolutely support this, but supplier-level event logs need careful joining across systems. Budget the engineering time or the analysis will stay at process level rather than supplier level."}
+],
+fallback:"Clean pairing — few seams to engineer. Focus on feeding the scorecard from Ep09 to Ep12 transactional data and mapping criteria to the obligations in Ep06, so the review is about performance rather than about the numbers.",
+summary(){const p=this.picks;
+const parts=this.columns.map(function(c){
+const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+return c.phrase.split('%s').join(v);
+});
+return parts.join(', ')+'.';},
+seamNote(){
+const p=this.picks; const n=[];
+this.rules.forEach(function(r){
+let hit = r.vin ? r.vin.indexOf(p[r.k])>-1 : p[r.k]===r.v;
+if(hit && r.k2){ hit = r.vin2 ? r.vin2.indexOf(p[r.k2])>-1 : p[r.k2]===r.v2; }
+if(hit) n.push(r.text);
+});
+if(!n.length) n.push(this.fallback);
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:"A category team classifies 180 of its 200 suppliers as strategic. What is the practical consequence?",
+a:["Strong supplier coverage and low risk of anything being missed","No supplier receives strategic attention, because the governance capacity is spread across a population that cannot possibly be managed intensively","Better negotiating leverage across the base","Higher scorecard accuracy through wider coverage"],
+c:1, e:"Segmentation is a resource allocation decision, not a compliment. Strategic management means executive sponsorship, joint roadmaps and a real cadence, and no organisation has the capacity to do that 180 times. Over-classification is the most common way an SRM programme quietly becomes ceremonial, because the calendar fills with reviews that nobody prepares for."},
+{q:"A supplier disputes their scorecard in every quarterly review. The scores are built from stakeholder surveys. What is the most effective fix?",
+a:["Increase the number of stakeholders surveyed to improve statistical validity","Rebuild the scorecard primarily from transactional data such as on-time delivery, rejects and invoice exceptions, mapped to contracted service levels","Share the scorecard with the supplier earlier so they can prepare a response","Remove the disputed criteria from the scorecard"],
+c:1, e:"A score that can be argued with will be argued with, and survey-based scores are inherently disputable because they measure impressions. Data the process already produced — what was delivered, when, how often it was rejected, how many invoices failed to match — is hard to contest, and mapping it to the service levels agreed in Ep06 removes the question of whether the measure was ever legitimate."},
+{q:"Why should a supplier scorecard include measures of the buying organisation own behaviour?",
+a:["To improve the relationship optics without changing anything material","Because supplier performance is partly a function of customer behaviour — late payment, poor forecasts and constant specification changes degrade delivery, and ignoring that makes the review adversarial and inaccurate","Because regulators increasingly require balanced scorecards","It should not; the scorecard exists to assess the supplier"],
+c:1, e:"Suppliers genuinely do perform worse for difficult customers, and they allocate their best capacity accordingly. Measuring on-time payment from Ep12, forecast accuracy and specification churn alongside supplier delivery both improves the accuracy of the diagnosis and changes the character of the meeting from an inspection into a joint problem-solving session."},
+{q:"Three years of delivery failure data exists for a supplier, but the category is re-tendered in Ep03 without anyone consulting it. What has failed?",
+a:["The scorecard design","The link back into category strategy and sourcing — performance data that never informs the next award means the measurement had no consequence","The supplier communication process","The contract in Ep06"],
+c:1, e:"Performance management only creates leverage if performance affects future business. A supplier who delivers badly for three years and still wins the retender has learned exactly what the scorecard is worth, and so has everyone watching. Closing the loop back into Ep02 category strategy and Ep03 sourcing is what gives the whole exercise commercial weight."},
+{q:"Which architecture best reflects the Codex thesis for supplier performance and relationship management?",
+a:["A single SRM suite holding scorecards, surveys, reviews and actions, because one vendor removes integration risk","A spreadsheet-based scorecard owned by each category manager","Transactional truth from Ep09 to Ep12, obligations from Ep06, supplier data integrity from a master data layer, mining for real friction, and a governance cadence with named owners on both sides","An annual survey supported by executive relationship visits"],
+c:2, e:"Standalone is never enough, and this step depends on inputs that no SRM module generates itself. Delivery truth comes from receipts and invoices, promises come from the contract, identity comes from supplier master data, and friction comes from mining. The SRM platform is where those meet — but the seams, and whether anyone owns the resulting actions, are what determine whether a supplier changes behaviour."}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
 </body>
 </html>

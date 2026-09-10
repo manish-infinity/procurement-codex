@@ -3,112 +3,485 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Procurement Codex · Ep11 — Invoice Management &amp; 3-way Match (coming soon)</title>
-<meta name="description" content="Where the purchase order, the receipt and the invoice must agree — and where exception handling silently consumes most of the accounts-payable team." />
-<meta name="codex-status" content="stub" />
+<title>The Procurement Codex · Ep11 — Invoice Management &amp; 3-way Match</title>
+<meta name="description" content="Three-way match is not an accounts payable process, it is the audit of everything that happened before it. Ep11 takes invoice management from a PDF in a shared mailbox to structured capture, automated matching, intelligent exception routing and mandate-ready compliance, until standalone is never enough." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
 html{scroll-behavior:smooth}
 body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-.spine-node{transition:all .2s ease}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
 .pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
-      <div>
-        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
-        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
-      </div>
-    </div>
-    <div class="hidden sm:flex items-center gap-2 text-xs">
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 11</span>
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 11 of 15</span>
-    </div>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 11</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 11 of 15</span>
+</div>
+</div>
 </header>
 
 <section class="bg-white border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
 <div class="flex items-center gap-1 min-w-max text-[11px]">
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
-    </div>
-  </div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">15. Spend Intelligence</a></div>
+</div>
+</div>
 </section>
 
 <section class="bg-indigo-50 border-b border-indigo-100">
-  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
-    <span class="mt-0.5">⚙️</span>
-    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
-  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 11 · Coming soon</p>
-  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Invoice Management &amp; 3-way Match</h1>
-  <p class="mt-4 text-slate-600 max-w-3xl text-lg">Where the purchase order, the receipt and the invoice must agree — and where exception handling silently consumes most of the accounts-payable team.</p>
-  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
-    Not published yet — this step is step 11 of 15 on the spine, released in order.
-  </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-6">
-  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
-    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
-    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-      <li>Two-way vs. three-way vs. four-way match</li>
-      <li>Tolerance design and exception routing</li>
-      <li>AI invoice capture and auto-coding</li>
-      <li>Exception rate as the real AP productivity metric</li>
-    </ul>
-    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 11 · Where every upstream shortcut presents its bill</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Invoice Management &amp; 3-way Match</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">Every shortcut taken in the previous ten steps arrives here with an invoice attached. Matching does not create accuracy — it <span class="font-semibold">discovers whether accuracy was created upstream</span>. That is why the organisations with the worst exception rates are almost never the ones with the worst accounts payable teams.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every major platform handles it → best practice → process mining, AI, orchestration and ownership, stacked until <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-6">
-  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
-  <div class="mt-3 flex flex-wrap gap-2">
-    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
-  </div>
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">Invoice management is the capture, validation, matching, approval and posting of what a supplier says you owe. Three-way match is its central control: the invoice is compared against the <span class="font-semibold">purchase order from Ep09 and the receipt from Ep10</span>, and only paid where price, quantity and terms agree within tolerance. Two-way match drops the receipt; four-way adds inspection.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because the supplier invoice is the one document in the cycle the buying organisation does not author. It is the only place where a price that was never agreed, a quantity that never arrived or a service nobody consumed can enter the ledger. Matching exists to make paying the wrong amount require a deliberate override rather than an oversight.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Most invoices arrive already structured, match automatically and post without a human ever opening them. The minority that fail are routed by cause to whoever can actually resolve them, with the PO, receipt and contract on the same screen. Exception root causes are fed back upstream rather than absorbed. Nothing is paid without a match unless somebody senior consciously decided to.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on" class="pill px-3 py-1 rounded-full border text-xs font-semibold" :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'" x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs" :style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, scope, and integration maturity.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Move capture upstream, not extraction downstream</span> — every invoice you receive as structured data is an invoice you never have to read. Supplier enablement beats better OCR, permanently and at lower cost.</li>
+<li><span class="font-semibold">Match on the data you already committed to</span> — price and terms come from the contract and PO, quantity from the receipt. If matching needs data nobody captured, the design is wrong, not the invoice.</li>
+<li><span class="font-semibold">Route exceptions by cause, not by queue</span> — a price mismatch belongs to procurement, a quantity mismatch to receiving, a missing PO to the requester. A single shared exception queue guarantees the wrong people work the wrong problems.</li>
+<li><span class="font-semibold">Set tolerances as an economic decision</span> — tolerance should reflect the cost of investigating versus the expected loss, and vary by category and value. A single global percentage is an accident, not a policy.</li>
+<li><span class="font-semibold">Feed root cause upstream</span> — an exception resolved but not diagnosed will arrive again next month. Exception reason codes are a procurement input, not an accounts payable statistic.</li>
+<li><span class="font-semibold">Treat compliance as architecture</span> — e-invoicing mandates and country-specific clearance models are a capture and archiving requirement; retrofitting them per country is far more expensive than designing for them once.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — touchless or straight-through match rate, cost per invoice, exception rate by cause, exception ageing, on-time payment rate, duplicate payment rate, e-invoice adoption by spend and by count.</li>
+<li><span class="font-semibold">No-PO invoices</span> — the invoice arrives with nothing to match against, so it is approved by whoever recognises the supplier name. This is a step-eight and step-nine failure that only becomes visible here.</li>
+<li><span class="font-semibold">Exception ping-pong</span> — the same invoice bounced between accounts payable, procurement and the requester because nobody owns the cause, only the queue.</li>
+<li><span class="font-semibold">Tolerance drift</span> — tolerances widened over time to keep the automation rate looking good, until the control absorbs real overbilling silently.</li>
+<li><span class="font-semibold">OCR as a strategy</span> — investing endlessly in reading PDFs better instead of getting suppliers to stop sending them.</li>
+<li><span class="font-semibold">Duplicate payments</span> — the same invoice captured through two channels, or re-submitted by a supplier chasing payment, with no cross-channel duplicate check.</li>
+<li><span class="font-semibold">Payment-driven receipting</span> — receipts posted by accounts payable to clear a block, which converts the match from a control into a formality performed by the party under time pressure.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a PDF in a shared mailbox and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i" class="px-3 py-2 rounded-lg text-xs font-bold border transition" :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'" :style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4" :class="level>=i ? 'opacity-100' : 'opacity-30'" :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().a"></div>
+<div class="text-xs text-slate-500 mt-1">Touchless match rate</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().b"></div>
+<div class="text-xs text-slate-500 mt-1">Cost per invoice</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().c"></div>
+<div class="text-xs text-slate-500 mt-1">Exception ageing</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().d"></div>
+<div class="text-xs text-slate-500 mt-1">On-time payment</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed invoice architecture is never one product. Here is the composite, and where the value actually lives — in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">flowchart LR
+SUP[Supplier] --> CH{L5 Capture channels<br/>network, EDI, portal, PDF, paper}
+CH --> EINV[L1 Structured e-invoice<br/>SAP Business Network / Tradeshift / Basware]
+CH --> OCR[L4 AI extraction<br/>for unstructured PDF and paper]
+EINV --> VAL[L2 Validation<br/>tax, duplicate, supplier and bank check]
+OCR --> VAL
+PO[Ep09 purchase order] -.price and terms.-> MATCH
+GR[Ep10 receipt or service entry] -.delivered quantity.-> MATCH
+VAL --> MATCH{L1 Three-way match<br/>within tolerance}
+MATCH --> POST[L1 Posted to ledger<br/>S4HANA / Oracle / D365]
+MATCH --> EXC[L5 Exception routing<br/>by cause, to the owner]
+PM[L3 Process mining<br/>Celonis / Signavio] -.root cause back upstream.-> EXC
+EXC --> POST
+POST --> PAY[Ep12 · Payment and Working Capital]</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, an invoice module clears documents. <span class="font-semibold text-indigo-700">Wired to a supplier network for structured capture, to Ep09 and Ep10 for the two documents it matches against, to AI for the unstructured remainder, to orchestration for routing exceptions by cause, and to mining for feeding those causes back upstream, it becomes the quality audit of the entire source-to-pay chain.</span> No single vendor leads on network reach, extraction accuracy, matching depth and mandate compliance simultaneously — the seams are the whole game.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for invoice management and three-way match; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Invoice Management &amp; 3-way Match</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Capture what the supplier says you owe, compare it against what you ordered and what you received, pay only what agrees, and send everything that does not to whoever caused it.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Touchless match rate · cost per invoice · exception rate and ageing by cause · e-invoice adoption · duplicate payment rate · on-time payment.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">Your exception rate is not an accounts payable metric — it is a report card on the ten steps that came before it.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">Networks and AP specialists win on capture reach and extraction; ERPs win on matching depth, tax and posting; orchestration wins on routing exceptions to the right owner.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L0 mailbox PDF → L1 match engine → L2 tolerance and routing discipline → L3 mining → L4 AI extraction and prediction → L5 network and exception orchestration → L6 cause ownership → L7 composite.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">Standalone is never enough. Matching only becomes a control when capture, order, receipt, routing and root-cause ownership are wired together.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span>/<span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null" class="w-full text-left text-sm px-4 py-3 rounded-lg border transition" :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))" x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
 </section>
 
 <footer class="border-t border-slate-200 bg-white mt-8">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
-    <div class="font-bold text-slate-700">The Procurement Codex · Episode 11 — Invoice Management &amp; 3-way Match</div>
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 11 — Invoice Management &amp; 3-way Match</div>
 <div class="mt-3 flex flex-wrap items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep10 · Receipt</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep10 · Goods &amp; Service Receipt</a>
       <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep12 · Payment (coming soon) →</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep12 · Payment &amp; Working Capital →</a>
     </div>
-    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
-    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
-    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
-  </div>
+<p class="mt-3">One step of the source-to-pay spine. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
 </footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:["Capture channel reach","Extraction and data quality","Matching engine depth","Exception routing and resolution","E-invoicing mandate compliance","Supplier self-service"],
+platforms:[
+{name:"SAP Business Network + S/4HANA", on:true, scores:[5,4,5,4,5,5], best:"Largest transacting supplier network combined with the deepest native matching in S/4HANA, including service entry, evaluated receipt settlement and country-specific mandate coverage through SAP Document and Reporting Compliance", watch:"Value depends heavily on how many of your suppliers are actually enabled on the network rather than merely registered, and the licensing and enablement effort for a long tail of small suppliers is routinely underestimated"},
+{name:"Basware", on:true, scores:[5,5,4,4,5,4], best:"A capture-first specialist: very broad channel coverage, mature extraction for the unstructured remainder, and long-standing depth in country e-invoicing mandates across Europe and beyond", watch:"The matching and posting of record usually still sit in the ERP, so the integration design determines whether exceptions carry enough context to be resolved without switching systems"},
+{name:"Coupa", on:true, scores:[4,4,4,5,3,4], best:"Exception handling designed for business users rather than accounts payable specialists, with the requisition, PO, receipt and contract visible on one screen, which is why resolution times tend to be short", watch:"Mandate coverage and tax determination lean on partners and the ERP, and matching depth for complex service or scheduling-agreement invoices is lighter than ERP-native engines"},
+{name:"Tradeshift", on:true, scores:[5,4,3,3,4,5], best:"Network-centric model with genuinely strong free supplier onboarding and self-service, which is the cheapest route to raising structured invoice share across a long tail", watch:"Matching and financial posting depend on the connected ERP, and organisations should assess platform and vendor stability as carefully as functionality when the network is the core value"},
+{name:"Oracle Fusion Payables", on:true, scores:[4,4,5,4,4,4], best:"Matching, tax, holds and payables accounting in a single data model with the PO and receipt, so tolerance handling and period control are native rather than reconciled", watch:"Capture channel breadth is narrower than the network and AP specialists, so most deployments still front it with a capture layer for the unstructured and long-tail invoice population"},
+{name:"Ivalua", on:false, scores:[4,4,4,5,4,4], best:"Configurable matching and exception workflows that can encode unusual contract structures, with full upstream context because sourcing, contract and PO share the model", watch:"Configuration debt accumulates and upgrades cost more; extraction quality for unstructured invoices generally relies on an embedded or partner engine rather than a first-party one"},
+{name:"GEP SMART", on:false, scores:[4,4,4,4,3,4], best:"Unified source-to-pay model means an exception arrives already carrying category, contract and sourcing context, which shortens diagnosis considerably", watch:"Country mandate coverage is thinner than the specialists, and network reach for structured invoicing is smaller, so the unstructured share stays higher for longer"},
+{name:"Zycus", on:false, scores:[3,4,4,4,3,3], best:"Competitive AI-led extraction and touchless processing claims at a lower entry price point, which suits mid-market organisations without a large enablement budget", watch:"Smaller supplier network and narrower mandate coverage than the leaders, and complex matching scenarios often need more configuration than the demo path suggests"}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:"L0",color:getCSS("--l0"),title:"Concept",body:"Invoices arrive as PDFs in a shared mailbox, someone prints them, walks them round for signatures and types them into the ledger.",takeaway:"Nothing is compared against anything. Payment accuracy depends entirely on whether the approver happened to remember what was ordered."},
+{tag:"L1",color:getCSS("--l1"),title:"Platform-native matching",body:"Invoices are entered or imported into the ERP and matched automatically against the purchase order and goods receipt within tolerance, with mismatches placed on hold.",takeaway:"The control now exists — but it only works on the invoices that arrive with a usable PO reference, and everything else becomes an exception queue."},
+{tag:"L2",color:getCSS("--l2"),title:"Best practice",body:"Capture is pushed upstream to structured channels, tolerances are set by category as an economic decision, exceptions are routed by cause, and reason codes are fed back upstream.",takeaway:"Touchless rates rise and, more importantly, the exception population starts shrinking because its causes are being fixed rather than processed."},
+{tag:"L3",color:getCSS("--l3"),title:"Process mining",body:"End-to-end event logs show which suppliers, categories, buyers and order types generate exceptions, and how much cycle time each rework loop actually costs.",takeaway:"Exception handling stops being a staffing conversation and becomes a targeted upstream fix list ranked by cost."},
+{tag:"L4",color:getCSS("--l4"),title:"Intelligence and AI",body:"Extraction models read the unstructured remainder, duplicate detection runs across channels, coding is proposed automatically and invoices likely to fail are flagged before they do.",takeaway:"The human effort concentrates on genuine commercial disagreements instead of transcription and triage."},
+{tag:"L5",color:getCSS("--l5"),title:"Orchestration",body:"Capture channels, the matching engine, the ERP and the supplier are coordinated in one flow, with exceptions routed to the owner of the cause and status visible to the supplier.",takeaway:"Suppliers stop calling to ask where the payment is, because they can see exactly which document is missing and who holds it."},
+{tag:"L6",color:getCSS("--l6"),title:"People and roles",body:"Each exception cause has a named owner outside accounts payable: price to procurement, quantity to receiving, missing PO to the requester and their manager.",takeaway:"Accounts payable stops absorbing the cost of upstream failure, which is the only condition under which upstream failure ever gets fixed."}
+],
+metrics(){
+const m=[
+{"a":"0%","b":"High","c":"Unbounded","d":"55%"},
+{"a":"40%","b":"12.00","c":"20 days","d":"70%"},
+{"a":"65%","b":"6.00","c":"10 days","d":"85%"},
+{"a":"72%","b":"4.50","c":"7 days","d":"89%"},
+{"a":"84%","b":"3.00","c":"4 days","d":"93%"},
+{"a":"90%","b":"2.20","c":"2 days","d":"96%"},
+{"a":"93%","b":"1.80","c":"1 day","d":"98%"}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:"channel",label:"Capture Channel",options:["Structured e-invoice network","EDI","Supplier portal entry","PDF by email with AI extraction","Paper and manual entry"],phrase:"Invoices captured by %s",lower:true},
+{key:"engine",label:"AP Platform",options:["SAP Business Network + S/4HANA","Basware","Coupa","Tradeshift","Oracle Fusion Payables","Ivalua","GEP SMART","Zycus"],phrase:"processed in %s",lower:false},
+{key:"match",label:"Match Type",options:["Three-way match","Two-way match","Four-way with inspection","Evaluated receipt settlement","No match, approval only"],phrase:"validated by %s",lower:true},
+{key:"tol",label:"Tolerance Policy",options:["Category and value based","Single global percentage","Zero tolerance","Wide enough to auto-clear"],phrase:"with tolerances that are %s",lower:true},
+{key:"mining",label:"Process Insight",options:["Celonis","SAP Signavio","Apromore (open source)","PM4Py (open source)","None"],phrase:"measured by %s",lower:false},
+{key:"own",label:"Exception Ownership",options:["By cause, outside AP","Shared AP queue","Procurement resolves all","Whoever picks it up"],phrase:"with exceptions owned %s",lower:true}
+],
+picks:{"channel":"Structured e-invoice network","engine":"SAP Business Network + S/4HANA","match":"Three-way match","tol":"Category and value based","mining":"Celonis","own":"By cause, outside AP"},
+rules:[
+{"k":"match","v":"No match, approval only","text":"Approval without matching asks one person to remember what was ordered and what arrived. It is the control most organisations believe they have and least often actually have, and it is where duplicate and inflated invoices survive."},
+{"k":"match","v":"Two-way match","text":"Two-way match drops the receipt, which means you are confirming the supplier billed what you ordered but not that anything was delivered. Defensible for subscriptions and rate-card services with a milestone construct, dangerous for goods."},
+{"k":"match","v":"Evaluated receipt settlement","text":"Evaluated receipt settlement removes the supplier invoice entirely by self-billing from the receipt. Powerful for high-volume, stable, well-priced goods flows, but it moves the entire accuracy burden onto Ep09 pricing and Ep10 receipt quality."},
+{"k":"tol","v":"Wide enough to auto-clear","text":"Tolerances tuned to make the automation rate look good are not a control, they are a budget for silent overbilling. Automation rate is only meaningful when the tolerance behind it was set on economics."},
+{"k":"tol","v":"Zero tolerance","text":"Zero tolerance guarantees that rounding, freight and currency differences of a few pence generate the same investigation as a genuine dispute. The cost of investigating should be weighed against the expected loss, per category."},
+{"k":"tol","v":"Single global percentage","text":"One global percentage means a three percent variance is treated identically on a box of cables and a capital project. Tolerance should differ by category and value or it is simply an untuned default."},
+{"k":"channel","v":"Paper and manual entry","text":"Paper is the most expensive invoice you can receive and the least matchable. Before investing anything in reading it better, work out what it would cost to stop receiving it at all."},
+{"k":"channel","v":"PDF by email with AI extraction","text":"Extraction has become genuinely good, but a read PDF is still an unstructured invoice with a confidence score attached. Treat extraction as the bridge for the tail, not the destination for the whole population."},
+{"k":"channel","vin":["Structured e-invoice network","EDI"],"k2":"engine","vin2":["Zycus","GEP SMART"],"text":"Structured capture is only as good as the network reach behind it. On a smaller network, verify how much of your actual supplier base can transact before assuming the structured share will rise."},
+{"k":"own","v":"Shared AP queue","text":"A single shared queue routes every cause to the same team, so accounts payable ends up negotiating prices it did not agree and chasing receipts it cannot post. Exceptions should be routed by cause to the function that owns the cause."},
+{"k":"own","v":"Whoever picks it up","text":"Unassigned exceptions age. Without named ownership per cause you get exception ping-pong, and the ageing curve becomes the true measure of the process rather than the touchless rate."},
+{"k":"own","v":"Procurement resolves all","text":"Procurement can resolve price and contract disputes but cannot confirm what arrived at a loading dock. Quantity and receipt causes belong with receiving, or resolution stalls on information procurement does not have."},
+{"k":"mining","v":"None","text":"Without mining you can count exceptions but not diagnose them, so headcount becomes the only lever. The exception population only shrinks when its causes are ranked by cost and fixed upstream."},
+{"k":"mining","vin":["Apromore (open source)","PM4Py (open source)"],"text":"Open-source mining is capable, but the hard part here is building a clean end-to-end event log across requisition, order, receipt and invoice objects. Budget engineering time rather than licence cost."}
+],
+fallback:"Clean pairing — few seams to engineer. Focus on raising structured capture share and feeding exception reason codes back into Ep08 and Ep09, because the exception population shrinks upstream, never here.",
+summary(){const p=this.picks;
+const parts=this.columns.map(function(c){
+const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+return c.phrase.split('%s').join(v);
+});
+return parts.join(', ')+'.';},
+seamNote(){
+const p=this.picks; const n=[];
+this.rules.forEach(function(r){
+let hit = r.vin ? r.vin.indexOf(p[r.k])>-1 : p[r.k]===r.v;
+if(hit && r.k2){ hit = r.vin2 ? r.vin2.indexOf(p[r.k2])>-1 : p[r.k2]===r.v2; }
+if(hit) n.push(r.text);
+});
+if(!n.length) n.push(this.fallback);
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:"An accounts payable team has a 38% exception rate and is asked to fix it. What is the most accurate framing of the problem?",
+a:["Accounts payable needs more staff and better training","The exception rate is largely a report card on requisitioning, PO and receipt quality, and cannot be fixed inside accounts payable","The matching tolerances are too narrow and should be widened","Suppliers are invoicing incorrectly and should be penalised"],
+c:1, e:"Matching does not create accuracy, it discovers whether accuracy was created upstream. Price mismatches come from stale contract prices at PO conversion, quantity mismatches from receipt gaps, and no-PO invoices from intake and guided buying failures. An accounts payable improvement programme that never reaches those steps can only process the same exceptions faster."},
+{q:"Your organisation is choosing between investing in better OCR and investing in supplier enablement onto a structured invoicing channel. Which is the stronger long-run play, and why?",
+a:["Better OCR, because it works on every supplier without asking anything of them","Supplier enablement, because a structured invoice never needs to be read, corrected or confidence-scored at all","Neither — invoice volume should simply be reduced","Better OCR, because structured invoicing only matters for mandate compliance"],
+c:1, e:"Extraction is a bridge, not a destination. Every invoice that arrives as structured data removes extraction cost, correction effort and a whole class of matching failure permanently, and it is the same channel that carries mandate compliance. OCR remains necessary for the tail, but an organisation that treats it as the strategy is paying forever to read documents it could have stopped receiving."},
+{q:"A high-volume goods flow with a stable, contracted price list is a candidate for which approach?",
+a:["Four-way match with inspection on every line","Zero tolerance three-way match","Evaluated receipt settlement, where the receipt triggers self-billing and the supplier invoice is eliminated","Two-way match with wide tolerances"],
+c:2, e:"Evaluated receipt settlement removes the supplier invoice from the process entirely by paying from the receipt against the agreed price. It is the highest-automation option available, but it relocates the entire accuracy burden onto PO pricing in Ep09 and receipt quality in Ep10 — which is why it works well for stable contracted goods and badly for anything variable."},
+{q:"Where should an invoice held for a quantity mismatch be routed?",
+a:["To procurement, who own the supplier relationship","To the shared accounts payable queue for whoever is next available","To receiving or the site that recorded the delivery, because they hold the information needed to resolve it","To the supplier, to reissue a corrected invoice"],
+c:2, e:"Routing by cause rather than by queue is the difference between resolution and ping-pong. A quantity dispute is a question about what physically arrived, which only the receiving party can answer; procurement can resolve price and contract questions but has no visibility of the loading dock. Sending everything to one queue guarantees the wrong people work the wrong problems."},
+{q:"Which architecture best reflects the Codex thesis for invoice management and matching?",
+a:["One suite handling capture, extraction, matching, tax compliance and payment, because a single vendor removes integration risk","The ERP alone, since matching and posting are the only things that matter","A supplier network and capture specialist for structured intake, AI extraction for the unstructured tail, ERP-native matching and tax, orchestration to route exceptions by cause, and mining to push causes back upstream","A shared mailbox with a disciplined approval hierarchy"],
+c:2, e:"Standalone is never enough, and this step shows why plainly: network reach, extraction accuracy, matching depth and mandate compliance are four different competences with four different market leaders. Buying all four from one vendor means accepting the weakest of them on the step where errors turn directly into cash out of the door. The value is in the seams — and in whether exception causes ever travel back upstream."}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
 </body>
 </html>

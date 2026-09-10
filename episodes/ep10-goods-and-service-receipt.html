@@ -3,112 +3,481 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Procurement Codex · Ep10 — Goods &amp; Service Receipt (coming soon)</title>
-<meta name="description" content="Proof that what was ordered actually arrived. Receipting is the quietest step and the most common reason three-way match fails downstream." />
-<meta name="codex-status" content="stub" />
+<title>The Procurement Codex · Ep10 — Goods &amp; Service Receipt</title>
+<meta name="description" content="Receipt is the only step where procurement finds out whether what was ordered actually arrived. Ep10 takes goods and service receipt from a signature on a delivery note to a timely, structured, three-way-matchable confirmation event across ERP, mobile capture, mining and orchestration layers, until standalone is never enough." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
+:root{
+--l0:#64748b; --l1:#2563eb; --l2:#16a34a; --l3:#7c3aed;
+--l4:#d97706; --l5:#0891b2; --l6:#e11d48; --l7:#4f46e5;
+}
 html{scroll-behavior:smooth}
 body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-.spine-node{transition:all .2s ease}
+.layer-dot{width:.6rem;height:.6rem;border-radius:9999px;display:inline-block}
+.card{transition:all .25s ease}
+.rubric td, .rubric th{border:1px solid #e2e8f0}
+.score{font-variant-numeric:tabular-nums;font-weight:700}
 .pill{font-size:.7rem;letter-spacing:.02em}
+[x-cloak]{display:none!important}
+.glow{box-shadow:0 0 0 1px rgba(79,70,229,.25),0 8px 30px -12px rgba(79,70,229,.45)}
+.spine-node{transition:all .2s ease}
 </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 z-40 backdrop-blur bg-white/85 border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <a href="https://manish-infinity.github.io/procurement-codex/" class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</a>
-      <div>
-        <div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
-        <div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
-      </div>
-    </div>
-    <div class="hidden sm:flex items-center gap-2 text-xs">
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-semibold">EPISODE 10</span>
-      <span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 10 of 15</span>
-    </div>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center font-black">C</div>
+<div>
+<div class="font-extrabold tracking-tight leading-none">The Procurement Codex</div>
+<div class="text-[11px] text-slate-500 leading-none mt-0.5">The lifecycle, as a system · Free &amp; open</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 text-xs">
+<span class="pill px-2 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">EPISODE 10</span>
+<span class="pill px-2 py-1 rounded-full bg-slate-100 text-slate-600">Source-to-Pay · Step 10 of 15</span>
+</div>
+</div>
 </header>
 
 <section class="bg-white border-b border-slate-200">
-  <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
+<div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto">
 <div class="flex items-center gap-1 min-w-max text-[11px]">
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold" title="Coming soon">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
-        <div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-slate-100 text-slate-500 hover:bg-slate-200" title="Coming soon">15. Spend Intelligence</a></div>
-    </div>
-  </div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">1. Intake &amp; Need</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">2. Spend &amp; Category</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">3. Sourcing / RFx</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">4. Evaluate &amp; Select</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">5. Negotiation</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">6. Contract (CLM)</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">7. Onboarding &amp; Master Data</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">8. Requisition / Guided Buy</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">9. PO Management</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep10-goods-and-service-receipt.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-600 text-white font-bold">10. Receipt</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">11. Invoice &amp; 3-way Match</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep12-payment-and-working-capital.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">12. Payment</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep13-supplier-performance-and-relationship.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">13. Supplier Performance</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep14-risk-compliance-and-esg.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">14. Risk / ESG</a><span class="text-slate-300 px-0.5">→</span></div>
+<div class="flex items-center"><a href="https://manish-infinity.github.io/procurement-codex/episodes/ep15-spend-intelligence-and-continuous-improvement.html" class="spine-node px-2.5 py-1 rounded-full whitespace-nowrap bg-indigo-50 text-indigo-700 hover:bg-indigo-100">15. Spend Intelligence</a></div>
+</div>
+</div>
 </section>
 
 <section class="bg-indigo-50 border-b border-indigo-100">
-  <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
-    <span class="mt-0.5">⚙️</span>
-    <p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
-  </div>
+<div class="max-w-6xl mx-auto px-4 py-2.5 flex items-start gap-2 text-[12px] text-indigo-900">
+<span class="mt-0.5">⚙️</span>
+<p><span class="font-bold">Fully autonomous project.</span> The Procurement Codex is built, verified, and published end-to-end without manual authoring. Its core logic — the spine, the layer model, and the platform comparison rubric — is rebuilt and improved on <span class="font-semibold">every iteration for continuous method validation</span>. Content is generated programmatically and refined each cycle: treat it as a directional learning aid, verify against primary sources, and send corrections — accuracy and fairness compound with each pass.</p>
+</div>
 </section>
 
-<section class="max-w-6xl mx-auto px-4 pt-12 pb-6">
-  <p class="text-slate-500 font-bold tracking-widest text-xs uppercase">Episode 10 · Coming soon</p>
-  <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Goods &amp; Service Receipt</h1>
-  <p class="mt-4 text-slate-600 max-w-3xl text-lg">Proof that what was ordered actually arrived. Receipting is the quietest step and the most common reason three-way match fails downstream.</p>
-  <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-sm font-semibold">
-    Not published yet — this step is step 10 of 15 on the spine, released in order.
-  </div>
-</section>
-
-<section class="max-w-6xl mx-auto px-4 py-6">
-  <div class="bg-white rounded-xl border border-slate-200 p-6 max-w-3xl">
-    <div class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">What this episode will cover</div>
-    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
-      <li>Goods receipt vs. service entry sheets</li>
-      <li>Mobile and self-service receipting</li>
-      <li>Receipt accuracy as the root cause of match failure</li>
-      <li>Accrual quality at period end</li>
-    </ul>
-    <p class="mt-4 text-sm text-slate-500">Every episode follows the same layer model: L0 concept · L1 fair platform comparison · L2 best practice · L3 process mining · L4 intelligence/AI · L5 orchestration · L6 people &amp; roles · L7 the synergy composite.</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 pt-10 pb-6">
+<p class="text-indigo-600 font-bold tracking-widest text-xs uppercase">Episode 10 · Where the promise meets reality</p>
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-2">Goods &amp; Service Receipt</h1>
+<p class="mt-3 text-slate-600 max-w-3xl text-lg">The purchase order was a promise. Receipt is the first moment anyone checks whether the promise was kept. It is also the step most organisations treat as clerical — and then spend the rest of the cycle paying for, because <span class="font-semibold">an invoice cannot be matched against a receipt that nobody recorded</span>.</p>
+<p class="mt-3 text-slate-500 max-w-3xl text-sm">Below: the plain concept → how every major platform handles it → best practice → process mining, AI, orchestration and ownership, stacked until <span class="font-semibold text-indigo-700">standalone is never enough</span>.</p>
 </section>
 
 <section class="max-w-6xl mx-auto px-4 py-6">
-  <p class="text-sm text-slate-600">In the meantime, the published episodes are all free and open:</p>
-  <div class="mt-3 flex flex-wrap gap-2">
-    <a href="https://manish-infinity.github.io/procurement-codex/" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep01 · Intake & Need</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep02-spend-analysis-and-category-strategy.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep02 · Spend & Category</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep03-sourcing-and-rfx.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep03 · Sourcing / RFx</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep04-supplier-evaluation-and-selection.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep04 · Evaluate & Select</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep05-negotiation.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep05 · Negotiation</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep06-contract-lifecycle-management.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep06 · Contract (CLM)</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep07-supplier-onboarding-and-master-data.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep07 · Onboarding & Master Data</a>
-    <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep08-requisitioning-and-guided-buying.html" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-semibold hover:bg-indigo-100">Ep08 · Requisition / Guided Buy</a>
-  </div>
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">L0 · The Concept</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What it is</div>
+<p class="mt-2 text-sm text-slate-600">Receipt is the confirmation that goods arrived or a service was performed, recorded against the purchase order line that committed to them. For goods it is a goods receipt with a quantity, a date and usually a location. For services it is a service entry or milestone confirmation against a rate card or schedule. Either way it creates the <span class="font-semibold">second of the three documents</span> that matching in Ep11 depends on.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Why it exists</div>
+<p class="mt-2 text-sm text-slate-600">Because without it the organisation is asked to pay on the supplier word alone. Receipt is what converts a commitment into a liability at the moment value is actually delivered, what makes accruals real rather than estimated, and what gives you a defensible answer when a supplier says the shipment went out and the requester says it never came.</p>
+</div>
+<div class="card bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">What good looks like</div>
+<p class="mt-2 text-sm text-slate-600">Receipts are entered within hours, not weeks. Warehouse staff scan rather than type. Requesters confirm desktop deliveries from a phone. Service milestones are confirmed by the person who consumed the service, on the schedule the contract defined. Quantity and quality exceptions are recorded as exceptions rather than quietly rounded to make the invoice clear.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6" x-data="comparison()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l1)"></span>
+<h2 class="text-xl font-bold">L1 · Platform-Native — A vs B vs C</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Same rubric for every vendor, 1–5. We state explicitly what each is <span class="text-green-700 font-semibold">best</span> and <span class="text-rose-700 font-semibold">worst</span> at. Toggle platforms to compare.</p>
+
+<div class="flex flex-wrap gap-2 mb-4">
+<template x-for="p in platforms" :key="p.name">
+<button @click="p.on=!p.on" class="pill px-3 py-1 rounded-full border text-xs font-semibold" :class="p.on ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-300'" x-text="p.name"></button>
+</template>
+</div>
+
+<div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+<table class="rubric w-full text-sm border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-600">
+<th class="text-left p-3 font-semibold">Platform</th>
+<template x-for="c in criteria" :key="c">
+<th class="p-3 font-semibold text-center" x-text="c"></th>
+</template>
+<th class="p-3 font-semibold text-left">Best at</th>
+<th class="p-3 font-semibold text-left">Watch-out</th>
+</tr>
+</thead>
+<tbody>
+<template x-for="p in platforms.filter(p=>p.on)" :key="p.name">
+<tr class="hover:bg-slate-50 align-top">
+<td class="p-3 font-bold text-slate-700 whitespace-nowrap" x-text="p.name"></td>
+<template x-for="(v,idx) in p.scores" :key="idx">
+<td class="p-3 text-center">
+<span class="score inline-grid place-items-center h-7 w-7 rounded-md text-white text-xs" :style="'background:'+scoreColor(v)" x-text="v"></span>
+</td>
+</template>
+<td class="p-3 text-green-700 text-xs" x-text="p.best"></td>
+<td class="p-3 text-rose-700 text-xs" x-text="p.watch"></td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+<p class="text-[11px] text-slate-400 mt-2">Scores are directional teaching aids based on typical deployments, not vendor benchmarks. Your mileage varies by configuration, module licensing, scope, and integration maturity.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l2)"></span>
+<h2 class="text-xl font-bold">L2 · Best Practice</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-green-700 uppercase tracking-wide mb-2">Design principles</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">Receive where the work happens</span> — a warehouse needs scanning, a desk needs a phone, a service needs the person who consumed it. One receipt UI for all three guarantees at least two of them go unrecorded.</li>
+<li><span class="font-semibold">Make the expectation visible</span> — an advance ship notice or a confirmed delivery date turns receipt from data entry into a check. People confirm what they were told to expect far more reliably than they invent it from scratch.</li>
+<li><span class="font-semibold">Use a real service construct</span> — service entry sheets, milestones or rate-card confirmations exist because services have no box to count. Forcing a quantity of one onto a service PO makes matching meaningless.</li>
+<li><span class="font-semibold">Record exceptions as exceptions</span> — short deliveries, damage and rejects belong in the receipt with a reason code, not silently adjusted so that the invoice will clear.</li>
+<li><span class="font-semibold">Set tolerances deliberately</span> — tolerance is a policy decision about the cost of investigation versus the cost of error, and it should differ by category and value, not be one global number.</li>
+<li><span class="font-semibold">Close the loop to the supplier</span> — a receipt the supplier can see prevents the invoice-before-delivery dispute entirely, and it is the same channel that carried the order in Ep09.</li>
+</ul>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-5">
+<div class="text-xs font-bold text-rose-700 uppercase tracking-wide mb-2">KPIs &amp; failure modes</div>
+<ul class="text-sm text-slate-600 space-y-1.5 list-disc list-inside">
+<li><span class="font-semibold">KPIs</span> — receipt lag in days, touchless receipt rate, percentage of invoices blocked for missing receipt, service entry timeliness, returns and rejection rate, receipt-driven match exception rate.</li>
+<li><span class="font-semibold">Receipt lag</span> — goods arrived three weeks ago and nobody posted it, so the period closed on an estimate and the invoice sits blocked in Ep11.</li>
+<li><span class="font-semibold">Rubber-stamp receipting</span> — someone posts a full receipt to release payment without checking anything, which is worse than no control because it looks like one.</li>
+<li><span class="font-semibold">Missing service entry</span> — consultants worked all quarter against a services PO with no milestone construct, so nothing is receipted and the accrual is a guess.</li>
+<li><span class="font-semibold">Tolerance abuse</span> — tolerances set wide enough that nothing ever fails, quietly absorbing overbilling that would otherwise be caught.</li>
+<li><span class="font-semibold">Receipt by accounts payable</span> — AP posts the receipt so it can pay the invoice, which collapses three-way match into a one-way match performed by the party under pressure to pay.</li>
+<li><span class="font-semibold">Unmanaged returns</span> — rejected goods leave the site with no reversal posted, so inventory, commitment and the eventual credit note never reconcile.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="peeler()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Layer Peeler — watch standalone become a system</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Stack layers onto a paper delivery note and watch the architecture — and the outcome metrics — change. This is the whole thesis of the Codex in one control.</p>
+
+<div class="flex flex-wrap gap-2 mb-6">
+<template x-for="(l,i) in layers" :key="i">
+<button @click="level=i" class="px-3 py-2 rounded-lg text-xs font-bold border transition" :class="level>=i ? 'text-white border-transparent' : 'bg-white text-slate-400 border-slate-200'" :style="level>=i ? 'background:'+l.color : ''">
+<span x-text="l.tag"></span>
+</button>
+</template>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+<!-- stack visual -->
+<div class="space-y-2">
+<template x-for="(l,i) in layers" :key="i">
+<div class="card rounded-xl border p-4" :class="level>=i ? 'opacity-100' : 'opacity-30'" :style="level>=i ? 'border-color:'+l.color+';background:'+l.color+'0d' : 'border-color:#e2e8f0'">
+<div class="flex items-center gap-2">
+<span class="layer-dot" :style="'background:'+l.color"></span>
+<span class="font-bold text-sm" :style="'color:'+l.color" x-text="l.tag"></span>
+<span class="text-sm font-semibold text-slate-700" x-text="'· '+l.title"></span>
+</div>
+<p class="text-sm text-slate-600 mt-1" x-text="l.body"></p>
+</div>
+</template>
+</div>
+
+<!-- outcome panel -->
+<div class="lg:sticky lg:top-24 self-start">
+<div class="rounded-xl border border-slate-200 bg-white p-6 glow">
+<div class="text-xs font-bold text-slate-400 uppercase tracking-wide">Outcome at this stack level</div>
+<div class="mt-4 grid grid-cols-2 gap-4">
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().a"></div>
+<div class="text-xs text-slate-500 mt-1">Receipt lag</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().b"></div>
+<div class="text-xs text-slate-500 mt-1">Touchless receipts</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().c"></div>
+<div class="text-xs text-slate-500 mt-1">GR-blocked invoices</div>
+</div>
+<div>
+<div class="text-3xl font-black" :style="'color:'+layers[level].color" x-text="metrics().d"></div>
+<div class="text-xs text-slate-500 mt-1">Service entries on time</div>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600" x-text="layers[level].takeaway"></p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">L7 · The Synergy Composite</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">A real best-of-breed receipt architecture is never one product. Here is the composite, and where the value actually lives — in the <span class="font-semibold text-indigo-700">seams</span>.</p>
+<div class="bg-white rounded-xl border border-slate-200 p-5 overflow-x-auto">
+<pre class="mermaid">flowchart LR
+PO[Ep09 purchase order<br/>lines, quantities and dates] --> EXPECT[L2 Expected receipt<br/>from confirmed delivery date]
+ASN[L5 Advance ship notice<br/>SAP Business Network / EDI] -.what is arriving.-> EXPECT
+EXPECT --> GOODS[L1 Goods receipt<br/>S4HANA MM / Oracle / D365]
+EXPECT --> SVC[L1 Service entry<br/>milestone or rate card]
+MOB[L4 Mobile and scan capture<br/>barcode, photo, desktop confirm] -.who received it.-> GOODS
+REQ[L6 Requester confirms<br/>desktop and service delivery] -.consumption evidence.-> SVC
+GOODS --> QC{L2 Quality and tolerance<br/>accept, reject or return}
+SVC --> QC
+PM[L3 Process mining<br/>Celonis / Signavio / Apromore] -.receipt lag and rework.-> QC
+QC --> ACC[L1 Accrual and inventory<br/>posted at the moment of delivery]
+QC --> INV[Ep11 · Invoice and 3-way Match]
+ACC -.matching basis.-> INV</pre>
+</div>
+<p class="text-sm text-slate-600 mt-3">Standalone, a receipt module records a number. <span class="font-semibold text-indigo-700">Wired to Ep09 for the expected quantity, a supplier network for advance ship notices, mobile capture for the people who actually touch the goods, mining for where receipt lag really comes from, and a service-entry construct for everything that has no box, it produces the evidence the rest of the cycle runs on.</span> No single vendor is strongest at warehouse capture, service confirmation and network reach at once — which is why the leverage sits in the seams.</p>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="builder()">
+<div class="flex items-center gap-2 mb-2">
+<span class="layer-dot" style="background:var(--l7)"></span>
+<h2 class="text-xl font-bold">The Stack Builder — compose your own</h2>
+</div>
+<p class="text-sm text-slate-500 mb-4">Pick one from each column. The Codex assembles the composite and calls out where the seams need engineering. Shown here for goods and service receipt; the same engine powers every episode.</p>
+
+<div class="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+<template x-for="col in columns" :key="col.key">
+<div>
+<div class="text-[11px] font-bold uppercase tracking-wide text-slate-400 mb-1" x-text="col.label"></div>
+<select x-model="picks[col.key]" class="w-full text-sm rounded-lg border border-slate-300 bg-white p-2">
+<template x-for="o in col.options" :key="o"><option x-text="o"></option></template>
+</select>
+</div>
+</template>
+</div>
+
+<div class="mt-5 rounded-xl border border-slate-200 bg-white p-5">
+<p class="text-slate-800 font-semibold" x-text="summary()"></p>
+<div class="mt-3 text-sm text-slate-600" x-text="seamNote()"></div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-6">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="layer-dot" style="background:var(--l0)"></span>
+<h2 class="text-xl font-bold">Cheat Sheet — Goods &amp; Service Receipt</h2>
+</div>
+<button onclick="window.print()" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 text-white">Print / Save PDF</button>
+</div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The 5-second definition</div>
+<p class="text-slate-600">Record that what was ordered actually arrived or was performed, against the PO line that ordered it, at the moment it happens and by the person who saw it.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">KPIs that matter</div>
+<p class="text-slate-600">Receipt lag · touchless receipt rate · invoices blocked for missing receipt · service entry timeliness · rejection and return rate.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Scorecard in one line</div>
+<p class="text-slate-600">If accounts payable is posting your receipts, you do not have three-way match — you have a formality.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">Platforms in one line</div>
+<p class="text-slate-600">ERP-native engines win on inventory, service entry and accrual accounting; S2P suites win on requester-side desktop confirmation; supplier networks win on advance ship notices.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The layers</div>
+<p class="text-slate-600">L0 paper delivery note → L1 receipt engine → L2 discipline and tolerances → L3 mining → L4 mobile and vision capture → L5 network orchestration → L6 named receipt owners → L7 composite.</p>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-4">
+<div class="font-bold text-slate-700 mb-1">The thesis</div>
+<p class="text-slate-600">Standalone is never enough. Receipt only becomes evidence when expectation, capture, exception handling and ownership are wired into it.</p>
+</div>
+</div>
+</section>
+
+<section class="max-w-6xl mx-auto px-4 py-8" x-data="quiz()">
+<div class="flex items-center gap-2 mb-3">
+<span class="layer-dot" style="background:var(--l4)"></span>
+<h2 class="text-xl font-bold">Scenario Check</h2>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6" x-show="!done">
+<div class="text-xs font-bold text-slate-400">Question <span x-text="idx+1"></span>/<span x-text="questions.length"></span></div>
+<p class="mt-2 font-semibold text-slate-800" x-text="questions[idx].q"></p>
+<div class="mt-4 space-y-2">
+<template x-for="(a,i) in questions[idx].a" :key="i">
+<button @click="answer(i)" :disabled="picked!==null" class="w-full text-left text-sm px-4 py-3 rounded-lg border transition" :class="picked===null ? 'bg-white border-slate-200 hover:border-indigo-400' :
+(i===questions[idx].c ? 'bg-green-50 border-green-400' :
+(i===picked ? 'bg-rose-50 border-rose-400' : 'bg-white border-slate-200 opacity-60'))" x-text="a"></button>
+</template>
+</div>
+<div x-show="picked!==null" x-cloak class="mt-4 text-sm text-slate-600 border-t border-slate-100 pt-3" x-text="questions[idx].e"></div>
+<div x-show="picked!==null" x-cloak class="mt-4">
+<button @click="next()" class="text-sm font-semibold px-4 py-2 rounded-lg bg-indigo-600 text-white" x-text="idx+1<questions.length ? 'Next' : 'See result'"></button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 p-6 text-center" x-show="done" x-cloak>
+<div class="text-4xl font-black text-indigo-600" x-text="score+' / '+questions.length"></div>
+<p class="mt-2 text-slate-600" x-text="verdict()"></p>
+<button @click="reset()" class="mt-4 text-sm font-semibold px-4 py-2 rounded-lg bg-slate-800 text-white">Replay</button>
+</div>
 </section>
 
 <footer class="border-t border-slate-200 bg-white mt-8">
-  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
-    <div class="font-bold text-slate-700">The Procurement Codex · Episode 10 — Goods &amp; Service Receipt</div>
+<div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-500">
+<div class="font-bold text-slate-700">The Procurement Codex · Episode 10 — Goods &amp; Service Receipt</div>
 <div class="mt-3 flex flex-wrap items-center gap-3">
       <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep09-purchase-order-management.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">← Ep09 · PO Management</a>
       <a href="https://manish-infinity.github.io/procurement-codex/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100">⌂ Codex home</a>
-      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep11 · Invoice & 3-way Match (coming soon) →</a>
+      <a href="https://manish-infinity.github.io/procurement-codex/episodes/ep11-invoice-management-and-3-way-match.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold">Ep11 · Invoice &amp; 3-way Match →</a>
     </div>
-    <p class="mt-3">One step of the source-to-pay spine, twice a week. Free forever, open source.</p>
-    <p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
-    <p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
-  </div>
+<p class="mt-3">One step of the source-to-pay spine. Free forever, open source.</p>
+<p class="mt-3 text-xs text-slate-400">Comparisons use a shared rubric and reflect typical deployments — not paid benchmarks. Corrections welcome; fairness is the point.</p>
+<p class="mt-3 text-xs text-slate-400"><span class="font-semibold text-slate-500">Autonomous build:</span> This library is generated and published fully autonomously, with its core logic rebuilt and improved each iteration for method validation. Nothing here is a paid placement or vendor endorsement.</p>
+</div>
 </footer>
+
+<script>
+mermaid.initialize({ startOnLoad:true, theme:'neutral', flowchart:{curve:'basis'}});
+
+function comparison(){
+return {
+criteria:["Goods receipt capture","Service entry and milestones","Mobile and warehouse scanning","Tolerance and quality handling","Returns and reversals","Inventory and accrual posting"],
+platforms:[
+{name:"SAP S/4HANA MM + Ariba", on:true, scores:[5,5,4,5,5,5], best:"The deepest receipt model in the market: goods receipt, service entry sheets, quality inspection lots, returns and automatic accrual all share one document flow, and the Ariba side lets requesters confirm without touching the ERP", watch:"That depth is configuration-heavy and unforgiving of shortcuts; service entry in particular is often left unimplemented because it is harder than posting a quantity of one, which quietly destroys services matching"},
+{name:"Oracle Fusion Procurement", on:true, scores:[5,4,4,4,4,5], best:"Receiving, inventory and payables share one data model, so accruals and period-end reconciliation are native and the receipt-to-invoice link is never a batch interface", watch:"Service milestone handling is less expressive than SAP service entry sheets, and complex inspection or quality workflows usually need the wider Oracle SCM footprint to be licensed"},
+{name:"Coupa", on:true, scores:[4,4,3,3,3,3], best:"Genuinely good requester-side receiving: the person who ordered the laptop confirms it in two taps from an email or phone, which is where most indirect receipt data is actually lost", watch:"It is not a warehouse system. Barcode-driven putaway, inspection lots and inventory valuation live in the ERP, so goods-heavy operations run a second receipt path and must keep the two in agreement"},
+{name:"Ivalua", on:true, scores:[4,4,3,4,4,3], best:"Configurable receipt and service-confirmation flows that can mirror unusual contract structures, including staged milestones and partial acceptance, without leaving the platform", watch:"Inventory and valuation remain an ERP responsibility, so the integration design decides whether accruals are trustworthy; bespoke receipt logic also raises the cost of every later upgrade"},
+{name:"Microsoft D365 Supply Chain", on:true, scores:[5,3,5,4,4,5], best:"Strong warehouse-native receiving with mobile scanning, licence plates, putaway and quality orders built in, which suits manufacturing and distribution flows well", watch:"Services receipt and indirect requester confirmation are thin, so an organisation with a large services tail usually needs a buying layer on top to capture anything that has no physical box"},
+{name:"Infor CloudSuite", on:false, scores:[4,3,4,4,4,4], best:"Industry-specific receiving models, particularly in process manufacturing and healthcare, where lot, expiry and consignment handling matter more than generic flexibility", watch:"Smaller partner and integration ecosystem than SAP or Oracle, and indirect or services receipt is not the design centre; expect more custom work for tail spend"},
+{name:"Workday Procurement", on:false, scores:[4,4,2,3,3,5], best:"Receipt, accounting and worker data in one system, which makes services confirmation by the consuming manager natural and accruals immediate", watch:"No meaningful warehouse capability, so any inventory-carrying operation runs receipt elsewhere; barcode and scanning workflows are effectively absent"},
+{name:"GEP SMART", on:false, scores:[4,4,3,3,3,3], best:"Receipt inherits full category, contract and PO context from the same data model, so exceptions arrive with the information needed to resolve them", watch:"Depends on the ERP for inventory, valuation and formal quality management, and the supplier network reach for advance ship notices is smaller than SAP Business Network"}
+],
+scoreColor(v){return ['#ef4444','#f59e0b','#eab308','#84cc16','#22c55e'][v-1] || '#94a3b8';}
+}
+}
+
+function peeler(){
+return {
+level:0,
+layers:[
+{tag:"L0",color:getCSS("--l0"),title:"Concept",body:"Someone signs a paper delivery note, it goes in a tray, and accounts payable finds out what arrived when they try to pay for it.",takeaway:"No receipt record means no three-way match, no real accrual and no defensible answer when a delivery is disputed."},
+{tag:"L1",color:getCSS("--l1"),title:"Platform-native receipt",body:"The receiver opens the purchase order in the ERP or buying platform and posts a goods receipt or service entry against the line, and inventory and accrual postings follow.",takeaway:"Evidence now exists — but only for the deliveries somebody remembered to record, and only as timely as the person who logs in."},
+{tag:"L2",color:getCSS("--l2"),title:"Best practice",body:"Receipt is done where the work happens, against a visible expected delivery, with real service constructs, deliberate tolerances and exceptions recorded as exceptions.",takeaway:"Receipt lag collapses, matching stops blocking on missing receipts, and period-end accruals stop being an educated guess."},
+{tag:"L3",color:getCSS("--l3"),title:"Process mining",body:"Event logs across order, receipt and invoice expose where receipt lag actually accumulates, which sites and categories rubber-stamp, and which suppliers generate rejects.",takeaway:"You stop treating receipt lag as a training problem and see that it is concentrated in a handful of sites, categories and order types."},
+{tag:"L4",color:getCSS("--l4"),title:"Intelligence and capture",body:"Barcode and vision capture, mobile confirmation, predicted late deliveries and automatic receipt proposals from advance ship notices remove the typing from the task.",takeaway:"Receipt becomes a confirmation rather than a data entry job, which is the only way it happens on the day the goods land."},
+{tag:"L5",color:getCSS("--l5"),title:"Orchestration",body:"Advance ship notices, receipt events, quality holds and returns are routed across the supplier network, the buying platform and the ERP with one shared status.",takeaway:"The supplier, the requester and finance are looking at the same delivery state, so the invoice-before-delivery argument disappears."},
+{tag:"L6",color:getCSS("--l6"),title:"People and roles",body:"Receipt ownership is explicit: warehouse for goods, the requester for desktop delivery, the consuming manager for services, and nobody in accounts payable posts a receipt at all.",takeaway:"Three-way match becomes real, because the three documents are created by three different parties with three different interests."}
+],
+metrics(){
+const m=[
+{"a":"Weeks","b":"0%","c":"Unknown","d":"0%"},
+{"a":"6-10 days","b":"10%","c":"30%","d":"20%"},
+{"a":"3-4 days","b":"35%","c":"18%","d":"55%"},
+{"a":"2-3 days","b":"45%","c":"13%","d":"65%"},
+{"a":"1 day","b":"70%","c":"8%","d":"78%"},
+{"a":"Hours","b":"85%","c":"5%","d":"88%"},
+{"a":"Hours","b":"90%","c":"3%","d":"93%"}
+];
+return m[this.level];
+}
+}
+}
+
+function builder(){
+return {
+columns:[
+{key:"what",label:"What Arrives",options:["Warehouse goods","Desktop delivery","Professional services","Managed service or subscription","Construction or capex milestone"],phrase:"%s",lower:false},
+{key:"engine",label:"Receipt Engine",options:["SAP S/4HANA MM + Ariba","Oracle Fusion Procurement","Coupa","Ivalua","Microsoft D365 Supply Chain","Infor CloudSuite","Workday Procurement","GEP SMART"],phrase:"receipted in %s",lower:false},
+{key:"capture",label:"Capture Method",options:["Barcode or RFID scan","Mobile app confirmation","Email one-click confirm","Desktop data entry","Paper note re-keyed later"],phrase:"captured by %s",lower:true},
+{key:"expect",label:"Expectation Signal",options:["Advance ship notice","Supplier order confirmation only","Contract milestone schedule","No expected delivery data"],phrase:"against %s",lower:true},
+{key:"mining",label:"Process Insight",options:["Celonis","SAP Signavio","Apromore (open source)","PM4Py (open source)","None"],phrase:"measured by %s",lower:false},
+{key:"who",label:"Who Receipts",options:["Warehouse team","The requester","The consuming manager","Shared services","Accounts payable"],phrase:"owned by %s",lower:true}
+],
+picks:{"what":"Warehouse goods","engine":"SAP S/4HANA MM + Ariba","capture":"Barcode or RFID scan","expect":"Advance ship notice","mining":"Celonis","who":"Warehouse team"},
+rules:[
+{"k":"who","v":"Accounts payable","text":"If accounts payable posts the receipt, three-way match has collapsed into a one-way match performed by the party under pressure to pay. This is the single most common way a matching control becomes theatre."},
+{"k":"capture","v":"Paper note re-keyed later","text":"Re-keying a paper note guarantees receipt lag measured in weeks and quantities transcribed from handwriting. Every invoice arriving before the receipt then blocks in Ep11 for a reason that has nothing to do with the supplier."},
+{"k":"capture","v":"Desktop data entry","text":"Desktop entry works for low volumes but loses to the queue at the loading dock. If goods volume is material, scanning is what turns receipt from an administrative task into an event that happens on the day."},
+{"k":"expect","v":"No expected delivery data","text":"With no expected delivery the receiver is inventing the record rather than confirming it. Advance ship notices or at minimum a confirmed delivery date from Ep09 are what make receipt a check instead of data entry."},
+{"k":"what","v":"Professional services","k2":"capture","vin2":["Barcode or RFID scan","Mobile app confirmation"],"text":"Professional services have nothing to scan. They need a milestone or rate-card confirmation by the person who consumed the work, or the accrual is a guess and the invoice cannot be matched."},
+{"k":"what","vin":["Professional services","Managed service or subscription","Construction or capex milestone"],"k2":"expect","v2":"Supplier order confirmation only","text":"Service-shaped spend needs a contract milestone schedule as its expectation signal. An order confirmation tells you the supplier accepted the work, not that any of it has been delivered."},
+{"k":"what","v":"Construction or capex milestone","k2":"who","v2":"The requester","text":"Capex milestones usually need certification by a project or engineering authority rather than the original requester. Acceptance and payment authority should not sit with the person who wanted the asset."},
+{"k":"engine","vin":["Coupa","Workday Procurement","GEP SMART"],"k2":"what","v2":"Warehouse goods","text":"Indirect-first platforms do not run a warehouse. Expect goods receipt, putaway and valuation to live in the ERP and design that seam explicitly, or you will keep two receipt records that disagree."},
+{"k":"mining","v":"None","text":"Without process insight, receipt lag stays anecdotal and gets blamed on training. Mining tends to show it is concentrated in a few sites, categories and order types that can each be fixed specifically."},
+{"k":"mining","vin":["Apromore (open source)","PM4Py (open source)"],"text":"Open-source mining removes licence cost but not effort: you own the event log extraction across order, receipt and invoice objects, which is the hard part of measuring receipt at all."},
+{"k":"who","v":"Shared services","text":"A shared services team can receipt consistently but is not present when the goods land or the service is delivered, so it is confirming paperwork rather than reality. Pair it with a capture method the people on site actually use."}
+],
+fallback:"Clean pairing — few seams to engineer. Focus on making the expected delivery from Ep09 visible at the point of receipt, so receipt is a confirmation rather than an invention, and matching in Ep11 inherits data that already agrees.",
+summary(){const p=this.picks;
+const parts=this.columns.map(function(c){
+const v=c.lower ? p[c.key].toLowerCase() : p[c.key];
+return c.phrase.split('%s').join(v);
+});
+return parts.join(', ')+'.';},
+seamNote(){
+const p=this.picks; const n=[];
+this.rules.forEach(function(r){
+let hit = r.vin ? r.vin.indexOf(p[r.k])>-1 : p[r.k]===r.v;
+if(hit && r.k2){ hit = r.vin2 ? r.vin2.indexOf(p[r.k2])>-1 : p[r.k2]===r.v2; }
+if(hit) n.push(r.text);
+});
+if(!n.length) n.push(this.fallback);
+return n.join(' ');
+}
+}
+}
+
+function quiz(){
+return {
+idx:0,picked:null,score:0,done:false,
+questions:[
+{q:"An invoice has been blocked for six weeks because no goods receipt exists. The warehouse insists the delivery arrived on time. What is the actual problem?",
+a:["The supplier invoiced too early and should be told to reissue","Receipt lag — the goods arrived but the confirmation event was never recorded, so matching has nothing to compare against","The matching tolerance in the ERP is set too tightly","The purchase order was raised for the wrong quantity"],
+c:1, e:"Receipt is not the delivery, it is the record of the delivery. If the record is missing then the second of the three documents in three-way match does not exist, and no tolerance setting can fix that. Receipt lag is the single largest generator of invoice blocks in most organisations, and it is a capture and ownership problem rather than a supplier problem."},
+{q:"A consultancy has been working against a services purchase order for a full quarter. Nothing has been receipted. What has gone wrong?",
+a:["Nothing — services are receipted when the final invoice arrives","The purchase order should have been cancelled and reissued monthly","No service entry or milestone construct was used, so there is no mechanism to confirm progressive delivery","The consultancy failed to submit timesheets"],
+c:2, e:"Services have no box to count, which is exactly why service entry sheets, milestones and rate-card confirmations exist. Without one, consumption is invisible until the invoice arrives, the quarter closes on an estimated accrual, and matching has nothing to work with. This is the most commonly skipped part of a receipt implementation because it is harder than posting a quantity of one."},
+{q:"Which change most directly reduces the number of invoices that block for missing or wrong receipts?",
+a:["Widening the matching tolerances so fewer invoices fail","Moving receipt posting to accounts payable so it always gets done","Making the expected delivery visible at the point of receipt, through advance ship notices or confirmed dates, and capturing receipt where the work happens","Adding an approval step to every goods receipt"],
+c:2, e:"People confirm what they were told to expect far more reliably than they create a record from scratch, and receipt only happens on the day if it happens where the work is. Widening tolerances hides overbilling, moving receipt into accounts payable destroys the separation that makes matching a control at all, and an extra approval adds delay to a step whose problem is delay."},
+{q:"A site has a 99.8% receipt accuracy rate and almost no rejections recorded, yet supplier quality complaints are frequent. What is the most likely explanation?",
+a:["The suppliers are performing well and the complaints are unfounded","Rubber-stamp receipting — full receipts are posted to release payment without anyone checking, so exceptions never enter the data","The quality management module is not licensed","Receipt tolerances are too narrow"],
+c:1, e:"A control that never fails is usually not a control. When receipt is treated as the step that unblocks payment rather than the step that verifies delivery, the fastest path is to post it in full. The rejections still happen, they just happen in emails and phone calls instead of in the data, which means Ep13 supplier scorecards are built on a fiction."},
+{q:"Which architecture best reflects the Codex thesis for goods and service receipt?",
+a:["A single S2P suite handling warehouse receiving, service confirmation and inventory valuation, because one vendor removes integration risk","The ERP alone, since inventory and accrual accounting are the only things that matter","ERP-native receipt and valuation for goods, requester and manager confirmation from the buying layer for desktop and services, advance ship notices from the supplier network, mining for receipt lag, and explicit ownership per delivery type","Paper delivery notes with a strong monthly reconciliation"],
+c:2, e:"Standalone is never enough, and receipt makes the point unusually well because the three things arriving are genuinely different: a pallet, a laptop and a consultant cannot be confirmed by the same person through the same interface. Warehouse capability belongs to the ERP, requester confirmation to the buying layer, expectation to the network, and truth to mining. The seams between them are where receipt either becomes evidence or stays paperwork."}
+],
+answer(i){this.picked=i; if(i===this.questions[this.idx].c) this.score++;},
+next(){ if(this.idx+1 < this.questions.length){this.idx++; this.picked=null;} else {this.done=true;} },
+verdict(){return this.score===this.questions.length ? 'Composite architect. You see the whole board.' : this.score>=this.questions.length/2 ? 'Solid — you have got the layering instinct.' : 'Replay the Layer Peeler above, then retry.';},
+reset(){this.idx=0;this.picked=null;this.score=0;this.done=false;}
+}
+}
+
+function getCSS(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+</script>
 </body>
 </html>
