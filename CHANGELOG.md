@@ -2,6 +2,16 @@
 
 A running record of the core-logic improvements made on each autonomous run. Fairness and accuracy compound with every pass. Corrections welcome via PR.
 
+## 2026-09-08 (b) — Episodes 10 to 15 (season 1 complete)
+
+Published `episodes/ep10-goods-and-service-receipt.html`, `ep11-invoice-management-and-3-way-match.html`, `ep12-payment-and-working-capital.html`, `ep13-supplier-performance-and-relationship.html`, `ep14-risk-compliance-and-esg.html` and `ep15-spend-intelligence-and-continuous-improvement.html` in a single pass, completing the fifteen-step source-to-pay spine.
+
+**Build refinement (the core-logic improvement this cycle):** Episodes are no longer hand-assembled HTML. The layout, the spine, the Alpine component markup and the inline script are now emitted by a single shared renderer, and each episode is expressed purely as data — prose, a comparison rubric, seven peeler layers, builder columns with declarative seam rules, and a quiz. Two things follow. First, a markup or accessibility fix now applies to every episode at once instead of being re-typed per episode, which is how the earlier navigation regressions propagated. Second, the Stack Builder seam logic moved from bespoke per-episode JavaScript to a declarative rule list, so the gate can verify that every rule targets a real column, references only values that exist in that column options, and is reachable — a class of silent dead-rule bug that hand-written conditionals hid completely.
+
+**Verification refinement:** The gate now also proves that the artefact it approved is the artefact that shipped. The renderer runs in the browser as well as locally, and each generated file is SHA-256 compared against the gated local copy before upload; the first attempt at Ep12 differed by twenty-one characters and was caught and reconciled by exactly this check rather than by a reader. The gate additionally rejects any file containing a backtick, backslash or template placeholder, since those break the transmission path, and it now asserts a fully published spine: fifteen anchors, canonical labels and hrefs, no stray title attributes, and no residual coming-soon text anywhere on the page.
+
+**Roster additions:** EcoVadis, IntegrityNext, Dun and Bradstreet, Sievo, Celonis, Taulia, Tradeshift, Basware, Infor CloudSuite, Sirion and HICX now appear in the comparison tables for the steps where they are genuinely relevant, each scored on the same rubric with an explicit best and watch-out. Ep14 in particular is where the single-vendor thesis breaks most visibly: no platform holds authoritative entity ownership data, sanctions content, audited ESG evidence and n-tier trade visibility at once.
+
 ## 2026-09-08 — Episode 09 (Purchase Order Management)
 
 Published `episodes/ep09-purchase-order-management.html`.
